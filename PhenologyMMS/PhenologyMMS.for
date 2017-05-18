@@ -135,7 +135,7 @@
      c pmo, pyear, seedsw, soilwat, swtype, tbase, tempsw, toptlo,  
      c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
      c weather, wfpslo, wfpsup, wlow, wup)
-
+       
 ! Read from weather file here.  Will need to read in comment lines.
  95   continue
        open (unit=14, file= 'MMSWeather/' // weather, status='OLD')
@@ -143,12 +143,13 @@
           !debe added
           IF (daynum.eq.0) THEN !first day the climate file is read.
             READ (14,*) cliname
+!           READ (14,*) latitude !debe added-read in value from the climate file 
             READ (14,*) (avetmax(idx),idx=1,12)
             READ (14,*) (avetmin(idx),idx=1,12)
             READ (14,*) (aveprecip(idx),idx=1,12)
 
           ENDIF
-
+          
             read(14,*,end=640,err=101) uuday,uumonth,uuyear, 
      c                        precip,tmax,tmin, ri,year,daynum,soil3t
           
@@ -160,7 +161,7 @@
       if (ri .ne. 999.9) then
         ri = ri / 23.895
       endif
-
+      
 ! Do error checking on input weather variables
 !DE made changes below to allow the use of 999.9 for missing data
       if ((year .lt. 0000) .or. (year .gt. 2100)) then
@@ -370,7 +371,7 @@
  101  continue
         !print *, 'error in weather file daynum = ', daynum, year       
 
-!  Call the output file when simulation is done:
+        !  Call the output file when simulation is done:
 !debe added dry bean variables.      
       call output(aifs, antes, antss, blstrs, boots, browns, 
      c canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav, dents, 
