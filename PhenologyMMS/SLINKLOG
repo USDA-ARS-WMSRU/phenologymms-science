@@ -1,0 +1,5 @@
+[Salford SLINK/Win32 v1.31, Copyright (c) Salford Software Ltd. 1995-2004]
+WARNING D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.obj Missing external reference INITIALIZE
+WARNING D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.obj Missing external reference SETUP
+WARNING D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.obj Missing external reference GDDCALC
+<> D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.exe Creating executable

@@ -1,0 +1,2 @@
+WARNING D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.F90 34:  Label 90 is declared, but not used
+ERROR D:\PhenologyMMS\fortranprogram\PhenologyMMS\PhenologyMMS.F90 38:  SOIL3TEMP must appear in a type declaration because IMPLICIT NONE has been used

@@ -1,0 +1,8 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+# These files are text and should be normalized (Convert crlf => lf)
+*.csv text
+*.xml text
+*.sim text
+*.inc text
+*.properties text

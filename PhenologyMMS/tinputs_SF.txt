@@ -1,0 +1,54 @@
+Sunflower
+Generic
+Akron_7706.txt
+06
+01
+2005
+152
+5
+7
+Optimum
+Optimum
+45.0
+100.0
+40.0
+1.5
+Medium
+30.0
+45.0
+50.0
+1.0
+Dry
+23.0
+35.0
+70.0
+0.6
+Planted in dust
+0.0
+25.0
+500.0
+0.0
+40.165
+2
+7
+28
+28
+30
+30.0
+190.0
+GN 40
+GN 90
+GN 90
+GN 90
+GN 55
+GN 70
+GN 155
+GN 155
+GN 155
+GN 135
+GN 135
+GN 135
+GN 135
+GN 135
+GN   0.
+
