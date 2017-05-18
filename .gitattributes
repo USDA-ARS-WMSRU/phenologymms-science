@@ -6,3 +6,8 @@
 *.sim text
 *.inc text
 *.properties text
+*.for text
+*.f90 text
+*.fi text
+*.inc text
+*.dat text
