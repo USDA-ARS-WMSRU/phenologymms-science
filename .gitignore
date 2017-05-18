@@ -1,7 +1,8 @@
 
 # Ignore output files
 *.out
-
+[Rr]esults/
+*.vfproj.old
 
 # Created by https://www.gitignore.io/api/fortran,visualstudio
 

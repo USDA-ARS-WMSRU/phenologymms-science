@@ -28,13 +28,13 @@
   
       implicit none
       
-      integer  pday, gmethod, pmo, noseeds, pdate, pdepth, pmethod,
+      integer  pday, gmethod, pmo, noseeds, pdate, pmethod,
      c seedsw, pyear
           
       real  dummy2(15), elrate, ergdd(4), germd, germgdd(4),  
-     c latitude, maxht, pchron, tbase, toptlo, toptup, tupper, 
+     c latitude, maxht, pchron, pdepth, tbase, toptlo, toptup, tupper, 
      c wfpslo(4), wfpsup(4), wlow, wup
-      
+!debe 020309 moved pdepth to real instead of integer      
       character *22  cname, dummy1(15), pequation, soilwat(4), swtype, 
      c vname, weather
       
@@ -68,7 +68,7 @@
 ! Read in planting depth (cm) and convert to mm:
 	read (1,*) pdepth
 !	    pdepth = pdepth * 10.
-
+      print *, 'In setup in PhenologyMMS, pdepth read in as =', pdepth
 ! Read in number of seeds planted per m2:
 	read (1,*) noseeds
 

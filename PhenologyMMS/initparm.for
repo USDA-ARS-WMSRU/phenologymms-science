@@ -30,11 +30,11 @@
      
       implicit none
       
-      integer  day, gmethod, mo, noseeds, pdate, pdepth, 
-     c pmethod, seedsw, year 
+      integer  day, gmethod, mo, noseeds, pdate, pmethod, seedsw, year  
           
-      real  elrate, germd, latitude, maxht, tbase, toptlo, toptup, 
-     c tupper, wlow, wup
+      real  elrate, germd, latitude, maxht, pdepth, tbase, toptlo, 
+     c toptup, tupper, wlow, wup
+!debe 020309 moved pdepth to real from integer
       
       character *22  cname, hemisp, pequation, swtype, vname, 
      c weather
@@ -62,7 +62,7 @@
       mo = 0
       noseeds = 0
       pdate = 0
-      pdepth = 0
+      pdepth = 0.0
       pmethod = 0
       seedsw = 0
       tbase = 0.0

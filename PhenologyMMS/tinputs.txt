@@ -1,11 +1,11 @@
 Winter Wheat
 Generic
-Akron_Generic_cli.txt
+Cimarron_Phen_cli.txt
 09
 15
 2001
 258
-2.5
+5
 133
 Optimum
 Optimum

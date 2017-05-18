@@ -54,7 +54,6 @@
 	     dgdds(2) = gdds
 	     dgdde(2) = gdde
 	     print *, 'lf4s = ', lf4s
-         go to 150
       endif
       
 !  Tassel initiation growth stage:
@@ -69,8 +68,6 @@
 	     dgdds(3) = gdds
 	     dgdde(3) = gdde
 	     print *, 'tsints = ', tsints
-!         go to 150
-
       endif      
 
 ! Ear formation stage
@@ -84,8 +81,6 @@
 	     dgdds(4) = gdds
 	     dgdde(4) = gdde
 		 print *, 'ears = ', ears
-!         go to 150
-
       endif
       
 !  Start of internode elongation:
@@ -102,23 +97,8 @@
 	       print *, 'ies = ', ies
       endif
       
-!  Jointing growth stage prediction:
-
-!      if ((joints(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(5) +
-!     c    dummy2(6)))) then
-!              joints(1) = daynum
-!              joints(2) = year
-!              call date1(joints)
-!	         ddap(6) = dap
-!	         ddae(6) = dae
-!	         dgdds(6) = gdds
-!	         dgdde(6) = gdde
-!		     print *, 'joints = ', joints
-!      endif      
-
 !  12th Leaf stage V12
 
-!      if (drs(1) .eq. 999) go to 150
       if ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2)) + dummy2(6) 
      c      )) then
           lf12s(1) = daynum
@@ -132,9 +112,8 @@
       endif
 
 !  Tasseling stage
- !     if (drs(1) .eq. 999) go to 150
          if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + 
-     c     dummy2(6) + dummy2(7)) )) then !( + 0.3*pchron)
+     c     dummy2(6) + dummy2(7)) )) then 
               antss(1) = daynum
               antss(2) = year
               call date1(antss)
@@ -143,10 +122,7 @@
 	         dgdds(7) = gdds
 	         dgdde(7) = gdde
 	         print *, 'antss = ', antss
- 
       endif
-
-150   continue
 
 !  Silking growth stage.  This is the first reproductive stage R1.
 
@@ -160,7 +136,6 @@
 	         dgdds(8) = gdds
 	         dgdde(8) = gdde
 	         print *, 'silks = ', silks
-
       endif
 
 !  Blister growth stage - R2
@@ -251,7 +226,6 @@
 	         dgdds(14) = gdds
 	         dgdde(14) = gdde
 	         print *, 'hrs = ', hrs
-
       endif
             
       return

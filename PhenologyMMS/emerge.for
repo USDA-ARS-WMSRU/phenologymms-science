@@ -83,8 +83,9 @@
 ! emergence to occur.
       if ((germs(1) .ne. 999) .and. (ems(1) .eq. 999)) then
           elong = elong + ergdd(seedsw) * gddday
-          if (elong .ge. pdepth*10)then !pdepth is converted to mm in setup
-             ems(1) = daynum
+          if (elong .ge. pdepth*10)then !pdepth is converted to mm 
+          print *, 'in emerge and pdepth = ', pdepth
+             ems(1) = daynum              ! in setup.
              ems(2) = year
              call date1(ems)
               ddap(1) = dap

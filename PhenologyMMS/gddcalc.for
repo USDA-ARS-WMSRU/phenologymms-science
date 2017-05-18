@@ -30,7 +30,7 @@
       tmintemp = tmin
 
 ! Determine method of calculating growing degree-days
-
+!      print *,'tupper = ', tupper
 ! Calculate using Method 1:
 
       if (gmethod .eq. 1) then

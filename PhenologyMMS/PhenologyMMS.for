@@ -36,16 +36,17 @@
      c gmethod, gpds(4), halfbs(4), heads(4), hrs(4), ies(4), ies2(4), 
      c infls(4), joints(4), lf12s(4), lf4s(4), lf8s(4), lncntr, 
      c mats(4), milks(4), mo, pmo, mon, nai, noseeds, 
-     c opens(4), pdate, pday, pdepth, pmethod, rai, rowcntr, seedsw, 
+     c opens(4), pdate, pday, pmethod, rai, rowcntr, seedsw, 
      c silks(4), srs(4), tis(4), tsints(4), tss(4), verns, wai, pyear,
      c year, yelows(4)  
           
       real  aepa, canht, daylth, dgdde(20), dgdds(20), dgddv(20),   
      c dummy2(15), elong, elrate, ergdd(4), gdda, gddday, gdde, gdds, 
      c gddtbg, gddv, germd, germgdd(4), latitude, lnarray(400,2), 
-     c lnpout(60,2), maxht, nolvs, pchron, precip, ri, soil3t, tavg, 
-     c tbase, tmax, tmin, todayln, toptlo, toptup, tupper, vernal, 
+     c lnpout(60,2), maxht, nolvs, pchron, pdepth, precip, ri, soil3t,  
+     c tavg, tbase, tmax, tmin, todayln, toptlo, toptup, tupper, vernal,
      c wfpslo(4), wfpsup(4), wlow, wup, yestln
+!debe moved pdepth to real from integer.
          
       character *22  cname, dummy1(15), hemisp, outf, pequation, 
      c soilwat(4), swtype, vname, weather
@@ -175,16 +176,7 @@
 ! Once seedling emergence has occurred, call leaf number, phenology, 
 ! and vernalization subroutines:
 
-      if (ems(1) .ne. 999) then
-         
-         call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
-     c cname, dae, dap, dav, daynum, ddae, ddap, ddav, dents, dgdde, 
-     c dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, first7, fps, 
-     c fullbs, gdde, gdds, gddv, gpds, halfbs, heads, hrs, ies, ies2, 
-     c infls, joints, lf12s, lf4s, lf8s, mats, milks, nolvs, opens, 
-     c pchron, silks, srs, tis, tsints, tss, year, yelows)
-         
-        
+      if (ems(1) .ne. 999) then       
 !  Call vernalization subroutine if vernalization requirement has not
 !  been satisfied:
            if (verns .eq. 999) 
@@ -201,16 +193,28 @@
 	       endif
 
 	  endif	 
-	   
-!  Call canopy height subroutine  (DE added)
-             call canopyht(antss, canht, cname, dummy2, ems, gddday, 
-     c                     gdde, ies, joints, lf4s, maxht)
-	  
+	     
 ! Calculate growing degree-days (GDDA) and # of days (DAA) after anthesis:
       if (antss(1) .ne. 999) then
             gdda = gdda + gddday
 			daa = daa + 1
 	endif
+
+! moved canopy height below updating of antss so that the currecnt days value
+! is input to canopy height.	
+!  Call canopy height subroutine  (DE added)
+             call canopyht(antss, canht, cname, dummy2, ems, gddday, 
+     c                     gdde, ies, joints, lf4s, maxht)
+
+! moved the call to phenol after other items above are updated to pass into
+! phenol.
+         call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
+     c cname, dae, dap, dav, daynum, ddae, ddap, ddav, dents, dgdde, 
+     c dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, first7, fps, 
+     c fullbs, gdde, gdds, gddv, gpds, halfbs, heads, hrs, ies, ies2, 
+     c infls, joints, lf12s, lf4s, lf8s, mats, milks, nolvs, opens, 
+     c pchron, silks, srs, tis, tsints, tss, year, yelows)
+
 
 !  Go back and read the next day's weather. When harvest ripe has been
 !  reached, then finish program:

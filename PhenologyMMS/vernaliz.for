@@ -25,8 +25,8 @@
 ! Assume that plant is fully vernalized after 1 Jan (northern hemisphere)
 ! or 1 July (southern hemisphere, ignore leap years for now):
 
-!      if (hemisp .eq. 'north' .and. daynum .eq. 1) then
-      if (hemisp .eq. 'north' .and. daynum .eq. 328) then !testin vernalization with UPGM
+      if (hemisp .eq. 'north' .and. daynum .eq. 1) then
+!      if (hemisp .eq. 'north' .and. daynum .eq. 328) then !testing vernalization with UPGM
 
 	     vernal = 1.0
 	     verns = daynum
