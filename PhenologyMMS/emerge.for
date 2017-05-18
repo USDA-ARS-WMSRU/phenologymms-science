@@ -36,7 +36,7 @@
       real  dap, ddap(20), dgdds(20), elong, ergdd(4), gddday, gdds, 
      c gddtbg, germgdd(4), pdepth, precip 
 ! debe 012809 moved pdepth to real     
-     
+
 !  check if enough precip (mm) occurred to increase the soil water category
       if ((precip .ge. 5.) .and. (precip .le. 7.) 
      .    .and. (seedsw .ne. 1)) then

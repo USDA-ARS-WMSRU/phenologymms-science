@@ -76,7 +76,6 @@
       call initwthr(precip, ri, soil3t, tavg, tmax, tmin)  
            
 ! End of initializing routines             
-
 !  Call SETUP to read in various input files and set model up for running.
 !   Start with weather in declaring the variables type up above.
       call setup(cname, pday, dummy1, dummy2, elrate, ergdd, 
@@ -91,7 +90,7 @@
        open (unit=14, file= 'MMSWeather/' // weather, status='OLD')
 
       read(14,*,end=640,err=101) year,daynum,tmax,tmin,ri,precip,soil3t 
-	                  
+                 
 ! Do error checking on input weather variables
       if ((year .lt. 0000) .or. (year .gt. 2100)) then
           print *, 'Variable year is out of range in weather file'
@@ -200,7 +199,7 @@
 			daa = daa + 1
 	endif
 
-! moved canopy height below updating of antss so that the currecnt days value
+! moved canopy height below updating of antss so that the current days value
 ! is input to canopy height.	
 !  Call canopy height subroutine  (DE added)
              call canopyht(antss, canht, cname, dummy2, ems, gddday, 

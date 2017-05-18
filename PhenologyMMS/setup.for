@@ -68,7 +68,6 @@
 ! Read in planting depth (cm) and convert to mm:
 	read (1,*) pdepth
 !	    pdepth = pdepth * 10.
-      print *, 'In setup in PhenologyMMS, pdepth read in as =', pdepth
 ! Read in number of seeds planted per m2:
 	read (1,*) noseeds
 

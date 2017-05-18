@@ -1,10 +1,10 @@
 Winter Wheat
 Generic
-Cimarron_Phen_cli.txt
+Akron_SC_1859.txt
 09
 15
-2001
-258
+1958
+259
 5
 133
 Optimum
