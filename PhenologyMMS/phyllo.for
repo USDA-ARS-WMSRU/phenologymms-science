@@ -34,7 +34,7 @@ c  latitude of 51.50.
 
       phyllonw = 1.0 / (0.026 * chg + 0.0104)
       
-      print *, 'phyllonw = ', phyllonw 
+!      print *, 'phyllonw = ', phyllonw 
      
       return
       end

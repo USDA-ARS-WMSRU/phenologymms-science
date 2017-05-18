@@ -1,5 +1,10 @@
 
+# Ignore output files
+*.out
+
+
 # Created by https://www.gitignore.io/api/fortran,visualstudio
+
 
 ### Fortran ###
 # Prerequisites

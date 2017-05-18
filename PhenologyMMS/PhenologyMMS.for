@@ -206,7 +206,7 @@
              call canopyht(antss, canht, cname, dummy2, ems, gddday, 
      c                     gdde, ies, joints, lf4s, maxht)
 	  
-! Calculate growing degree-days (GDDA) and number of days after anthsis:
+! Calculate growing degree-days (GDDA) and # of days (DAA) after anthesis:
       if (antss(1) .ne. 999) then
             gdda = gdda + gddday
 			daa = daa + 1

@@ -31,11 +31,11 @@
 
       implicit none
 
-      integer  daynum, ems(4), germs(4), pdepth, seedsw, year
+      integer  daynum, ems(4), germs(4), seedsw, year
       
       real  dap, ddap(20), dgdds(20), elong, ergdd(4), gddday, gdds, 
-     c gddtbg, germgdd(4), precip 
-     
+     c gddtbg, germgdd(4), pdepth, precip 
+! debe 012809 moved pdepth to real     
      
 !  check if enough precip (mm) occurred to increase the soil water category
       if ((precip .ge. 5.) .and. (precip .le. 7.) 
@@ -83,13 +83,16 @@
 ! emergence to occur.
       if ((germs(1) .ne. 999) .and. (ems(1) .eq. 999)) then
           elong = elong + ergdd(seedsw) * gddday
-          if (elong .ge. pdepth)then !pdepth is converted to mm in setup
+          if (elong .ge. pdepth*10)then !pdepth is converted to mm in setup
              ems(1) = daynum
              ems(2) = year
              call date1(ems)
               ddap(1) = dap
 	        dgdds(1) = gddtbg ! DE changed gdds to gddbtg
-	        print *, 'ems = ', ems !, 'gdds = ', gdds, 'gddtbg = ', gddtbg
+	        print *, 'ems = ', ems 
+!	        print *, 'gdds = ', gdds, 'gddtbg = ', gddtbg
+!	        print *, 'ergdd(seedsw) = ', ergdd(seedsw)
+!	        print *, 'gddday in emergence = ', gddday
 	        go to 150
           endif    
       endif

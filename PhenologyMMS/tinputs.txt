@@ -1,11 +1,11 @@
 Winter Wheat
 Generic
-Akron_7706.txt
+Akron_Generic_cli.txt
 09
 15
-2004
-259
-5
+2001
+258
+2.5
 133
 Optimum
 Optimum

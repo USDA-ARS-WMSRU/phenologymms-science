@@ -67,7 +67,7 @@
 
 ! Read in planting depth (cm) and convert to mm:
 	read (1,*) pdepth
-	    pdepth = pdepth * 10.
+!	    pdepth = pdepth * 10.
 
 ! Read in number of seeds planted per m2:
 	read (1,*) noseeds
@@ -132,9 +132,11 @@
 ! Read in phenology parameters.
 ! This will need to be done differently when phyllochron equations are used:
       do 100 i = 1, 15
-         read (1,*) dummy1(i), dummy2(i)              
+         read (1,*) dummy1(i), dummy2(i)
+!                      print *, 'dummy2(i) = ', dummy2(i)              
          if (dummy1(i) .eq. 'LN' .or. dummy1(i) .eq. 'LS')then
              dummy2(i) = dummy2(i) * pchron
+
          endif
 
  100	   continue
