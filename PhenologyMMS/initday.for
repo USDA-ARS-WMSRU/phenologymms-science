@@ -33,9 +33,10 @@
      c first1, first2, lncntr, mon, rowcntr
           
       real  dgdde(20), dgdds(20), dgddv(20), gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray(400, 2), lnpout(60,2), todayln, yestln
+     c gddtbg, gddv, lnarray(400, 2), lnpout(100,2), todayln, yestln
       
-      character *22 outf
+!      character *22 outf
+      character *256 outf
 
 !  Local Variables
       integer i, j
@@ -64,7 +65,7 @@
  60   continue
  55   continue     
  
-      do 65 i = 1, 60
+      do 65 i = 1, 100
         do 70 j = 1, 2
             lnpout(i,j) = 0.0
  70   continue

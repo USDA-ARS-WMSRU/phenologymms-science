@@ -41,7 +41,7 @@
 !     searched with the crop/cultivar names in order to get the values 
 !     specific to that crop/cultivar and then be written to the 
 !     tinputs file. This will be done via the interface code. For now, 
-!     pd is initialized in initcepv.for and passed here where it is set
+!     p1d is initialized in initcepv.for and passed here where it is set
 !     to a value.
  
  !debe moved setting of p1d to PhenologyMMS subroutine.

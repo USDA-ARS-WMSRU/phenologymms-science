@@ -40,7 +40,12 @@
 !debe added tempsw so that it can be set to the value read in for seedsw and thereby initialized.
    
       character *22  cname, dummy1(15), pequation, soilwat(4), swtype, 
-     c vname, weather
+     c vname
+      
+! 9/4/14 GM, debe and Mike Herder set the weather variable to a string length of 110 to allow reading
+!   of the path name to include the state/region and the weather filename. The weather files are now located
+!   in a more detailed folder structure to work with the new interface programmed by Mike H.
+      character *110 weather
       
 ! Local Variables
       character *22 seedbed      
@@ -64,6 +69,10 @@
 ! Read in name of weather file to use:
 	read (1,*) weather
 	print *, 'weather = ', weather
+!!Much of the weather file path is hard coded in the next statement.      
+!      weather="/PhenologyMMS Working\Fortran\Working/PhenologyMMS/
+!     .MMSWeather/" // weather
+
 
 ! Read in mo and day of planting:
 ! Change when working right in program, where month and day converted to

@@ -23,16 +23,18 @@
 !debe added uuday, uumonth, uuyear. these are variables that are read in from
 ! the climate file but not used.
       
-      integer uuday, uumonth, uuyear
+      integer uuday, uumonth, uuyear, i
 
-      real  aveprecip, avetmax, avetmin, precip, ri, soil3t, tavg, tmax, 
-     c      tmin
+      real  aveprecip(12), avetmax(12), avetmin(12), precip, ri, soil3t,
+     c      tavg, tmax, tmin
 
 ! Initialize variables
 !  Weather Variables
-      aveprecip = 0.0
-      avetmax = 0.0
-      avetmin = 0.0
+      do i=1,12
+         aveprecip(i) = 0.0
+         avetmax(i) = 0.0
+         avetmin(i) = 0.0
+      end do   
       precip = 0.0
       ri = 999.9
       soil3t = 999.9

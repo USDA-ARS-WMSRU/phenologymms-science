@@ -22,17 +22,21 @@
 !           fps(R), fullbs(R), gdda(R), gdde(R), gdds(R), gddv(R), 
 !           gpds(R), halfbs(R), heads(R), hrs(R), ies(R), joints(R), 
 !           mats(R), outf(C), pdate(R), srs(R), tis(R), tss(R) 
-     
-     
+
       subroutine output(aifs, antes, antss, blstrs, boots, browns, 
      c canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav, dents, 
      c dgdde, dgdds, dgddv, doughs, drs, ears, ems, endlgs, epods, 
      c eseeds, fps, fullbs, gdda, gdde, gdds, gddv, gpds, halfbs, heads,
      c hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, 
      c lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, nolvs, 
-     c opens, outf, pchron, pdate, pyear, silks, srs, tis, tsints, tss,
-     c year, yelows)
-     
+     c opens, outf, pchron, pdate, planted, pyear, silks, srs, tis, 
+     c tsints, tss, weather, year, yelows) 
+
+!debe added logical variable 'planted' to be able to write an error
+!message in phenol.out alerting the user that the planting date
+!was not reached.
+      
+      
 !debe added dry bean variables     
  
       implicit none
@@ -47,15 +51,27 @@
      c mseeds(4), opens(4), pdate, pdatearr(4), pyear, silks(4), 
      c srs(4), tis(4), tsints(4), tss(4), year, yelows(4)
      
+!9/2/14 DE and GM decided to use one variable name for the integer zero  
+!and one for the real zero when printing zeros in the output table.
+      integer dumint
+ !     real dumreal
 !         
       real  canht, dgdde(20), dgdds(20), dgddv(20), gdda, gdde, gdds, 
-     c gddv, lnarray (400,2), lnpout(60,2), nolvs, pchron, rboots
+     c gddv, lnarray (400,2), lnpout(100,2), nolvs, pchron, rboots
       
-      character *22  cname, outf 
-!     character *256 outf !de added not enough characters for the full path
+      character *22  cname
+      character *256 outf !de added not enough characters for the full path
+      character *110 weather !de added
+      
+      logical planted
       
 ! Initialize variables
 
+!GM added 8/29/14 dummy output variables for 0's in table
+
+      dumint = 0
+  !    dumreal = 0.0
+           
       do 10 i = 1,4
              pdatearr(i) = 0
  10   continue 
@@ -82,6 +98,7 @@
 
       outf = 'results/phenol.out'
       open (unit=14, file=outf)
+      !print *, 'outf = ', outf
       
 ! Fill pdatearr
       pdatearr(1) = pdate      
@@ -96,6 +113,11 @@
 ! Determine number of leaves for each day.  Fill leafno array.
  !     call leafno(daynum, gdde, lnarray, lnpout, pchron)
 
+      
+      !Add a write statement to show the path to the outf file. DE added.
+ !     write (14,143)
+ !143  format ('Path to phenol.out is') file
+      
 ! Warn user that if planting date is outside the weather years or 
 ! results in a harvest date outside of the weather years in the 
 ! selected location '999' will display in the output.
@@ -105,10 +127,18 @@
      . /1x, 'weather file. Also, the selected planting date might',
      . ' result', /1x, 'in a harvest date outside of the years in the',
      .  /1x, 'weather file.', /1x) 
-
+      
+      if (planted .eq. .FALSE.) then
+          write (14, 25) 
+25        format ('ERROR 101: The planting date was not reached. Choose'
+     . ,/1x,'another weather/location or change the planting date to be'
+     . ,/1x 'within the weather file time range.', 2x)
+      endif    
+      
+      
 !  Heading for Leaf Number table     
       write (14,99)cname 
-99    format (42x, a14, /1x, 42x,'Leaf Number', /1x, 39x, 'DOY', 2x, 
+99    format (/1x, 42x, a14, /1x, 42x,'Leaf Number', /1x, 39x, 'DOY', 2x, 
      . 'Leaf Number', /1x, 38x, '------------------')
 
 ! Write out winter wheat phenology results:
@@ -128,10 +158,12 @@
 70    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
 
-      write (14, 150) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
-     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
-     .       dgdde(2)/pchron,
+      write (14, 150) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint, dumint, dumint, 
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dumint, dgdds(1), 
+     .       dumint, dumint, dumint, 
+     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dumint, dgdds(2), 
+     .       dgdde(2), dumint, dgdde(2)/pchron,
      .  srs(1), srs(3), srs(4), ddap(3), ddae(3), ddav(3), dgdds(3), 
      .       dgdde(3), dgddv(3), dgdde(3)/pchron,
      .  drs(1), drs(3), drs(4), ddap(4), ddae(4), ddav(4), dgdds(4), 
@@ -156,14 +188,16 @@
      .       dgdds(13), dgdde(13), dgddv(13), dgdde(9)/pchron,
      .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), ddav(14),
      .       dgdds(14), dgdde(14), dgddv(14), dgdde(9)/pchron,
-     ,  icanht
- 150	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+     .  icanht
+ 150  format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      .  'DAP', 5x, 'DAE', 5x, 'DAV', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 
      .  'GDD AV', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 21x, f6.1, /1x,
-     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 13x, 
-     .    f6.1, 5x, f6.1, 15x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 4x, i1, 7x, i1, 7x,  
+     .    i1, 10x, i1, 10x, i1, 10x, i1, 9x, i1, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 7x, i4, 7x, i4, 6x, i4, /1x,
+     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
      .    5x, f6.1, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,     
      . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
@@ -209,65 +243,70 @@
 71    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
       
-      write (14, 155) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
-     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
-     .       dgdde(2)/pchron,
-     .  srs(1), srs(3), srs(4), ddap(3), ddae(3), dgdds(3), dgdde(3), 
-     .       dgdde(3)/pchron,
-     .  drs(1), drs(3), drs(4), ddap(4), ddae(4), dgdds(4), dgdde(4), 
-     .       dgdde(4)/pchron,
-     .  fps(1), fps(3), fps(4), ddap(7), ddae(7), dgdds(7), dgdde(7), 
-     .       dgdde(7)/pchron,     
-     .  ies(1), ies(3), ies(4), ddap(6), ddae(6), dgdds(6), dgdde(6), 
-     .       dgdde(6)/pchron,
-     .  tss(1), tss(3), tss(4), ddap(5), ddae(5), dgdds(5), dgdde(5), 
-     .       dgdde(5)/pchron,
-     .  joints(1), joints(3), joints(4), ddap(8), ddae(8), dgdds(8), 
-     .       dgdde(8), dgdde(8)/pchron,
-     .  boots(1), boots(3), boots(4), ddap(9), ddae(9), dgdds(9), 
-     .       dgdde(9), dgdde(9)/pchron,
-     .  heads(1), heads(3), heads(4), ddap(10),ddae(10), dgdds(10), 
-     .       dgdde(10), dgdde(9)/pchron,
-     .  antss(1), antss(3), antss(4), ddap(11), ddae(11), dgdds(11), 
-     .       dgdde(11), dgdde(9)/pchron,
-     .  antes(1), antes(3), antes(4), ddap(12), ddae(12), dgdds(12), 
-     .       dgdde(12), dgdde(9)/pchron,
-     .  mats(1), mats(3), mats(4), ddap(13), ddae(13), dgdds(13), 
-     .       dgdde(13), dgdde(9)/pchron,
-     .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dgdds(14), 
-     .       dgdde(14), dgdde(9)/pchron,
-     ,  icanht
- 155	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
-     .  'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 24x, f6.1, /1x,
-     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,  
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Floret primordia init begins', 3x, i4, 2x, i2, '/', i2, 1x, i4, 
-     .    4x, i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Stem elongation begins', 9x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
-     .     i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+      write (14, 155) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .      dumint, dumint, dumint, dumint, dumint, dumint, 
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dumint, dgdds(1), 
+     .      dumint, dumint, dumint, 
+     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dumint, dgdds(2), 
+     .       dgdde(2), dumint, dgdde(2)/pchron,
+     .  srs(1), srs(3), srs(4), ddap(3), ddae(3),  dumint, dgdds(3),
+     .        dgdde(3), dumint, dgdde(3)/pchron,
+     .  drs(1), drs(3), drs(4), ddap(4), ddae(4), dumint, dgdds(4),
+     .        dgdde(4), dumint, dgdde(4)/pchron,
+     .  fps(1), fps(3), fps(4), ddap(7), ddae(7), dumint, dgdds(7),
+     .        dgdde(7), dumint, dgdde(7)/pchron,     
+     .  ies(1), ies(3), ies(4), ddap(6), ddae(6),  dumint, dgdds(6),
+     .        dgdde(6), dumint, dgdde(6)/pchron,
+     .  tss(1), tss(3), tss(4), ddap(5), ddae(5),  dumint, dgdds(5),
+     .        dgdde(5), dumint, dgdde(5)/pchron,
+     .  joints(1), joints(3), joints(4), ddap(8),  ddae(8), dumint,
+     .        dgdds(8), dgdde(8), dumint, dgdde(8)/pchron,
+     .  boots(1), boots(3), boots(4), ddap(9), ddae(9), dumint,
+     .        dgdds(9), dgdde(9), dumint, dgdde(9)/pchron,
+     .  heads(1), heads(3), heads(4), ddap(10),  ddae(10), dumint,
+     .        dgdds(10), dgdde(10), dumint, dgdde(9)/pchron,
+     .  antss(1), antss(3), antss(4), ddap(11), ddae(11), dumint,
+     .        dgdds(11), dgdde(11), dumint, dgdde(9)/pchron,
+     .  antes(1), antes(3), antes(4), ddap(12), ddae(12), dumint,
+     .        dgdds(12), dgdde(12), dumint, dgdde(9)/pchron,
+     .  mats(1), mats(3), mats(4), ddap(13), ddae(13), dumint,
+     .        dgdds(13), dgdde(13), dumint, dgdde(9)/pchron,
+     .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dumint, dgdds(14), 
+     .       dgdde(14), dumint, dgdde(9)/pchron,
+     .  icanht
+155   format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+     .  'DAP', 5x, 'DAE', 5x, 'DAV', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 
+     .  'GDD AV', 5x, 'NOLVS', /1x
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 4x, i1, 7x, i1, 7x,  
+     .    i1, 10x, i1, 10x, i1, 10x, i1, 9x, i1, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 7x, i4, 7x, i4, 6x, i4, /1x,
+     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4,  4x, f6.1, /1x,
+     . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Floret primordia init begins', 3x, i4, 2x, i2, '/', i2, 1x, i4,
+     .    4x, i4, 4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Stem elongation begins',9x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
+     .     4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'End spikelet initiation', 8x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
-     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Jointing', 23x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1, 
-     .    5x, f6.1, 4x, f6.1, /1x,
-     . 'Booting', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1, 
-     .    5x, f6.1, 4x, f6.1, /1x,
-     . 'Heading', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1, 
-     .    5x, f6.1, 4x, f6.1, /1x,
-     . 'Anthesis starts', 16x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Anthesis ends', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,  
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .    i4, 4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Jointing', 23x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Booting', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 5x, 
+     .    f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Heading', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 5x, 
+     .    f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Anthesis starts', 16x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Anthesis ends', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Physiological maturity', 9x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
-     .     i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Harvest ready', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .     5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .    i4, 4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Harvest ready', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Canopy Height (cm)', 11x, i6)
 
       endif
@@ -290,13 +329,13 @@
       write (14, 72)
 72    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
-
-
- 
-      write (14, 160) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
-     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), 
-     .       dgdde(2), dgdde(2)/pchron,
+      
+      write (14, 160) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint, dumint, dumint, 
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dumint, dgdds(1), 
+     .       dumint, dumint, dumint, 
+     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dumint, dgdds(2), 
+     .       dgdde(2), dumint, dgdde(2)/pchron, 
      .  srs(1), srs(3), srs(4), ddap(3), ddae(3), ddav(3), 
      .       dgdds(3), dgdde(3), dgddv(3), dgdde(3)/pchron,
      .  drs(1), drs(3), drs(4), ddap(4), ddae(4), ddav(4), 
@@ -322,13 +361,15 @@
      .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), ddav(14),
      .        dgdds(14), dgdde(14), dgddv(14), dgdde(9)/pchron,
      .  icanht
- 160	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+ 160  format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      .  'DAP', 5x, 'DAE', 5x, 'DAV', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 
      .  'GDD AV', 5x,'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 21x, f6.1, /1x,
-     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 13x, 
-     .                 f6.1, 5x, f6.1, 15x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 4x, i1, 7x, i1, 7x,  
+     .    i1, 10x, i1, 10x, i1, 10x, i1, 9x, i1, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 7x, i4, 7x, i4, 6x, i4, /1x,
+     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
      .    5x, f6.1, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
@@ -374,67 +415,72 @@
       write (14, 73)
 73    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
-
  
-      write (14, 165) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
-     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), 
-     .       dgdde(2), dgdde(2)/pchron,
-     .  srs(1), srs(3), srs(4), ddap(3), ddae(3), dgdds(3), dgdde(3), 
-     .       dgdde(3)/pchron,
-     .  drs(1), drs(3), drs(4), ddap(4), ddae(4), dgdds(4), dgdde(4), 
-     .       dgdde(4)/pchron,
-     .  fps(1), fps(3), fps(4), ddap(7), ddae(7), dgdds(7), dgdde(7), 
-     .       dgdde(7)/pchron,  
-     .  ies(1), ies(3), ies(4), ddap(6), ddae(6), dgdds(6), dgdde(6), 
-     .       dgdde(6)/pchron,
-     .  aifs(1), aifs(3), aifs(4), ddap(5), ddae(5), dgdds(5), dgdde(5),
-     .       dgdde(5)/pchron,
-     .  joints(1), joints(3), joints(4), ddap(8), ddae(8), dgdds(8), 
-     .       dgdde(8), dgdde(8)/pchron,
-     .  boots(1), boots(3), boots(4), ddap(9), ddae(9), dgdds(9), 
-     .       dgdde(9), dgdde(9)/pchron,
-     .  heads(1), heads(3), heads(4), ddap(10), ddae(10), dgdds(10),
-     .       dgdde(10), dgdde(9)/pchron,
-     .  antss(1), antss(3), antss(4), ddap(11), ddae(11), dgdds(11), 
-     .       dgdde(11), dgdde(9)/pchron,
-     .  antes(1), antes(3), antes(4), ddap(12), ddae(12), dgdds(12), 
-     .       dgdde(12), dgdde(9)/pchron,
-     .  mats(1), mats(3), mats(4), ddap(13), ddae(13), dgdds(13), 
-     .       dgdde(13), dgdde(9)/pchron,
-     .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dgdds(14), 
-     .       dgdde(14), dgdde(9)/pchron,
+      write (14, 165) pdatearr(1), pdatearr(3), pdatearr(4), 
+     .       dumint, dumint, dumint, dumint, dumint, dumint, dumint,
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dumint, dgdds(1), 
+     .       dumint, dumint, dumint, 
+     .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dumint, dgdds(2), 
+     .       dgdde(2), dumint, dgdde(2)/pchron, 
+     .  srs(1), srs(3), srs(4), ddap(3), ddae(3), dumint, 
+     .       dgdds(3), dgdde(3), dumint, dgdde(3)/pchron,
+     .  drs(1), drs(3), drs(4), ddap(4), ddae(4), dumint, 
+     .       dgdds(4), dgdde(4), dumint, dgdde(4)/pchron,
+     .  fps(1), fps(3), fps(4), ddap(7), ddae(7), dumint, 
+     .       dgdds(7), dgdde(7), dumint, dgdde(7)/pchron,     
+     .  ies(1), ies(3), ies(4), ddap(6), ddae(6), dumint, 
+     .       dgdds(6), dgdde(6), dumint, dgdde(6)/pchron,
+     .  aifs(1), aifs(3), aifs(4), ddap(5), ddae(5), dumint, 
+     .        dgdds(5), dgdde(5), dumint, dgdde(5)/pchron,
+     .  joints(1), joints(3), joints(4), ddap(8), ddae(8), dumint, 
+     .        dgdds(8), dgdde(8), dumint, dgdde(8)/pchron,
+     .  boots(1), boots(3), boots(4), ddap(9), ddae(9), dumint, 
+     .       dgdds(9), dgdde(9), dumint, dgdde(9)/pchron,
+     .  heads(1), heads(3), heads(4), ddap(10),ddae(10),dumint,
+     .       dgdds(10), dgdde(10), dumint, dgdde(9)/pchron,
+     .  antss(1), antss(3), antss(4), ddap(11), ddae(11), 
+     .       dumint, dgdds(11), dgdde(11), dumint, dgdde(9)/pchron,
+     .  antes(1), antes(3), antes(4), ddap(12), ddae(12), 
+     .       dumint, dgdds(12), dgdde(12),dumint,dgdde(9)/pchron,
+     .  mats(1), mats(3), mats(4), ddap(13), ddae(13), 
+     .       dumint, dgdds(13), dgdde(13), dumint, dgdde(9)/pchron,
+     .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dumint,
+     .        dgdds(14), dgdde(14), dumint, dgdde(9)/pchron,
      .  icanht
- 165	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
-     .  'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x,'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 24x, f6.1, /1x,
-     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,  
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+       
+165   format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+     .  'DAP', 5x, 'DAE', 5x, 'DAV', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 
+     .  'GDD AV', 5x, 'NOLVS', /1x
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 4x, i1, 7x, i1, 7x,  
+     .    i1, 10x, i1, 10x, i1, 10x, i1, 9x, i1, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 7x, i4, 7x, i4, 6x, i4, /1x,
+     . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4,  4x, f6.1, /1x,
+     . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Double ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Floret primordia init begins', 3x, i4, 2x, i2, '/', i2, 1x, i4,
-     .    4x, i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .    4x, i4, 4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Stem elongation begins',9x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .     4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Awn Initials Formed', 12x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Jointing', 23x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,  
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Booting', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
-     .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Heading', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
-     .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Anthesis starts', 16x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Anthesis ends', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .    4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Jointing', 23x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Booting', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 5x, 
+     .    f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Heading', 24x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, i4, 5x, 
+     .    f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Anthesis starts', 16x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Anthesis ends', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Physiological maturity', 9x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
-     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
-     . 'Harvest ready', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,  
-     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     .    i4, 4x, i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
+     . 'Harvest ready', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 7x, i4, 4x, f6.1, /1x,
      . 'Canopy Height (cm)', 11x, i6)
 
       endif
@@ -458,8 +504,10 @@
 74    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
  
-      write (14, 170) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 170) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
      .        dgdde(2)/pchron,
      .  srs(1), srs(3), srs(4), ddap(3), ddae(3), dgdds(3), dgdde(3), 
@@ -489,8 +537,10 @@
      ,  icanht
  170	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      .  'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 24x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
      .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
@@ -541,8 +591,10 @@
 105   format (40x, f5.1, 6x, f4.1)
 
  
-      write (14, 175) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 175) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
      .        dgdde(2)/pchron,
      .  srs(1), srs(3), srs(4), ddap(3), ddae(3), dgdds(3), dgdde(3), 
@@ -572,8 +624,10 @@
      ,  icanht
  175	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      .  'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 24x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
      .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Single ridge', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
@@ -622,8 +676,10 @@
 76    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
 
-      write (14, 180) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 180) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
      .       dgdde(2)/pchron, 
      .  gpds(1), gpds(3), gpds(4), ddap(5), ddae(5), dgdds(5), dgdde(5),
@@ -649,8 +705,10 @@
      .  icanht
  180	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      .  'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS' /1x 
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 24x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'First tiller', 19x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
      .     5x, f6.1, 5x, f6.1, 4x, f6.1, /1x, 
      . 'Growing point differentiation', 2x, i4,2x, i2, '/', i2, 1x,
@@ -695,8 +753,10 @@
 77    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
           
-      write (14, 190) pdatearr(1), pdatearr(3), pdatearr(4),  
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 190) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  lf4s(1), lf4s(3), lf4s(4), ddap(2), ddae(2), dgdds(2), 
      .       dgdde(2), dgdde(2)/pchron,
      .  tsints(1), tsints(3), tsints(4), ddap(3), ddae(3), dgdds(3), 
@@ -724,10 +784,12 @@
      .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dgdds(14), 
      .       dgdde(14), dgdde(7)/pchron,
      ,  icanht
- 190	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+ 190  format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 13x, f6.1, /1x, 
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'Leaf 4 (V4)', 20x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
      .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Tassel initiation', 14x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
@@ -774,8 +836,10 @@
 78    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
       
-      write (14, 200) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 200) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,     
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  lf4s(1), lf4s(3), lf4s(4), ddap(2), ddae(2), dgdds(2), 
      .       dgdde(2), dgdde(2)/pchron,
      .  lf8s(1), lf8s(3), lf8s(4), ddap(3), ddae(3), dgdds(3), dgdde(3),
@@ -805,8 +869,10 @@
      .  icanht
  200	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,     
-     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 13x, f6.1, /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'Leaf 4', 25x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
      .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Leaf 8', 25x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1, 5x,
@@ -857,8 +923,10 @@
 79    format (/1x) ! write a blank line after outputting the 
 !      leaf number table
       
-      write (14, 210) pdatearr(1), pdatearr(3), pdatearr(4),
-     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+      write (14, 210) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,     
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
      .  cots(1), cots(3), cots(4), ddap(2), ddae(2), dgdds(2), 
      .       dgdde(2), dgdde(2)/pchron,
      .  lf1s(1), lf1s(3), lf1s(4), ddap(3), ddae(3), dgdds(3), 
@@ -888,9 +956,10 @@
      .  icanht
  210	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
      . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
-     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,     
-     . 'Emergence (VE)', 17x, i4, 2x, i2, '/', i2, 1x, i4, 13x, f6.1, 
-     .    /1x,
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
      . 'Cotyledonary lvs (VC)', 10x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
      .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . '1st trifoliolate lf (V1)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,

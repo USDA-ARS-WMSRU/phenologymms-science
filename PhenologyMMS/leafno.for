@@ -25,7 +25,7 @@
       
       integer daynum, lncntr, rowcntr
       
-      real gdde, lnarray(400,2), lnpout(60,2), pchron, todayln, 
+      real gdde, lnarray(400,2), lnpout(100,2), pchron, todayln, 
      c yestln  
       
 ! Local variables
@@ -41,7 +41,6 @@
       
                 
 ! Fill arrays 
-!         print *, 'in leafno and lncntr = ', lncntr, 'daynum = ', daynum   
         ln = gdde/pchron  ! Calculate leaf number for current day
         lncntr = lncntr + 1 ! increment counter
         lnarray (lncntr,col) = daynum ! Fill leaf number array 

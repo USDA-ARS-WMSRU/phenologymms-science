@@ -39,10 +39,10 @@
      c fullbs(4), germs(4), gpds(4), halfbs(4), heads(4), hrs(4), i, 
      c ies(4), ies2(4), infls(4), joints(4), lf1s(4), lf12s(4), lf2s(4),
      c lf3s(4), lf4s(4), lf8s(4), m, mats(4), mffls(4), milks(4), 
-     c mpods(4), mseeds(4), nolvs, opens(4), silks(4), srs(4), tis(4), 
+     c mpods(4), mseeds(4), opens(4), silks(4), srs(4), tis(4), 
      c tsints(4), tss(4), verns, y, yelows(4) 
      
-      real dummy2(15)
+      real dummy2(15), nolvs 
       
       character *22 dummy1(15)
 

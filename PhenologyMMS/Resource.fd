@@ -1,9 +1,0 @@
-!
-! D:\PhenologyMMS_Intel\fortranprogram\PhenologyMMS\PhenologyMMS\Resourc
-! e.fd generated from D:\PhenologyMMS_Intel\fortranprogram\PhenologyMMS\
-! PhenologyMMS\Resource.h
-!
-      integer, parameter :: $_WIN32 = 1
-      integer, parameter :: IDM_APPLY = 30002
-      integer, parameter :: IDM_EXIT = 30001
-      integer, parameter :: IDD_PhenologyMMS_DIALOG = 101

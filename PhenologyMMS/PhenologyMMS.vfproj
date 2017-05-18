@@ -1,65 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application - Converted from CVF" Version="11.0" ProjectIdGuid="{56605A47-DE89-4744-81EB-CEF7AFBC1F33}">
+<VisualStudioProject ProjectCreator="Intel Fortran" Keyword="Console Application" Version="11.0" ProjectIdGuid="{AA84D71C-B172-4889-827F-73A6444532C9}">
 	<Platforms>
 		<Platform Name="Win32"/></Platforms>
 	<Configurations>
-		<Configuration Name="Debug|Win32" DeleteExtensionsOnClean="*.obj;*.mod;*.pdb;*.asm;*.map;*.dyn;*.dpi;*.tmp;*.log;*.ilk;*.exe;$(TargetPath)">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnDeclarations="true" WarnUnusedVariables="true" CallingConvention="callConventionCVF" ModulePath="$(INTDIR)/" ObjectFile="$(INTDIR)/" AssemblerListingLocation="$(INTDIR)/" Traceback="true" BoundsCheck="true" UninitializedVariablesCheck="true" RuntimeLibrary="rtMultiThreadedDebug" WarnArgMismatch="true"/>
-				<Tool Name="VFLinkerTool" AdditionalOptions="/MACHINE:I386" OutputFile="$(OUTDIR)/PhenologyMMS.exe" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" ProgramDatabaseFile="$(OUTDIR)/PhenologyMMS.pdb" SubSystem="subSystemConsole" AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"/>
-				<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions="_DEBUG" Culture="rcEnglishUS" ResourceOutputFileName="$(INTDIR)/$(InputName).res"/>
-				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TypeLibraryName="$(OUTDIR)/PhenologyMMS.tlb"/>
+		<Configuration Name="Debug|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" DebugInformationFormat="debugEnabled" Optimization="optimizeDisabled" WarnInterfaces="true" Traceback="true" BoundsCheck="true" StackFrameCheck="true" RuntimeLibrary="rtMultiThreadedDebugDLL"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" GenerateDebugInformation="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
 				<Tool Name="VFPreBuildEventTool"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
-		<Configuration Name="Release|Win32" DeleteExtensionsOnClean="*.obj;*.mod;*.pdb;*.asm;*.map;*.dyn;*.dpi;*.tmp;*.log;*.ilk;*.exe;$(TargetPath)">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" CallingConvention="callConventionCVF" ModulePath="$(INTDIR)/" ObjectFile="$(INTDIR)/" AssemblerListingLocation="$(INTDIR)/"/>
-				<Tool Name="VFLinkerTool" AdditionalOptions="/MACHINE:I386" OutputFile="$(OUTDIR)/PhenologyMMS.exe" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" ProgramDatabaseFile="$(OUTDIR)/PhenologyMMS.pdb" SubSystem="subSystemConsole" AdditionalDependencies="kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib"/>
-				<Tool Name="VFResourceCompilerTool" PreprocessorDefinitions="NDEBUG" Culture="rcEnglishUS" ResourceOutputFileName="$(INTDIR)/$(InputName).res"/>
-				<Tool Name="VFMidlTool" SuppressStartupBanner="true" TypeLibraryName="$(OUTDIR)/PhenologyMMS.tlb"/>
+		<Configuration Name="Release|Win32">
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RuntimeLibrary="rtMultiThreadedDLL"/>
+				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
+				<Tool Name="VFResourceCompilerTool"/>
+				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
 				<Tool Name="VFCustomBuildTool"/>
 				<Tool Name="VFPreLinkEventTool"/>
 				<Tool Name="VFPreBuildEventTool"/>
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration></Configurations>
 	<Files>
-		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;fi;fd"/>
-		<Filter Name="Resource Files" Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
-		<Filter Name="Source Files" Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;f90;for;f;fpp">
-		<File RelativePath="canopyht.for"/>
-		<File RelativePath="date1.for"/>
+		<Filter Name="Header Files" Filter="fi;fd"/>
+		<Filter Name="Resource Files" Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
+		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
+		<File RelativePath=".\canopyht.for"/>
+		<File RelativePath=".\date1.for"/>
 		<File RelativePath=".\daylen.f90"/>
-		<File RelativePath="daylenth.for"/>
-		<File RelativePath="daylth.for">
-			<FileConfiguration Name="Release|Win32" ExcludedFromBuild="true"/></File>
+		<File RelativePath=".\daylenth.for"/>
+		<File RelativePath=".\daylth.for"/>
 		<File RelativePath=".\declination.f90"/>
-		<File RelativePath="echo.for"/>
-		<File RelativePath="emerge.for"/>
-		<File RelativePath="gddcalc.for"/>
+		<File RelativePath=".\echo.for"/>
+		<File RelativePath=".\emerge.for"/>
+		<File RelativePath=".\gddcalc.for"/>
 		<File RelativePath=".\hourangle.f90"/>
-		<File RelativePath="initcepv.for"/>
-		<File RelativePath="initday.for"/>
-		<File RelativePath="initgs.for"/>
-		<File RelativePath="initparm.for"/>
-		<File RelativePath="initwthr.for"/>
+		<File RelativePath=".\initcepv.for"/>
+		<File RelativePath=".\initday.for"/>
+		<File RelativePath=".\initgs.for"/>
+		<File RelativePath=".\initparm.for"/>
+		<File RelativePath=".\initwthr.for"/>
 		<File RelativePath=".\leafno.for"/>
-		<File RelativePath="output.for"/>
-		<File RelativePath="phenol.for"/>
+		<File RelativePath=".\output.for"/>
+		<File RelativePath=".\phenol.for"/>
 		<File RelativePath=".\phenolbn.for"/>
-		<File RelativePath="phenolcn.for"/>
-		<File RelativePath="phenolhm.for"/>
-		<File RelativePath="PhenologyMMS.for"/>
-		<File RelativePath="phenolpm.for"/>
-		<File RelativePath="phenolsb.for"/>
-		<File RelativePath="phenolsf.for"/>
-		<File RelativePath="phenolsg.for"/>
-		<File RelativePath="phenolsw.for"/>
-		<File RelativePath="phenolwb.for"/>
-		<File RelativePath="phenolww.for"/>
-		<File RelativePath="photoper.for"/>
-		<File RelativePath="phyllo.for"/>
-		<File RelativePath="raicalc.for"/>
-		<File RelativePath="setup.for"/>
-		<File RelativePath="vernaliz.for"/></Filter></Files>
+		<File RelativePath=".\phenolcn.for"/>
+		<File RelativePath=".\phenolhm.for"/>
+		<File RelativePath=".\PhenologyMMS.for"/>
+		<File RelativePath=".\phenolpm.for"/>
+		<File RelativePath=".\phenolsb.for"/>
+		<File RelativePath=".\phenolsf.for"/>
+		<File RelativePath=".\phenolsg.for"/>
+		<File RelativePath=".\phenolsw.for"/>
+		<File RelativePath=".\phenolwb.for"/>
+		<File RelativePath=".\phenolww.for"/>
+		<File RelativePath=".\photoper.for"/>
+		<File RelativePath=".\phyllo.for"/>
+		<File RelativePath=".\raicalc.for"/>
+		<File RelativePath=".\setup.for"/>
+		<File RelativePath=".\vernaliz.for"/></Filter></Files>
 	<Globals/></VisualStudioProject>

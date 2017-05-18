@@ -1,7 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "PhenologyMMS", "PhenologyMMS.vfproj", "{56605A47-DE89-4744-81EB-CEF7AFBC1F33}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "PhenologyMMS", "PhenologyMMS.vfproj", "{AA84D71C-B172-4889-827F-73A6444532C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +11,11 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{56605A47-DE89-4744-81EB-CEF7AFBC1F33}.Debug|Win32.ActiveCfg = Debug|Win32
-		{56605A47-DE89-4744-81EB-CEF7AFBC1F33}.Debug|Win32.Build.0 = Debug|Win32
-		{56605A47-DE89-4744-81EB-CEF7AFBC1F33}.Release|Win32.ActiveCfg = Release|Win32
-		{56605A47-DE89-4744-81EB-CEF7AFBC1F33}.Release|Win32.Build.0 = Release|Win32
+		{AA84D71C-B172-4889-827F-73A6444532C9}.Debug|Win32.ActiveCfg = Release|Win32
+		{AA84D71C-B172-4889-827F-73A6444532C9}.Debug|Win32.Build.0 = Release|Win32
+		{AA84D71C-B172-4889-827F-73A6444532C9}.Debug|Win32.Deploy.0 = Release|Win32
+		{AA84D71C-B172-4889-827F-73A6444532C9}.Release|Win32.ActiveCfg = Release|Win32
+		{AA84D71C-B172-4889-827F-73A6444532C9}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

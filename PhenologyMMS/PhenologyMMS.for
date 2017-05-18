@@ -55,7 +55,7 @@
      c dgdde(20), dgdds(20), dgddv(20), dummy2(15), ecanht, elong, 
      c elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, gddtbg,
      c gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),  
-     c lnpout(60,2), maxht, nolvs, pchron, p1d, pdepth, precip, p1v, 
+     c lnpout(100,2), maxht, nolvs, pchron, p1d, pdepth, precip, p1v, 
      c radtodeg, ri, soil3t, tavg, tbase, tmax, tmin, todayln, 
      c toptlo, toptup, tupper, vernal,vd, vtbase, vtoptlo, vtoptup, 
      c vtupper, wfpslo(4), wfpsup(4), wlow, wup, yestln !vf, vf0,   
@@ -68,23 +68,36 @@
 
 !debe added egdd and ggdd arrays to be initialized in initcepv and then passed to emerge.
         REAL,DIMENSION(6) :: egdd,ggdd
-
-
+        
+!debe added the errorarr array to hold error numbers and messages to print in phenol.out      
+        CHARACTER,DIMENSION (20,20) ::errorarr
+        
 !debe added cliname to enable using the same climate file format as that used for UPGM.
 ! The header rows will be read in and not used. Cliname is the first header row.         
-      character *22  cliname, cname, dummy1(15), hemisp, outf, 
-     c pequation, soilwat(4), swtype, vname, weather
+      character *22  cname, cliname, dummy1(15), hemisp,  
+     c pequation, soilwat(4), swtype, vname
+       character *256 outf !trying to get the phenol.out to always be overwritten when a new run is made. Perhaps, the file path is too long?
+       
+! 9/4/14 GM, debe and Mike Herder set the weather variable to a string length of 110 to allow reading
+!   of the path name to include the state/region and the weather filename. The weather files are now located
+!   in a more detailed folder structure to work with the new interface programmed by Mike H.
+      character *110 weather
+      
+!  Logical variable to determine if the planting date was reached. 
+!      It is set to FALSE and will change to TRUE when the date is reached.      
+      logical planted
                
 ! Local variables
-      INTEGER,SAVE :: tempsw        
+      INTEGER,SAVE :: tempsw  
+      
 ! Initialize the variables in several init subroutines.
 
-      call initparm(cname, day, ecanht, elrate, germd, gmethod, hemisp, 
-     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, 
-     c pmethod, seedsw, swtype, tbase, toptlo, toptup, tupper, vname,
-     c weather, wlow, wup, year)
+      call initparm(cname, day, ecanht, elrate, errorarr, germd,  
+     c gmethod, hemisp, latitude, maxht, mo, noseeds, pdate, pdepth,  
+     c pequation, planted, pmethod, seedsw, swtype, tbase, toptlo, 
+     c toptup, tupper, vname, weather, wlow, wup, year)
      
-!debe added dry bean variables.     
+      !debe added dry bean variables to initgs.     
       call initgs(aifs, antes, antss, blstrs, boots, browns, cots,
      c dents, doughs, drs, dummy1, dummy2, ears, ems, endlgs, epods, 
      c eseeds, first7, fps, fullbs, germs, gpds, halfbs, heads, hrs, 
@@ -94,7 +107,7 @@
      
       call initday(daa, dae, dap, dav, daynum, ddae, ddap, ddav, 
      c dgdde, dgdds, dgddv, first1, first2, gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, outf, rowcntr, 
+     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, outf, rowcntr,  
      c todayln, yestln)
            
       call initcepv(canht, civilrise, cumvd, degtorad, devern, df, egdd,
@@ -137,10 +150,12 @@
      c weather, wfpslo, wfpsup, wlow, wup)
        
 ! Read from weather file here.  Will need to read in comment lines.
- 95   continue
+ 95   continue 
+            
+!       open (unit=14, file= weather, status='OLD')
        open (unit=14, file= 'MMSWeather/' // weather, status='OLD')
-
-          !debe added
+       
+       !debe added
           IF (daynum.eq.0) THEN !first day the climate file is read.
             READ (14,*) cliname
 !           READ (14,*) latitude !debe added-read in value from the climate file 
@@ -190,16 +205,39 @@
           print *, 'Variable soil3t is out of range in weather file'
             print *, 'daynum = ', daynum
       endif
+     
+!debe added the following check to determine if the planting date was reached in the
+!  chosen weather file/location. It will be checked every day until planting date is reached.
+   ! If it is reached, the logical variable 'planted' will be set to TRUE. 
+   ! Planted is initialized to FALSE in initparm.
+   ! This check is made so that if planting date is not found in the weather file, output.for
+   ! can write an error message to the phenol.out to alert the user that the weather file did
+   ! possess the planting date value.
+      if(planted .eq. .FALSE.) then
+         if(pdate .eq. daynum .and. pyear .eq. year) then !planting date is reached
+             planted = .TRUE.
+!             print*, 'planted = ', planted, 'daynum = ', daynum, 
+!     .          'year = ', year 
+         endif !ends pdate and pyear check
+        if (planted .eq. .FALSE.) then
+            errorarr(1,1) = '101'
+            errorarr(1,2) = 'The planting date was not reached. 
+     .       Choose another location/weather file or change the planting
+     .       date.' 
+        endif !ends check of value of planted variable   
+      endif !ends outer loop  
  
 !  If planting date (PDATE) has not been reached, then skip to next day by
 !  going to the end of this program:
-      if(pdate .ne. daynum .and. first1 .eq. 0)then
+      !  planting date has not yet occurred
+      if(pdate .ne. daynum .and. first1 .eq. 0)then 
        	go to 540
-      elseif (pyear .ne. year .and. first1 .eq. 0) then
+      elseif (pyear .ne. year .and. first1 .eq. 0) then !year is not the planting year.
         go to 540 
       else   
 	  first1 = 1
       endif
+      
 
 ! call daylen subroutine to calculate the day's daylength in hours
 !   initial daylength calculations (From UPGM) debe added.
@@ -264,15 +302,10 @@
         if ((vd .ge. p1v) .and. (verns .ne. daynum)) then 
 	      gddv = gddv + gddday !this is happening too early for single ridge in winter wheat
 		    dav = dav + 1
-!		    if (dav .eq. 1) then
-!		print *, 'in second if verns=',verns,'dav=',dav, 'vernal=',vernal,
-!     c 'daynum= ', daynum 
-!            endif   
 	  endif
 
 !Sum gdd and days after planting:      
 !debe don't allow planting day to count as one day after planting	
- !     print *, 'year = ', year, 'pyear = ', pyear
 	  if ((daynum .GT. pdate) .OR. (year .GT. pyear)) then
 	      gdds = gdds + gddday !moved gdds code inside the if statment
 	      dap = dap + 1        !to match the way it is done for gdde below
@@ -305,7 +338,7 @@
   
 !  Call the leafno subroutine to calculate the number of leaves once
 !  emergence has occurred for the leaf number output table.
-        call leafno (daynum, gdde, lnarray, lncntr, lnpout,  
+       call leafno (daynum, gdde, lnarray, lncntr, lnpout,  
      c               pchron, rowcntr, todayln, yestln )
 
 ! Calculate growing degree-days (GDDA) and # of days (DAA) after anthesis:
@@ -373,12 +406,17 @@
 
         !  Call the output file when simulation is done:
 !debe added dry bean variables.      
+!      print*, 'planted = ', planted, 'before the call to output'
+      
       call output(aifs, antes, antss, blstrs, boots, browns, 
      c canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav, dents, 
      c dgdde, dgdds, dgddv, doughs, drs, ears, ems, endlgs, epods, 
      c eseeds, fps, fullbs, gdda, gdde, gdds, gddv, gpds, halfbs, heads,
      c hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, 
      c lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, nolvs, 
-     c opens, outf, pchron, pdate, pyear, silks, srs, tis, tsints, tss,
-     c year, yelows)
+     c opens, outf, pchron, pdate, planted, pyear, silks, soilwat,  
+     c srs, tis, tsints, tss, weather, year, yelows)  
+      
+!DE added weather to be passed to output.for for sorghum probability runs. 
+      
       end program PhenologyMMS
