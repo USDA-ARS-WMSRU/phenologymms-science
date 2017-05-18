@@ -172,8 +172,8 @@
 	  endif
 	  
 
-! Once seedling emergence has occurred, call leaf number, phenology, 
-! and vernalization subroutines:
+! Once seedling emergence has occurred, call phenology, and 
+! vernalization subroutines:
 
       if (ems(1) .ne. 999) then       
 !  Call vernalization subroutine if vernalization requirement has not
@@ -202,12 +202,12 @@
 ! moved canopy height below updating of antss so that the current days value
 ! is input to canopy height.	
 !  Call canopy height subroutine  (DE added)
-             call canopyht(antss, canht, cname, dummy2, ems, gddday, 
-     c                     gdde, ies, joints, lf4s, maxht)
+      call canopyht(antss, canht, cname, dummy2, ems, gddday, gdde,  
+     c              ies, joints, lf4s, maxht)
 
 ! moved the call to phenol after other items above are updated to pass into
 ! phenol.
-         call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
+      call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
      c cname, dae, dap, dav, daynum, ddae, ddap, ddav, dents, dgdde, 
      c dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, first7, fps, 
      c fullbs, gdde, gdds, gddv, gpds, halfbs, heads, hrs, ies, ies2, 
@@ -223,7 +223,7 @@
 ! If harvest ripe has not been reached, go back and read in next day's
 ! weather:
 
-	  if (hrs(1) .eq. 999) go to 95
+	if (hrs(1) .eq. 999) go to 95
  
  640  continue
 

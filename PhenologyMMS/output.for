@@ -47,6 +47,7 @@
      c gddv, lnarray (400,2), lnpout(60,2), nolvs, pchron, rboots
       
       character *22  cname, outf 
+!     character *256 outf !de added not enough characters for the full path
       
 ! Initialize variables
 
@@ -831,6 +832,92 @@
      .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Harvest Ready',  18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, 
      .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Canopy Height (cm)', 11x, i6)
+
+      endif
+
+!This is the sunflower code copied in for beans. Change to bean appropriate code.      
+! Changed the growth stages names but these need to be confirmed and the
+! values are still not correct.
+! Growth stage variable names are not correct either.
+            if (cname .eq. 'Dry Beans') then
+      
+!  Write out a table with leaf numbers by DOY
+      do while (lnpout(j,2) .lt. dgdde(9)/pchron)
+        write (14,59) lnpout(j,1), lnpout(j,2)
+        j = j + 1
+      end do      
+
+! convert integer antss(1) to a real number
+      write(14,59) real (antss(1)), dgdde(9)/pchron
+59    format (40x, f5.1, 6x, f4.1) 
+
+      write (14, 79)
+79    format (/1x) ! write a blank line after outputting the 
+!      leaf number table
+      
+      write (14, 210) pdatearr(1), pdatearr(3), pdatearr(4),
+     .  ems(1), ems(3), ems(4), ddap(1), dgdds(1), 
+     .  lf4s(1), lf4s(3), lf4s(4), ddap(2), ddae(2), dgdds(2), 
+     .       dgdde(2), dgdde(2)/pchron,
+     .  lf8s(1), lf8s(3), lf8s(4), ddap(3), ddae(3), dgdds(3), dgdde(3),
+     .       dgdde(3)/pchron,
+     .  lf12s(1), lf12s(3), lf12s(4), ddap(4), ddae(4), dgdds(4), 
+     .       dgdde(4), dgdde(4)/pchron,
+     .  infls(1), infls(3), infls(4), ddap(5), ddae(5), dgdds(5), 
+     .       dgdde(5), dgdde(5)/pchron,     
+     .  ies(1), ies(3), ies(4), ddap(6), ddae(6), dgdds(6), dgdde(6), 
+     .       dgdde(6)/pchron,
+     .  ies2(1), ies2(3), ies2(4), ddap(7), ddae(7), dgdds(7), dgdde(7),
+     .       dgdde(7)/pchron,
+     .  opens(1), opens(3), opens(4), ddap(8), ddae(8), dgdds(8), 
+     .       dgdde(8), dgdde(8)/pchron,
+     .  antss(1), antss(3), antss(4), ddap(9), ddae(9), dgdds(9), 
+     .       dgdde(9), dgdde(9)/pchron,
+     .  antes(1), antes(3), antes(4), ddap(10), ddae(10), dgdds(10), 
+     .       dgdde(10), dgdde(9)/pchron,
+     .  yelows(1), yelows(3), yelows(4), ddap(11), ddae(11), dgdds(11), 
+     .       dgdde(11), dgdde(9)/pchron,
+     .  browns(1), browns(3), browns(4), ddap(12), ddae(12), dgdds(12), 
+     .       dgdde(12), dgdde(9)/pchron,
+     .  mats(1), mats(3), mats(4), ddap(13), ddae(13), dgdds(13), 
+     .       dgdde(13), dgdde(9)/pchron,
+     .  hrs(1), hrs(3), hrs(4), ddap(14), ddae(14), dgdds(14), 
+     .       dgdde(14), dgdde(9)/pchron,
+     .  icanht
+ 210	format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+     . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, /1x,     
+     . 'Emergence (VE)', 17x, i4, 2x, i2, '/', i2, 1x, i4, 13x, f6.1, 
+     .    /1x,
+     . 'Cotyledonary lvs (VC)', 10x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '1st trifoliolate lf (V1)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x,f6.1, 4x, f6.1, /1x,
+     . '2nd trifoliolate lf (V2)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '3rd trifoliolate lf (V3)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '4th trifoliolate lf (V4)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+!     . 'nth trifoliolate lvs', 11x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+!     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Bloom (R1)', 21x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Mid-full Flower (R2)', 11x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Early pod set (R3)', 13x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Mid pod set (R4)', 15x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x,
+     .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Early seed fill (R5)', 11x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Mid seed fill (R6)', 13x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Physiological maturity (R7)',  4x, i4, 2x, i2, '/', i2, 1x, i4, 
+     .    4x, i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Harvest Ready (R8)', 13x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Canopy Height (cm)', 11x, i6)
 
       endif

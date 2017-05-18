@@ -26,8 +26,12 @@
 
 
 !  Call appropriate crop canopy subroutine to calculate height
-    
-      if (cname .eq. 'Corn') then
+      if (cname .eq. 'Dry Beans') then
+
+	     call canopybn(antss, canht, dummy2, ems, gddday, gdde, 
+     c  lf4s, maxht)
+     
+      elseif (cname .eq. 'Corn') then
 
            call canopycn(antss, canht, dummy2, ems, gddday, gdde,   
      c ies, maxht)  

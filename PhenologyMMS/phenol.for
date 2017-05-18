@@ -57,8 +57,14 @@
       character *22  cname
 
 ! Call the correct phenology subroutine for the selected crop:
+!If beans: this is the sunflower code. Change to that appropriate for beans
+      if (cname .eq. 'Dry Beans') then
+	    call phenolbn(aepa, antes, antss, browns, dae, dap, daynum, ddae, 
+     c ddap, dgdde, dgdds, dummy2, first7, gdde, gdds, hrs, ies, ies2, 
+     c infls, lf12s, lf4s, lf8s, mats, opens, year, yelows)
+     
 ! If corn:
-      if (cname .eq. 'Corn') then
+      elseif (cname .eq. 'Corn') then
 	    call phenolcn(aepa, antss, blstrs, dae, dap, daynum, ddae, 
      c ddap, dents, dgdde, dgdds, doughs, dummy2, ears, first7, gdde, 
      c gdds, hrs, ies, lf12s, lf4s, mats, milks, silks, tsints, 

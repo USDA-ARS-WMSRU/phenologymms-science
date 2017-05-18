@@ -1,10 +1,10 @@
 Winter Wheat
 Generic
-Greeley_Gen_cli.txt
+Akron_7706.txt
 09
 15
-2001
-258
+2004
+259
 5
 133
 Optimum
