@@ -6,7 +6,9 @@
 !  *                                                                   *
 !  *********************************************************************
 ! This subroutine calculates the canopy height of sunflower in two stages.  
-! The first stage is  *** FINISH THIS DESCRIPTION ***
+! The first stage is from emergence to 8 cm (ecanht) in height within 400
+! GDD (gdds1). The second stage is from the 4th leaf stage and the start 
+! of anthesis.
 
 ! NOTE: Get the proper growth stages for gdds2 = ...
 
@@ -34,7 +36,7 @@
       ecanht = 15.
       gdds2 = 0.
 
-!  Growth Stage 1 - emergence to 8 cm (ecanht) in height within 400
+!  Stage 1 - emergence to 8 cm (ecanht) in height within 400
 !    GDD (gdds1).
 
 !  If emergence has occurred, grow plant to 4 leaf stage (=15 cm):
@@ -42,11 +44,11 @@
 !  Calculate the growth rate for stage 1
             hrate1 = ecanht / gdds1
       	    canht = canht + hrate1*gddday
-! Don't allow canopy to be greater than	
+!  Don't allow canopy to be greater than	
 !    maximum canopy height for emergence growth stage.   
 	    if(canht .gt. ecanht) canht = ecanht  
 	    
-!  Growth Stage 2 - between 4 leaf and the start of anthesis
+!  Stage 2 - between 4 leaf and the start of anthesis
 	elseif (lf4s(1) .ne. 999 .and. antss(1) .eq. 999) then
 !  Add the growth stages gdd from jointing to anthesis start	
          ! check if these are the correct dummy2 variables

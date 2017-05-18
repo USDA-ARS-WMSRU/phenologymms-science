@@ -6,7 +6,10 @@
 !  *                                                                   *
 !  *********************************************************************
 ! This subroutine calculates the canopy height of sorghum in two stages.  
-! The first stage is  *** FINISH THIS DESCRIPTION ***
+! The first stage is from emergence to 8 cm (ecanht) in height within 400
+! GDD (gdds1). The second stage is from jointing (assume growing point 
+! differentiation = start of internode elongation) and the start of 
+! anthesis (= first bloom).
 
 !  INPUTS:  antss(R), canht(C,R), dummy2(15)(R), ems(R), gddday(R), 
 !           gdde(R), joints(R), maxht(R)
@@ -30,7 +33,7 @@
       ecanht = 8.
       gdds2 = 0.
 
-!  Growth Stage 1 - emergence to 8 cm (ecanht) in height within 400
+!  Stage 1 - emergence to 8 cm (ecanht) in height within 400
 !    GDD (gdds1).
 
 !  If emergence has occurred, grow plant into rosette form height (=8 cm):
@@ -38,11 +41,11 @@
 !  Calculate the growth rate for stage 1
             hrate1 = ecanht / gdds1
       	    canht = canht + hrate1*gddday
-! Don't allow canopy to be greater than	
+!  Don't allow canopy to be greater than	
 !    maximum canopy height for emergence growth stage.   
 	    if(canht .gt. ecanht) canht = ecanht  
 	    
-!  Growth Stage 2 - between jointing (assume growing 
+!  Stage 2 - between jointing (assume growing 
 !  point differentiation = start of internode elongation) and the 
 !  start of anthesis (= first bloom)
 	elseif (joints(1) .ne. 999 .and. antss(1) .eq. 999) then

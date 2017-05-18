@@ -6,7 +6,9 @@
 !  *                                                                   *
 !  *********************************************************************
 ! This subroutine calculates the canopy height of corn in two stages.  
-! The first stage is  *** FINISH THIS DESCRIPTION ***
+! The first stage is emergence to 15 cm in height within summed
+! GDD (gdds1).  Growth stage 2 is from internode elongation to the 
+! start of anthesis. 
 
 ! NOTE: Get the proper growth stages for gdds2 = ...
 
@@ -32,7 +34,7 @@
       ecanht = 15.
       gdds2 = 0.  ! gdds = sum of GDD for growth stages in Stage 2
 
-!  Growth Stage 1 - emergence to 15 cm (ecanht) in height within summed
+!  Stage 1 - emergence to 15 cm (ecanht) in height within summed
 !    GDD (gdds1).
 
 !  If emergence has occurred, grow plant to 4th leaf stage from height (=15 cm):
@@ -40,11 +42,11 @@
 !  Calculate the growth rate for stage 1
             hrate1 = ecanht / gdds1
       	    canht = canht + hrate1*gddday
-! Don't allow canopy to be greater than	
+!  Don't allow canopy to be greater than	
 !    maximum canopy height for emergence growth stage.   
 	    if(canht .gt. ecanht) canht = ecanht  
 	    
-!  Growth Stage 2 - between internode elongation and the start of anthesis
+!  Stage 2 - between internode elongation and the start of anthesis
 	elseif (ies(1) .ne. 999 .and. antss(1) .eq. 999) then
 !  Add the growth stages gdd from internode elongation to anthesis start
 	
