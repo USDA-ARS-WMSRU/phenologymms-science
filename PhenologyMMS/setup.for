@@ -20,21 +20,25 @@
 !          pdepth(C,R), seedsw(C), soilwat(4)(C), wfpslo(4)(C), 
 !          wfpsup(4)(C) 
 
-      subroutine setup(cname, pday, dummy1, dummy2, elrate, ergdd, 
-     c germd, germgdd, gmethod, latitude, maxht, pmo, noseeds, 
-     c pchron, pdate, pdepth, pequation, pmethod, seedsw, soilwat, 
-     c swtype, tbase, toptlo, toptup, tupper, vname, weather, wfpslo,
-     c wfpsup, wlow, wup, pyear)
+      subroutine setup(cname, devern, dummy1, dummy2, ecanht, elrate, 
+     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht, 
+     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, pmethod, 
+     c pmo, pyear, seedsw, soilwat, swtype, tbase, tempsw, toptlo, 
+     c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
+     c weather,  wfpslo, wfpsup, wlow, wup)
   
       implicit none
       
       integer  pday, gmethod, pmo, noseeds, pdate, pmethod,
-     c seedsw, pyear
+     c seedsw, pyear, tempsw
           
-      real  dummy2(15), elrate, ergdd(4), germd, germgdd(4),  
-     c latitude, maxht, pchron, pdepth, tbase, toptlo, toptup, tupper, 
-     c wfpslo(4), wfpsup(4), wlow, wup
-!debe 020309 moved pdepth to real instead of integer      
+      real  devern, dummy2(15), ecanht, elrate, ergdd(4), gdds1, gdds2, 
+     c germd, germgdd(4), latitude, maxht, p1v, pchron, pdepth, tbase, 
+     c toptlo, toptup, tupper, vtbase, vtoptlo, vtoptup, 
+     c vtupper, wfpslo(4), wfpsup(4), wlow, wup
+!debe 020309 moved pdepth to real instead of integer   
+!debe added tempsw so that it can be set to the value read in for seedsw and thereby initialized.
+   
       character *22  cname, dummy1(15), pequation, soilwat(4), swtype, 
      c vname, weather
       
@@ -45,14 +49,15 @@
       row = 4
 
 ! Read inputs and parameters from interface via TINPUTS.TXT file:
-!   Probably need to give path for TINPUTS.TXT file?
+! debe changed the extension of the tinputs file to .dat
 
-      open (unit = 1, file = 'tinputs.txt', status = 'OLD')
+!      open (unit = 1, file = 'tinputs.txt', status = 'OLD')
+      open (unit = 1, file = 'tinputs.dat', status = 'OLD')
 
 ! Read in crop name (must match specific name in input file to interface):
 !      call echo(1)
 	read (1,'(a22)') cname
-
+      print *, 'cname = ', cname
 ! Read in variety name (must match specific name in input file to interface):
 	read (1,'(a22)') vname
 
@@ -85,6 +90,18 @@
 	elseif(seedbed .eq. 'Planted') then
 	   seedsw = 4
 	endif  
+
+! set the value of tempsw initially to be equal to the value of seedsw that is read in.
+!try the following to give tempsw a value that will work with the six element arrays in Emerge
+      IF (seedsw.EQ.1) THEN
+          tempsw = 1
+      ELSEIF (seedsw.EQ.2) THEN
+          tempsw = 3
+      ELSEIF (seedsw.EQ.3) THEN
+          tempsw = 5
+      ELSEIF (seedsw.EQ.4) THEN
+          tempsw = 6
+      ENDIF
 	
 ! Read in values from emergence data table written to tinputs.
 ! Put these values into 5 one dimensional arrays.
@@ -115,7 +132,7 @@
 ! Read in lower optimum temperature (C):
 	read (1,*) toptlo
 
-! Read in upper optimum temperature	
+! Read in upper optimum temperature	(C):
 	read (1,*) toptup
 
 ! Read in upper threshold temperature (C):
@@ -123,24 +140,98 @@
 	
 ! Read in phyllochron value	
 	read (1,*) pchron
-      print *, 'pchron = ', pchron
       
 ! Read in maximum canopy height(cm):
-      read (1,*) maxht   
+      read (1,*) maxht  
+       
+! Read in vernalization values:  
+!   read in required vernalization days:
+      read (1,*) p1v
+      
+!   read in base temperature below which no vernalization is achieved (C): 
+      read (1,*) vtbase
+      
+!   read in lower optimum temperature for vernalization (C):
+      read (1,*) vtoptlo
+      
+!   read in upper optimum temperature for vernalization (C):      
+      read (1,*) vtoptup
+      
+!   read in upper temperature limit above which no vernalization 
+!    is achieved (C):      
+      read (1,*) vtupper
+      
+!   read in temperature above which de-vernalization can occur (C):      
+      read (1,*) devern
 
-! Read in phenology parameters.
+! read in ecanht the maximum canopy height for phase 1 canopy height growth
+      read (1,*) ecanht
+
+! Read in phenology parameters:
 ! This will need to be done differently when phyllochron equations are used:
       do 100 i = 1, 15
          read (1,*) dummy1(i), dummy2(i)
-!                      print *, 'dummy2(i) = ', dummy2(i)              
          if (dummy1(i) .eq. 'LN' .or. dummy1(i) .eq. 'LS')then
              dummy2(i) = dummy2(i) * pchron
 
          endif
-
  100	   continue
    
-      Close (Unit = 1)
+      Close (Unit = 1) !close tinputs file
+
+!debe added: initialize gdds1 and gdds2 based on crop name. 6/9/11
+! set gdds1 value
+      IF (cname.EQ.'Corn') THEN
+          gdds1 = (dummy2(2)+dummy2(5))
+      ELSEIF (cname.EQ.'Dry Beans') THEN
+          gdds1 = dummy2(2)
+      ELSEIF (cname.EQ.'Hay Millet') THEN
+          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5)) 
+      ELSEIF (cname.EQ.'Proso Millet') THEN
+          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))  
+      ELSEIF (cname.EQ.'Sorghum') THEN
+          gdds1 = dummy2(3)
+      ELSEIF (cname.EQ.'Spring Barley') THEN
+          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5)) 
+      ELSEIF (cname.EQ.'spring wheat') THEN
+          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))  
+      ELSEIF (cname.EQ.'Sunflower') THEN
+          gdds1 = dummy2(2)
+      ELSEIF (cname.EQ.'Winter Barley') THEN
+          gdds1 = (dummy2(2)+dummy2(3)+dummy2(4)+dummy2(5)) 
+      ELSEIF (cname.EQ.'Winter Wheat') THEN
+          gdds1 = (dummy2(2)+dummy2(3)+dummy2(4)+dummy2(5))  
+      ENDIF
+
+!set gdds2 value
+        ! with corn's correct growth stages: de changed 8/15/08, 10/27/08, 3/20/09
+        ! add the dummy2 elements for the appropriate stages. using gddwsf resulted in the sum
+        ! to be divided in the hrate calculations being too large because the value for antss
+        ! position 7 was 0.0 until the stage was reached.
+
+            IF (cname.EQ.'Corn') THEN
+          gdds2 = (dummy2(6)+dummy2(7))-(dummy2(5))
+      ELSEIF (cname.EQ.'Dry Beans') THEN
+          gdds2 = (dummy2(3)+dummy2(4)+dummy2(5)+dummy2(6)+dummy2(7)+
+     c    dummy2(8)+dummy2(9)) 
+      ELSEIF (cname.EQ.'Hay Millet') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      ELSEIF (cname.EQ.'Proso Millet') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      ELSEIF (cname.EQ.'Sorghum') THEN
+          gdds2 = (dummy2(5)+dummy2(6)+dummy2(7)-dummy2(3)) ! equals 215
+      ELSEIF (cname.EQ.'Spring Barley') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      ELSEIF (cname.EQ.'Spring Wheat') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      ELSEIF (cname.EQ.'Sunflower') THEN !check if this is when max sunflower canopy height is reached (stage8)
+          gdds2 = (dummy2(3)+dummy2(4)+dummy2(5)+dummy2(6)+dummy2(7)+
+     c    dummy2(8)+dummy2(9))
+      ELSEIF (cname.EQ.'Winter Barley') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      ELSEIF (cname.EQ.'Winter Wheat') THEN
+          gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
+      END IF
 
       return
       end

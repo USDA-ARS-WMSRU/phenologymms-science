@@ -18,8 +18,8 @@
  
 	
       subroutine initcepv(canht, civilrise, cumvd, degtorad, devern, df,
-     c elong, ergdd, germgdd, hrlt, nai, pchron, pd, p1v, radtodeg,   
-     c rai, soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
+     c egdd, elong, ergdd, germgdd, ggdd,  hrlt, nai, pchron, pd, p1v, 
+     c radtodeg,   rai, soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
      c vtupper, wai, wfpslo, wfpsup) 	!vf, vf0, 
     
 
@@ -31,7 +31,11 @@
      c ergdd(4), germgdd(4), hrlt, pchron, pd, p1v, radtodeg, vd, 
      c vernal, vtbase, vtoptlo, vtoptup, vtupper, wfpslo(4), 
      c wfpsup(4) !vf, vf0, 
-      
+
+!debe added the arrays egdd and ggdd to be initialized, passed back to 
+! PhenologyMMS and then to Emerge.
+      REAL,DIMENSION(6) :: egdd, ggdd
+
       character *22  soilwat(4)
 
 !  Local Variables
@@ -51,13 +55,19 @@
       elong = 0.0
       
 ! Initialize emergence arrays      
-        do 50 i = 1, 4
+      do 50 i = 1, 4
         soilwat(i) = ""
         ergdd(i) = 0.0
         germgdd(i) = 0.0
         wfpslo(i) = 0.0
         wfpsup(i) = 0.0
  50   continue       
+
+      do 60 i = 1, 6
+        egdd(i) = 0.0
+        ggdd(i) = 0.0        	
+ 60	continue
+                    
       
 !  Phyllochron Variables
       pchron = 0.0  

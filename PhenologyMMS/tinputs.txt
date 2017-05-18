@@ -1,10 +1,10 @@
 Winter Wheat
 Generic
-DrakeFarm_7707.txt
+Greeley_9210.dat
 09
 15
-2004
-259
+2001
+258
 5
 133
 Optimum
@@ -36,6 +36,12 @@ Planted in dust
 40
 105.0
 90.0
+50.0
+-5.0
+0.0
+10.0
+15.0
+30.0
 GN 100
 GN 200
 GN 180

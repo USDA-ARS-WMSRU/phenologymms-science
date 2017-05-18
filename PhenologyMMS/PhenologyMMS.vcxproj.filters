@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{daa57782-be5d-46f9-b16a-7fa3e63ae175}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;f90;for;f;fpp</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{d82afdfc-3f69-4397-9e78-43d40490a2e6}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;fi;fd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{aa65fd6a-9302-424b-81ef-8ea5490eb56e}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="canopycn.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopyhm.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopyht.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopypm.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopysb.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopysf.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopysg.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopysw.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopywb.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="canopyww.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="convtogdd.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="date1.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="daylth.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="echo.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="emerge.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="gddcalc.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="init.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="output.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenol.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolcn.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolhm.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="PhenologyMMS.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolpm.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolsb.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolsf.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolsg.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolsw.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolwb.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phenolww.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="phyllo.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="raicalc.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="setup.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="vernaliz.for">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

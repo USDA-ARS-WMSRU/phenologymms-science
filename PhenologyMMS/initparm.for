@@ -22,16 +22,16 @@
 !           tbase(C), topt(C), tupper(C), vname(C), weather(C), wlow(C),
 !           wup(C), year(C)  
  
-      subroutine initparm(cname, day, elrate, germd, gmethod, hemisp, 
-     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, pmethod,
-     c seedsw, swtype, tbase, toptlo, toptup, tupper, vname, weather, 
-     c wlow, wup, year)
+      subroutine initparm(cname, day, ecanht, elrate, germd, gmethod,  
+     c hemisp, latitude, maxht, mo, noseeds, pdate, pdepth, pequation, 
+     c pmethod, seedsw, swtype, tbase, toptlo, toptup, tupper,  
+     c vname, weather, wlow, wup, year)
      
       implicit none
       
       integer  day, gmethod, mo, noseeds, pdate, pmethod, seedsw, year  
           
-      real  elrate, germd, latitude, maxht, pdepth,
+      real  ecanht, elrate, germd, latitude, maxht, pdepth, 
      c tbase, toptlo, toptup, tupper, wlow, wup
 !debe 020309 moved pdepth to real from integer
 
@@ -55,6 +55,7 @@
       
 !  General Input Parameters
       day = 0
+      ecanht = 0.0
       gmethod = 0
       latitude = 0.0
       maxht = 0.0

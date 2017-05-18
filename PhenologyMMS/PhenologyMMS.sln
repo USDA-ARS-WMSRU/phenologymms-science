@@ -1,5 +1,6 @@
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{6989167D-11E4-40FE-8C1A-2192A86A7E90}") = "PhenologyMMS", "PhenologyMMS.vfproj", "{56605A47-DE89-4744-81EB-CEF7AFBC1F33}"
 EndProject
 Global

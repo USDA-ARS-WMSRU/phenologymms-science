@@ -27,17 +27,7 @@
 		<Filter Name="Header Files" Filter="h;hpp;hxx;hm;inl;fi;fd"/>
 		<Filter Name="Resource Files" Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"/>
 		<Filter Name="Source Files" Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;f90;for;f;fpp">
-		<File RelativePath=".\canopybn.for"/>
-		<File RelativePath="canopycn.for"/>
-		<File RelativePath="canopyhm.for"/>
 		<File RelativePath="canopyht.for"/>
-		<File RelativePath="canopypm.for"/>
-		<File RelativePath="canopysb.for"/>
-		<File RelativePath="canopysf.for"/>
-		<File RelativePath="canopysg.for"/>
-		<File RelativePath="canopysw.for"/>
-		<File RelativePath="canopywb.for"/>
-		<File RelativePath="canopyww.for"/>
 		<File RelativePath="date1.for"/>
 		<File RelativePath=".\daylen.f90"/>
 		<File RelativePath="daylenth.for"/>

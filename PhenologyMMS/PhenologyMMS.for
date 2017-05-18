@@ -34,37 +34,55 @@
      c ddap(20), ddav(20), dents(4), doughs(4), drs(4), ears(4), ems(4),
      c endlgs(4), epods(4), eseeds(4), first1, first2, first7, fps(4), 
      c fullbs(4), germs(4), gmethod, gpds(4), halfbs(4), heads(4), 
-     c hrs(4), ies(4), ies2(4), infls(4), joints(4), lf1s(4), lf12s(4), 
-     c lf2s(4), lf3s(4), lf4s(4), lf8s(4), lncntr, mats(4), mffls(4), 
-     c milks(4), mo, mpods(4), mseeds(4), pmo, mon, nai, noseeds, 
-     c opens(4), pdate, pday, pmethod, rai, rowcntr, seedsw, 
-     c silks(4), srs(4), tis(4), tsints(4), tss(4), verns, wai, pyear,
-     c year, yelows(4)  
+     c hrs(4), idx, ies(4), ies2(4), infls(4), joints(4), lf1s(4), 
+     c lf12s(4), lf2s(4), lf3s(4), lf4s(4), lf8s(4), lncntr, mats(4), 
+     c mffls(4), milks(4), mo, mpods(4), mseeds(4), pmo, mon, nai, 
+     c noseeds, opens(4), pdate, pday, pmethod, rai, rowcntr, seedsw, 
+     c silks(4), srs(4), tis(4), tsints(4), tss(4), uuday,
+     c uumonth, uuyear, verns, wai, pyear,year, yelows(4) !tempsw,  
 !debe added variables for dry beans. 
-         
-      real  aepa, canht, civilrise, cumvd, daylen, daylth, degtorad, 
-     c devern, df, dgdde(20), dgdds(20), dgddv(20), dummy2(15), elong, 
-     c elrate, ergdd(4), gdda, gddday, gdde, gdds, gddtbg, gddv, germd, 
-     c germgdd(4), hrlt, latitude, lnarray(400,2), lnpout(60,2), maxht, 
-     c nolvs, pchron, p1d, pdepth, precip, p1v, radtodeg, ri, soil3t, 
-     c tavg, tbase, tmax, tmin, todayln, toptlo, toptup, tupper, vernal,
-     c vd, vtbase, vtoptlo, vtoptup, vtupper, wfpslo(4), 
-     c wfpsup(4), wlow, wup, yestln !vf, vf0,   
+!debe added uuday, uumonth, uuyear for the day, month and year variables 
+! that are read in from the climate file (needed in the UPGM model) but not
+! used in PhenologyMMS. The variable idx is added to enable reading the 
+! header information from the climate file. idx is the counter for the three 
+! arrays that will hold the tmax, tmin and precip averages.
+!debe added gdds1 and gdds2 to be initialized in initparm and passed on to 
+!canopyht rather than calculating the same values each day of the run. 6/9/11
+!debe added tempsw for emerge subroutine. It is initialized to the value read in 
+! for seedsw in Setup.         
+      real  aepa,  aveprecip(12), avetmax(12), avetmin(12), canht, 
+     c civilrise, cumvd, daylen, daylth, degtorad, devern, df, 
+     c dgdde(20), dgdds(20), dgddv(20), dummy2(15), ecanht, elong, 
+     c elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, gddtbg,
+     c gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),  
+     c lnpout(60,2), maxht, nolvs, pchron, p1d, pdepth, precip, p1v, 
+     c radtodeg, ri, soil3t, tavg, tbase, tmax, tmin, todayln, 
+     c toptlo, toptup, tupper, vernal,vd, vtbase, vtoptlo, vtoptup, 
+     c vtupper, wfpslo(4), wfpsup(4), wlow, wup, yestln !vf, vf0,   
      
 !debe moved pdepth to real from integer.
 !debe added variables for photoperiod: civilrise, hrlt, daylen, df
+!debe added the variables for average tmax, tmin and average precip that will 
+! be used in reading in the header information from the climate file. These variables
+! are aveprecip, avetmax, avetmin
 
-         
-      character *22  cname, dummy1(15), hemisp, outf, pequation, 
-     c soilwat(4), swtype, vname, weather
+!debe added egdd and ggdd arrays to be initialized in initcepv and then passed to emerge.
+        REAL,DIMENSION(6) :: egdd,ggdd
+
+
+!debe added cliname to enable using the same climate file format as that used for UPGM.
+! The header rows will be read in and not used. Cliname is the first header row.         
+      character *22  cliname, cname, dummy1(15), hemisp, outf, 
+     c pequation, soilwat(4), swtype, vname, weather
                
-        
+! Local variables
+      INTEGER,SAVE :: tempsw        
 ! Initialize the variables in several init subroutines.
 
-      call initparm(cname, day, elrate, germd, gmethod, hemisp, 
-     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, pmethod,
-     c seedsw, swtype, tbase, toptlo, toptup, tupper, vname, weather, 
-     c wlow, wup, year)
+      call initparm(cname, day, ecanht, elrate, germd, gmethod, hemisp, 
+     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, 
+     c pmethod, seedsw, swtype, tbase, toptlo, toptup, tupper, vname,
+     c weather, wlow, wup, year)
      
 !debe added dry bean variables.     
       call initgs(aifs, antes, antss, blstrs, boots, browns, cots,
@@ -79,12 +97,13 @@
      c gddtbg, gddv, lnarray, lncntr, lnpout, mon, outf, rowcntr, 
      c todayln, yestln)
            
-      call initcepv(canht, civilrise, cumvd, degtorad, devern, df,  
-     c elong, ergdd, germgdd, hrlt, nai, pchron, p1d, p1v, radtodeg, 
-     c rai,soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
+      call initcepv(canht, civilrise, cumvd, degtorad, devern, df, egdd,
+     c elong, ergdd, germgdd, ggdd, hrlt, nai, pchron, p1d, p1v, 
+     c radtodeg, rai,soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
      c vtupper, wai, wfpslo, wfpsup) !vf, vf0, 
      
-      call initwthr(precip, ri, soil3t, tavg, tmax, tmin)
+      call initwthr(aveprecip, avetmax, avetmin, precip, ri, soil3t, 
+     c              tavg, tmax, tmin, uuday, uumonth, uuyear)
       
 !debe added the photoperiod coefficient to be set here:
       p1d = 30.0 
@@ -93,71 +112,94 @@
 !Set p1v and vf0 for vernalization. This doesn't need to be done every day.
 !  p1v is the vernalization coefficient and should be read in from a file.
 !  For now, hardwire it here. 
-      p1v = 50
+      !p1v = 50
 ! vf0 is the relative development rate when the crop is unvernalized	
 !      vf0 = 1-(p1v/50)
 !Need to read in vtbase, vtoptlo, vtoptup, vtupper from a file. Read in 
 !devern value too. These are constant values for a crop and only need to 
 !be read in once.
 !For now hardwire these values as follows:
-      vtbase = -5.0
-      vtoptlo = 0.0
-      vtoptup = 15.0
-      vtupper = 30.0
+!      vtbase = -5.0
+!      vtoptlo = 0.0
+!      vtoptup = 15.0
+!      vtupper = 30.0
 !devern - value above which devernalization occurs
-      devern = 30.0
+    !  devern = 30.0
 ! End of initializing routines and variables
             
 !  Call SETUP to read in various input files and set model up for running.
 !   Start with weather in declaring the variables type up above.
-      call setup(cname, pday, dummy1, dummy2, elrate, ergdd, 
-     c germd, germgdd, gmethod, latitude, maxht, pmo, noseeds, 
-     c pchron, pdate, pdepth, pequation, pmethod, seedsw, soilwat, 
-     c swtype, tbase, toptlo, toptup, tupper, vname, weather, wfpslo,
-     c wfpsup, wlow, wup, pyear)
+      call setup(cname, devern, dummy1, dummy2, elrate, ecanht, 
+     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht, 
+     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, pmethod, 
+     c pmo, pyear, seedsw, soilwat, swtype, tbase, tempsw, toptlo,  
+     c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
+     c weather, wfpslo, wfpsup, wlow, wup)
 
 ! Read from weather file here.  Will need to read in comment lines.
  95   continue
        open (unit=14, file= 'MMSWeather/' // weather, status='OLD')
 
-      read(14,*,end=640,err=101) year,daynum,tmax,tmin,ri,precip,soil3t 
-                 
+          !debe added
+          IF (daynum.eq.0) THEN !first day the climate file is read.
+            READ (14,*) cliname
+            READ (14,*) (avetmax(idx),idx=1,12)
+            READ (14,*) (avetmin(idx),idx=1,12)
+            READ (14,*) (aveprecip(idx),idx=1,12)
+
+          ENDIF
+
+            read(14,*,end=640,err=101) uuday,uumonth,uuyear, 
+     c                        precip,tmax,tmin, ri,year,daynum,soil3t
+          
+! debe uuday, uumonth, uuyear are the 'unused' day, month, and year variables that are read in
+! from the climate file that now has the merged format enabling use of the same climate files 
+! in more than one model, currently, PhenologyMMS and UPGM.
+
+!convert solar radiation to the units need by PhenologyMMS MJ/m^2/day
+      if (ri .ne. 999.9) then
+        ri = ri / 23.895
+      endif
+
 ! Do error checking on input weather variables
+!DE made changes below to allow the use of 999.9 for missing data
       if ((year .lt. 0000) .or. (year .gt. 2100)) then
           print *, 'Variable year is out of range in weather file'
             print *, 'year = ', year
       elseif ((daynum .lt. 1) .or. (daynum .gt. 366)) then
           print *, 'Variable daynum is out of range in weather file'
 	      print *, 'daynum = ', daynum 
-      elseif ((tmax .lt. -50.0) .or. (tmax .gt. 60.0)) then
+      elseif (((tmax .lt. -50.0) .or. (tmax .gt. 60.0)) .and. 
+     c (tmax.ne.999.9)) then
           print *, 'Variable tmax is out of range in weather file'
 	      print *, 'daynum = ', daynum
-      elseif ((tmin .lt. -50.0) .or. (tmin .gt. 60.0)) then
+      elseif (((tmin .lt. -50.0) .or. (tmin .gt. 60.0)) .and.
+     c (tmin.ne.999.9)) then
           print *, 'Variable tmin is out of range in weather file'
 	      print *, 'daynum = ', daynum	      	     
-      elseif ((ri.ne.999.9).and.((ri .lt. 0.0).or.(ri.gt.41.7))) then
+      elseif (((ri .lt. 0.0).or.(ri.gt. 41.7)) .and. (ri.ne.999.9)) then
           print *, 'Variable ri is out of range in weather file'
+            print *, 'ri = ', ri
 	      print *, 'daynum = ', daynum
-!DE changed next statement to .gt. 9999.9 to test weather file	      
-      elseif ((precip .lt. 0.0) .or. (precip .gt. 9999.9)) then
+      elseif ((precip .lt. 0.0) .or. (precip .gt. 999.9)) then
           print *, 'Variable precip is out of range in weather file'
 	      print *, 'daynum = ', daynum
       elseif ((soil3t.ne.999.9).and.((soil3t.lt.-50.0).or.
      .	  (soil3t.gt.60.0))) then
-        print *, 'Variable soil3t is out of range in weather file'
-        print *, 'daynum = ', daynum
+          print *, 'Variable soil3t is out of range in weather file'
+            print *, 'daynum = ', daynum
       endif
  
 !  If planting date (PDATE) has not been reached, then skip to next day by
 !  going to the end of this program:
       if(pdate .ne. daynum .and. first1 .eq. 0)then
-      	go to 540
+       	go to 540
       elseif (pyear .ne. year .and. first1 .eq. 0) then
         go to 540 
       else   
 	  first1 = 1
       endif
-      
+
 ! call daylen subroutine to calculate the day's daylength in hours
 !   initial daylength calculations (From UPGM) debe added.
 !   Variable definitions:
@@ -185,7 +227,7 @@
 ! Call vernaliz to calculate the vernalization factor. 
 ! When vd is equal to or greater than 40.0 for winter wheat, don't call 
 ! vernaliz any more.
-        if(vd .LT. 50.0) then  
+        if(vd .LT. p1v) then  
           call vernaliz(cumvd, daynum, devern, hemisp, tmax, tmin, vd, 
      c    vtbase, vtoptlo, vtoptup, vtupper) !vernal, verns, 
           vd = vd + cumvd  
@@ -212,13 +254,13 @@
 ! Calculate growing degree-days (GDDV) and number of days after
 ! vernalization requirement was satisfied (DAV) for all crops.
    !   print*,'before first if vernal =', vernal
-        if ((vd .ge. 50.0) .and. (vernal .eq. 0)) then
+        if ((vd .ge. p1v) .and. (vernal .eq. 0)) then
             verns = daynum
             vernal = 1
   !      print *, 'in first if verns = ', verns
         endif
         
-        if ((vd .ge. 50.0) .and. (verns .ne. daynum)) then 
+        if ((vd .ge. p1v) .and. (verns .ne. daynum)) then 
 	      gddv = gddv + gddday !this is happening too early for single ridge in winter wheat
 		    dav = dav + 1
 !		    if (dav .eq. 1) then
@@ -234,19 +276,18 @@
 	      gdds = gdds + gddday !moved gdds code inside the if statment
 	      dap = dap + 1        !to match the way it is done for gdde below
 	  endif
-!	  print*, 'dap = ', dap, 'gddday = ', gddday
-  !      print *, 'daynum = ', daynum, 'gddday = ', gddday
 
-!  Determine if seedling emergence has occurred:
-      call emerge(dap, daynum, ddap, dgdds, elong, ems, ergdd,
-     c gddday, gdds, gddtbg, germgdd, germs, pdepth, precip, seedsw, 
-     c year)
+!NEW WAY: 
+      call emerge(dap, daynum, ddap, dgdds, egdd, elong, ems, ergdd,
+     c gddday, gddtbg, germgdd, germs, ggdd, pdepth, precip, tempsw,
+     c year) 
+!debe added egdd and ggdd being initialized in initcepv and sent to Emerge.
 
 !Is this next if statement needed? first2 is not used.
 ! The day that 50% seedling emergence has occurred, call PHYLLO:
-      if (ems(1) .ne. 999 .and. first2 .eq. 0) then
-	      first2 = 1
-	endif
+!!!      if (ems(1) .ne. 999 .and. first2 .eq. 0) then
+!!!	      first2 = 1
+!!!	endif
 	
 !  Accumulate GDD from emergence (GDDE) and days after emergence (DAE)
 !  once it has occurred, but don't include the day of emergence in the
@@ -272,12 +313,6 @@
 		  	daa = daa + 1
 	  endif
 
-! moved canopy height below updating of antss so that the current days value
-! is input to canopy height.	
-!  Call canopy height subroutine  (DE added)
-        call canopyht(antss, canht, cname, cots, dummy2, ems, 
-     c                gddday, gdde, ies, joints, lf4s, maxht)
-
 ! moved the call to phenol after other items above are updated to pass into
 ! phenol. debe added dry bean variables.
         call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
@@ -287,7 +322,37 @@
      c   heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, 
      c   lf4s, lf8s, mats, mffls, milks, mpods, mseeds, nolvs, opens, 
      c   pchron, silks, srs, tis, tsints, tss, year, yelows)
+     
+! moved canopy height below updating of antss so that the current days value
+! is input to canopy height.	
 
+!  Call canopy height subroutine  (DE added)
+! moved canopy height after call to phenol so that today's values for the stages that are
+! passed to canopyht are updated.
+
+
+!NEW way of calling canopyht
+!debe changed to setting value of gdds1 and gdds2 in setup and passing to canopyht.
+      IF (antss(1).EQ.999) THEN
+        IF ((cname.EQ.'Corn') .OR. (cname.EQ.'Sorghum')) THEN
+            CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1,
+     c                    gdds2,ies,maxht)
+        ELSE IF (cname.EQ.'Dry Beans') THEN
+            CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1,
+     c                    gdds2,cots,maxht)
+        ELSE IF ((cname.EQ.'Spring Barley').OR.
+     c             (cname.EQ.'Winter Barley')) THEN
+            CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1, 
+     c                    gdds2,aifs,maxht)
+        ELSE IF (cname.EQ.'Sunflower') THEN
+            CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1, 
+     c                    gdds2,lf4s,maxht)
+        ELSE    
+!rest of the crops: hay millet, proso millet, spring wheat, winter wheat
+            CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1, 
+     c                    gdds2,tss,maxht)
+        ENDIF !end if for cname
+      ENDIF !end if for antss
 	endif	 
 
 !  Go back and read the next day's weather. When harvest ripe has been
@@ -303,6 +368,7 @@
  640  continue
 
  101  continue
+        !print *, 'error in weather file daynum = ', daynum, year       
 
 !  Call the output file when simulation is done:
 !debe added dry bean variables.      
@@ -314,5 +380,4 @@
      c lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, nolvs, 
      c opens, outf, pchron, pdate, pyear, silks, srs, tis, tsints, tss,
      c year, yelows)
-
       end program PhenologyMMS

@@ -1,11 +1,11 @@
 Corn
-Generic
-Shelton_9106.txt
-04
-25
-2004
-116
-4.5
+100-Day
+ARDEC_9210.txt
+05
+08
+2007
+128
+5.0
 8
 Optimum
 Optimum
@@ -36,19 +36,25 @@ Planted in dust
 40
 35.0
 190.0
+0.0
+-5.0
+0.0
+10.0
+15.0
+30.0
 GN 25
 GN 140
 GN 70
 GN 75
 GN 80
 GN 280
-GN 350
-GN 350
-GN 165
-GN 110
-GN 80
-GN 165
-GN 200
+GN 280
+GN 280
+GN 149
+GN 99
+GN 72
+GN 149
+GN 181
 GN 100
 GN  0.
 

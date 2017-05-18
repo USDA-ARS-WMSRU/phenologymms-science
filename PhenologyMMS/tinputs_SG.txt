@@ -1,11 +1,11 @@
 Sorghum
-Generic
-Akron_7706.txt
+Medium Maturity
+Colby_8506.txt
 05
 28
-2006
+1986
 148
-2
+5
 19
 Optimum
 Optimum
@@ -14,12 +14,12 @@ Optimum
 40.0
 1.5
 Medium
-30.0
+35.0
 45.0
 50.0
 1.0
 Dry
-23.0
+25.0
 35.0
 70.0
 0.6
@@ -32,20 +32,26 @@ Planted in dust
 2
 10
 25
-25
 30
-105.0
-90.0
+40
+45.0
+150.0
+0.0
+-5.0
+0.0
+10.0
+15.0
+30.0
 GN 100
-GN 200
-GN 175
-GN 130
-GN 175
-GN 175
+GN 135
+GN 499
+GN 45
+GN 450
+GN 184
+GN 80
+GN 80
 GN 120
-GN 110
-GN 140
-GN 650
+GN 525
 GN 300
 GN  0.
 GN  0.
