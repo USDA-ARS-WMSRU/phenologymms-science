@@ -33,20 +33,24 @@
 !           tipasf(R), tis(R), tspacn(R), tspasf(R), tss(R)
 
       subroutine phenol(aepa, aifs, antes, antss, blstrs, boots, browns,
-     c cname, dae, dap, dav, daynum, ddae, ddap, ddav, dents, dgdde, 
-     c dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, first7, fps, 
-     c fullbs, gdde, gdds, gddv, gpds, halfbs, heads, hrs, ies, ies2, 
-     c infls, joints, lf12s, lf4s, lf8s, mats, milks, nolvs, opens, 
+     c cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, dents, 
+     c dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, epods, 
+     c eseeds, first7, fps, fullbs, gdde, gdds, gddv, gpds, halfbs, 
+     c heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, 
+     c lf4s, lf8s, mats, mffls, milks, mpods, mseeds, nolvs, opens, 
      c pchron, silks, srs, tis, tsints, tss, year, yelows)
+!debe added dry bean variables
 
       implicit none
       
       integer  aifs(4), antes(4), antss(4), blstrs(4), boots(4), 
-     c browns(4), dae, dap, dav, daynum, ddae(20), ddap(20), ddav(20), 
-     c dents(4), doughs(4), drs(4), ears(4), endlgs(4), first7, fps(4),
-     c fullbs(4),gpds(4), halfbs(4), heads(4), hrs(4), ies(4), ies2(4),
-     c infls(4), joints(4), lf12s(4), lf4s(4), lf8s(4), milks(4), 
-     c mats(4), opens(4), silks(4), srs(4), tis(4), tsints(4), tss(4), 
+     c browns(4), cots(4), dae, dap, dav, daynum, ddae(20), ddap(20), 
+     c ddav(20), dents(4), doughs(4), drs(4), ears(4), endlgs(4), 
+     c epods(4), eseeds(4), first7, fps(4), fullbs(4), gpds(4), 
+     c halfbs(4), heads(4), hrs(4), ies(4), ies2(4), infls(4), 
+     c joints(4), lf1s(4), lf12s(4), lf2s(4), lf3s(4), lf4s(4), 
+     c lf8s(4), mats(4), mffls(4), milks(4), mpods(4), mseeds(4), 
+     c opens(4), silks(4), srs(4), tis(4), tsints(4), tss(4), 
      c year, yelows(4)
      
           
@@ -55,21 +59,21 @@
      
 
       character *22  cname
-
-! Call the correct phenology subroutine for the selected crop:
-!If beans: this is the sunflower code. Change to that appropriate for beans
-      if (cname .eq. 'Dry Beans') then
-	    call phenolbn(aepa, antes, antss, browns, dae, dap, daynum, ddae, 
-     c ddap, dgdde, dgdds, dummy2, first7, gdde, gdds, hrs, ies, ies2, 
-     c infls, lf12s, lf4s, lf8s, mats, opens, year, yelows)
-     
+      
+ ! Call the correct phenology subroutine for the selected crop:
 ! If corn:
-      elseif (cname .eq. 'Corn') then
+      if (cname .eq. 'Corn') then
 	    call phenolcn(aepa, antss, blstrs, dae, dap, daynum, ddae, 
      c ddap, dents, dgdde, dgdds, doughs, dummy2, ears, first7, gdde, 
      c gdds, hrs, ies, lf12s, lf4s, mats, milks, silks, tsints, 
      c year) 
      
+!If beans: debe added variables for dry beans
+      elseif (cname .eq. 'Dry Beans') then
+	    call phenolbn(aepa, antss, cots, dae, dap, daynum, ddae, ddap, 
+     c dgdde, dgdds, dummy2, epods, eseeds, first7, gdde, gdds, hrs, 
+     c lf1s, lf2s, lf3s, lf4s, mats, mffls, mpods, mseeds, year) 
+    
 ! If hay millet:
       elseif(cname .eq. 'Hay Millet') then
 	    call phenolhm(aepa, antes, antss, boots, dae, dap,  

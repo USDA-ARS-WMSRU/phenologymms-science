@@ -38,8 +38,10 @@
       ln = 0.0     ! leaf number
       col = 1      ! column number one
       nextcol = 2  ! column number two
-           
-! Fill arrays      
+      
+                
+! Fill arrays 
+!         print *, 'in leafno and lncntr = ', lncntr, 'daynum = ', daynum   
         ln = gdde/pchron  ! Calculate leaf number for current day
         lncntr = lncntr + 1 ! increment counter
         lnarray (lncntr,col) = daynum ! Fill leaf number array 

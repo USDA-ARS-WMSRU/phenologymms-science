@@ -13,12 +13,13 @@
 
 !  OUTPUTS: canht(C,R), 
 
-      subroutine canopyht(antss, canht, cname, dummy2, ems, gddday, 
-     c                     gdde, ies, joints, lf4s, maxht)
+      subroutine canopyht(antss, canht, cname, cots, dummy2, ems, 
+     c                     gddday, gdde, ies, joints, lf4s, maxht)
 
       implicit none
       
-      integer  antss(4), ems(4), ies(4), joints(4), lf4s(4), daynum
+      integer  antss(4), cots(4), ems(4), ies(4), joints(4), lf4s(4), 
+     c daynum
       
       real  canht, dummy2(15), gddday, gdde, maxht
 
@@ -26,15 +27,17 @@
 
 
 !  Call appropriate crop canopy subroutine to calculate height
-      if (cname .eq. 'Dry Beans') then
-
-	     call canopybn(antss, canht, dummy2, ems, gddday, gdde, 
-     c  lf4s, maxht)
      
-      elseif (cname .eq. 'Corn') then
+      if (cname .eq. 'Corn') then
 
            call canopycn(antss, canht, dummy2, ems, gddday, gdde,   
      c ies, maxht)  
+     
+!debe added variables for dry beans     
+      elseif (cname .eq. 'Dry Beans') then
+
+	     call canopybn(antss, canht, cots, dummy2, ems, gddday, 
+     c gdde, maxht)
            
       elseif (cname .eq. 'Hay Millet') then
 

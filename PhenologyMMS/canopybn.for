@@ -5,8 +5,6 @@
 !  *                                                                   *
 !  *                                                                   *
 !  *********************************************************************
-!NOTE: Correct code for beans needs to be added to this code.  This is 
-!simply the sunflower code copied in here. 
 !
 !This subroutine calculates the canopy height of beans in two stages.  
 ! The first stage is from emergence to 8 cm (ecanht) in height within 400
@@ -20,12 +18,12 @@
 
 !  OUTPUTS: canht(C,R)
 
-      subroutine canopybn(antss, canht, dummy2, ems, gddday, gdde, 
-     c  lf4s, maxht)
+      subroutine canopybn(antss, canht, cots, dummy2, ems, gddday, gdde,
+     c  maxht)
 
       implicit none
 
-      integer  antss(4), ems(4), lf4s(4)
+      integer  antss(4), cots(4), ems(4)
       
       real  canht, dummy2(15), gddday, gdde, maxht
       
@@ -36,13 +34,13 @@
               !check if these are the right dummy2 variables
        !gdds1 = gdd for Stage 1        
       gdds1 = (dummy2(2))! + dummy2(3) + dummy2(4))
-      ecanht = 15.
+      ecanht = 8.
       gdds2 = 0.
 
-!  Stage 1 - emergence to 8 cm (ecanht) in height within 400
+!  Stage 1 - emergence to 8 cm (ecanht) in height within 400 (?)
 !    GDD (gdds1).
 
-!  If emergence has occurred, grow plant to 4 leaf stage (=15 cm):
+!  If emergence has occurred, grow plant to cotyledonary stage (=8 cm):
       if (ems(1).ne.999.and.gdde .lt. gdds1) then
 !  Calculate the growth rate for stage 1
             hrate1 = ecanht / gdds1
@@ -51,12 +49,13 @@
 !    maximum canopy height for emergence growth stage.   
 	    if(canht .gt. ecanht) canht = ecanht  
 	    
-!  Stage 2 - between 4 leaf and the start of anthesis
-	elseif (lf4s(1) .ne. 999 .and. antss(1) .eq. 999) then
-!  Add the growth stages gdd from jointing to anthesis start	
+!  Stage 2 - between cotyledonary stage and the start of anthesis
+	elseif (cots(1) .ne. 999 .and. antss(1) .eq. 999) then
+!  Add the growth stages gdd from 1st trifoliolate leaf to anthesis 
+!  start (bloom)	
          ! check if these are the correct dummy2 variables
           gdds2 = dummy2(3) + dummy2(4) + dummy2(5)!de add
-     c             + dummy2(6)+ dummy2(7)+ dummy2(8)+ dummy2(9)
+     c             + dummy2(6)+ dummy2(7) !+ dummy2(8)+ dummy2(9)
      
 !  Calculate the growth rate for this phase of canopy ht. growth
           hrate2 = (maxht - ecanht) / gdds2

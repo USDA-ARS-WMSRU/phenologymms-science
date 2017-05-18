@@ -22,15 +22,16 @@
 !          ies(C,R), joints(C,R), mats(C,R), srs(C,R), tis(C,R), 
 !          tss(C,R)
               
-      subroutine phenolbn(aepa, antes, antss, browns, dae, dap, daynum, 
-     c ddae, ddap, dgdde, dgdds, dummy2, first7, gdde, gdds, hrs, ies, 
-     c ies2, infls, lf12s, lf4s, lf8s, mats, opens, year, yelows)
+      subroutine phenolbn(aepa, antss, cots, dae, dap, daynum, ddae, 
+     c ddap, dgdde, dgdds, dummy2, epods, eseeds, first7, gdde, gdds, 
+     c hrs, lf1s, lf2s, lf3s, lf4s, mats, mffls, mpods, mseeds, year)
      
       implicit none
 
-      integer  antes(4), antss(4), browns(4), dae, dap, daynum, 
-     c ddae(20), ddap(20), first7, hrs(4), ies(4), ies2(4), infls(4), 
-     c lf12s(4), lf4s(4), lf8s(4), mats(4), opens(4), year, yelows(4)  
+      integer  antss(4), cots(4), dae, dap, daynum, 
+     c ddae(20), ddap(20), epods(4), eseeds(4), first7, hrs(4), 
+     c lf1s(4), lf2s(4), lf3s(4), lf4s(4), mats(4), mffls(4), mpods(4), 
+     c mseeds(4), year 
          
       real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, gdds
 
@@ -40,182 +41,166 @@
         first7 = 1
       endif
 
-!  4th leaf stage - V4
-
-      if ((lf4s(1) .eq. 999) .and. (gdde .ge. dummy2(2))) then
-          lf4s(1) = daynum
-          lf4s(2) = year
-          call date1(lf4s)
+!  Cotyledonary leaf stage - VC
+      if ((cots(1) .eq. 999) .and. (gdde .ge. dummy2(2))) then
+          cots(1) = daynum
+          cots(2) = year
+          call date1(cots)
 	     ddap(2) = dap
 	     ddae(2) = dae
 	     dgdds(2) = gdds
 	     dgdde(2) = gdde
-	     print *, 'lf4s = ', lf4s
+	     print *, 'cots = ', cots
          go to 150
       endif
 
-! 8th leaf stage - V8
-      if ((lf8s(1) .eq. 999) .and. (gdde .ge. dummy2(2) + dummy2(3))) 
+! 1st trifoliolate leaf stage - V1
+      if ((lf1s(1) .eq. 999) .and. (gdde .ge. dummy2(2) + dummy2(3))) 
      c  then
-          lf8s(1) = daynum
-          lf8s(2) = year
-          call date1(lf8s)
+          lf1s(1) = daynum
+          lf1s(2) = year
+          call date1(lf1s)
 	     ddap(3) = dap
 	     ddae(3) = dae
 	     dgdds(3) = gdds
 	     dgdde(3) = gdde
-		 print *, 'lf8s = ', lf8s
+		 print *, 'lf1s = ', lf1s
          go to 150
 
       endif
 
-! 12th leaf stage - V12
-
-      if ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
+! 2nd trifoliolate leaf stage - V2
+      if ((lf2s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
      c dummy2(4))))  then
-          lf12s(1) = daynum
-          lf12s(2) = year
-          call date1(lf12s)
+          lf2s(1) = daynum
+          lf2s(2) = year
+          call date1(lf2s)
 	     ddap(4) = dap
 	     ddae(4) = dae
 	     dgdds(4) = gdds
 	     dgdde(4) = gdde
-	     print *, 'lf12s = ', lf12s
+	     print *, 'lf2s = ', lf2s
          go to 150
 
       endif
 
-!  Inflorescence becomes visible - R1
-
-      if ((infls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
+!  3rd trifoliolate leaf stage - V3
+      if ((lf3s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
      1  dummy2(4) + dummy2(5)) )) then
-          infls(1) = daynum
-          infls(2) = year
-          call date1(infls)
+          lf3s(1) = daynum
+          lf3s(2) = year
+          call date1(lf3s)
 	     ddap(5) = dap
 	     ddae(5) = dae
 	     dgdds(5) = gdds
 	     dgdde(5) = gdde
-	     print *, 'infls = ', infls
+	     print *, 'lf3s = ', lf3s
       endif
 
-!  Start of internode elongation directly below the base of the 
-!  inflorescence - R2
-
-      if ((ies(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
+!  4th trifoliolate leaf stage - V4
+      if ((lf4s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
      c dummy2(4) + dummy2(5) + dummy2(6)) )) then
-          ies(1) = daynum
-          ies(2) = year
-          call date1(ies)
+          lf4s(1) = daynum
+          lf4s(2) = year
+          call date1(lf4s)
 	       ddap(6) = dap
 	       ddae(6) = dae
 	       dgdds(6) = gdds
 	       dgdde(6) = gdde
-	       print *, 'ies = ', ies
+	       print *, 'lf4s = ', lf4s
       endif
 
-!  Internode elongation continues.  The internode below the 
-!  reproductive bud continues to elongate and the inflorescence is lifted 
-!  more than 2 cm above the surrounding leaves. - R3
-
-         if ((ies2(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) 
+!  One open flower per plant - 100% bloom. Anthesis begins. - R1
+         if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3)
      c     + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)) )) then
-              ies2(1) = daynum
-              ies2(2) = year
-              call date1(ies2)
+              antss(1) = daynum
+              antss(2) = year
+              call date1(antss)
 	         ddap(7) = dap
 	         ddae(7) = dae
 	         dgdds(7) = gdds
 	         dgdde(7) = gdde
-	         print *, 'ies2 = ', ies2
+	         print *, 'antss = ', antss
  
       endif
 
-!  The inflorescence begins to open and small ray flowers are visible - R4
-
-      if ((opens(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
+!  Mid - full flower period - R2
+      if ((mffls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8)))) 
      c     then
-              opens(1) = daynum
-              opens(2) = year
-              call date1(opens)
+              mffls(1) = daynum
+              mffls(2) = year
+              call date1(mffls)
 	         ddap(8) = dap
 	         ddae(8) = dae
 	         dgdds(8) = gdds
 	         dgdde(8) = gdde
-		     print *, 'opens = ', opens
+		     print *, 'mffls = ', mffls
       endif
       
 150   continue
 
-!  Anthesis begins.  The mature ray flowers are fully extended
-!  and the disk flowers are visible - R5.
-
-      if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
+!  One pod is at the maximum length (early pod set) - R3
+      if ((epods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9)))) then
-              antss(1) = daynum
-              antss(2) = year
-              call date1(antss)
+              epods(1) = daynum
+              epods(2) = year
+              call date1(epods)
 	         ddap(9) = dap
 	         ddae(9) = dae
 	         dgdds(9) = gdds
 	         dgdde(9) = gdde
-	         print *, 'antss = ', antss
+	         print *, 'epods = ', epods
 
       endif
 
-!  Anthesis is complete.  The ray flowers are wilting. - R6
-
-      if ((antes(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
+!  50% of the pods are at maximum length (mid pod set) R4
+      if ((mpods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9) + dummy2(10)))) then
-              antes(1) = daynum
-              antes(2) = year
-              call date1(antes)
+              mpods(1) = daynum
+              mpods(2) = year
+              call date1(mpods)
 	         ddap(10) = dap
 	         ddae(10) = dae
 	         dgdds(10) = gdds
 	         dgdde(10) = gdde
-	         print *, 'antes = ', antes
+	         print *, 'mpods = ', mpods
       endif
 
-!  The back of the inflorescence is turning to a light yellow color. - R7
-
-      if ((yelows(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
+!  One pod has fully developed seeds (early seed fill) - R5
+      if ((eseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9) + dummy2(10) + dummy2(11)))) 
      c then
-              yelows(1) = daynum
-              yelows(2) = year
-              call date1(yelows)
+              eseeds(1) = daynum
+              eseeds(2) = year
+              call date1(eseeds)
 	         ddap(11) = dap
 	         ddae(11) = dae
 	         dgdds(11) = gdds
 	         dgdde(11) = gdde
-	         print *, 'yelows = ', yelows
+	         print *, 'eseeds = ', eseeds
       endif
 
-!  The back of the inflorescence is yellow but the bracts are still green.  
-!  There may be some brown spotting on the back of the head. - R8
+!  50% of pods have fully developed seeds (mid seed fill) - R6
 
-      if ((browns(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
+      if ((mseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12)))) then
-              browns(1) = daynum
-              browns(2) = year
-              call date1(browns)
+              mseeds(1) = daynum
+              mseeds(2) = year
+              call date1(mseeds)
 	         ddap(12) = dap
 	         ddae(12) = dae
 	         dgdds(12) = gdds
 	         dgdde(12) = gdde
-	         print *, 'browns = ', browns
+	         print *, 'mseeds = ', mseeds
 
       endif
 
-!  Physiological maturity.  The bracts are yellow and brown and much of the back of 
-!  the head may be brown. - R9
-
+!  One pod has changed color/striped (physiological maturity) - R7
       if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13))
@@ -231,8 +216,7 @@
 
       endif
       
-!  Harvest Ready.  
-
+!  80% of the pods are at the mature color (harvest ready) - R8  
       if ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
      c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
      c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13)

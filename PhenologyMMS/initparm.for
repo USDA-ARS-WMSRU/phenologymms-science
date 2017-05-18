@@ -22,9 +22,8 @@
 !           tbase(C), topt(C), tupper(C), vname(C), weather(C), wlow(C),
 !           wup(C), year(C)  
  
-	
       subroutine initparm(cname, day, elrate, germd, gmethod, hemisp, 
-     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, pmethod, 
+     c latitude, maxht, mo, noseeds, pdate, pdepth, pequation, pmethod,
      c seedsw, swtype, tbase, toptlo, toptup, tupper, vname, weather, 
      c wlow, wup, year)
      
@@ -32,10 +31,10 @@
       
       integer  day, gmethod, mo, noseeds, pdate, pmethod, seedsw, year  
           
-      real  elrate, germd, latitude, maxht, pdepth, tbase, toptlo, 
-     c toptup, tupper, wlow, wup
+      real  elrate, germd, latitude, maxht, pdepth,
+     c tbase, toptlo, toptup, tupper, wlow, wup
 !debe 020309 moved pdepth to real from integer
-      
+
       character *22  cname, hemisp, pequation, swtype, vname, 
      c weather
 

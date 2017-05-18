@@ -21,22 +21,26 @@
 !           nolvs(C), srs(C), tis(C), tss(C), verns(C)  
  
 	
-      subroutine initgs(aifs, antes, antss, blstrs, boots, browns, 
-     c dents, doughs, drs, dummy1, dummy2, ears, ems, endlgs, first7, 
-     c fps, fullbs, germs, gpds, halfbs, heads, hrs, ies, ies2, infls, 
-     c joints, lf12s, lf4s, lf8s, mats, milks, nolvs, opens, silks, srs,
+      subroutine initgs(aifs, antes, antss, blstrs, boots, browns, cots,
+     c dents, doughs, drs, dummy1, dummy2, ears, ems, endlgs, epods, 
+     c eseeds, first7, fps, fullbs, germs, gpds, halfbs, heads, hrs, 
+     c ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, lf8s, 
+     c mats, mffls, milks, mpods, mseeds, nolvs, opens, silks, srs,
      c tis, tsints, tss, verns, yelows)
+     
+! debe added dry beans variables
      
 
       implicit none
       
       integer  aifs(4), antes(4), antss(4), blstrs(4), boots(4), 
-     c browns(4), d, dents(4), dn, doughs(4), drs(4), ears(4), ems(4), 
-     c endlgs(4), first7, fps(4), fullbs(4), germs(4), gpds(4), 
-     c halfbs(4), heads(4), hrs(4), i, ies(4), ies2(4), infls(4), 
-     c joints(4), lf12s(4), lf4s(4), lf8s(4), m, mats(4), milks(4), 
-     c nolvs, opens(4), silks(4), srs(4), tis(4), tsints(4), tss(4), 
-     c verns, y, yelows(4) 
+     c browns(4), cots(4), d, dents(4), dn, doughs(4), drs(4), ears(4), 
+     c ems(4), endlgs(4), epods(4), eseeds(4), first7, fps(4), 
+     c fullbs(4), germs(4), gpds(4), halfbs(4), heads(4), hrs(4), i, 
+     c ies(4), ies2(4), infls(4), joints(4), lf1s(4), lf12s(4), lf2s(4),
+     c lf3s(4), lf4s(4), lf8s(4), m, mats(4), mffls(4), milks(4), 
+     c mpods(4), mseeds(4), nolvs, opens(4), silks(4), srs(4), tis(4), 
+     c tsints(4), tss(4), verns, y, yelows(4) 
      
       real dummy2(15)
       
@@ -70,13 +74,16 @@
          antss(i) = dn  
          blstrs(i) = dn
          browns(i) = dn 
-         boots(i) = dn  
+         boots(i) = dn
+         cots(i) = dn  
          dents(i) = dn
          doughs(i) = dn       
          drs(i) = dn
          ears(i) = dn 
          ems(i) = dn
          endlgs(i) = dn
+         epods(i) = dn
+         eseeds(i) = dn
          fps(i) = dn
          fullbs(i) = dn
          germs(i) = dn
@@ -88,11 +95,17 @@
          ies2(i) = dn 
          infls(i) = dn
          joints(i) = dn
+         lf1s(i) = dn
          lf12s(i) = dn
+         lf2s(i) = dn
+         lf3s(i) = dn
          lf4s(i) = dn
          lf8s(i) = dn
          mats(i) = dn
+         mffls(i) = dn
          milks(i) = dn
+         mpods(i) = dn
+         mseeds(i) = dn
          opens(i) = dn
          silks(i) = dn 
          srs(i) = dn
@@ -107,12 +120,15 @@
          blstrs(i) = y
          browns(i) = y
          boots(i) = y
+         cots(i) = dn
          dents(i) = y
          doughs(i) = y
          drs(i) = y
          ears(i) = y 
          ems(i) = y
          endlgs(i) = y
+         epods(i) = y
+         eseeds(i) = y
          fps(i) = y
          fullbs(i) = y
          germs(i) = y
@@ -124,11 +140,17 @@
          ies2(i) = y
          infls(i) = y
          joints(i) = y
+         lf1s(i) = y
          lf12s(i) = y
+         lf2s(i) = y
+         lf3s(i) = y
          lf4s(i) = y
          lf8s(i) = y
          mats(i) = y
+         mffls(i) = y
          milks(i) = y
+         mpods(i) = y
+         mseeds(i) = y
          opens(i) = y
          silks(i) = y
          srs(i) = y
@@ -143,12 +165,15 @@
          blstrs(i) = m
          browns(i) = m
          boots(i) = m
+         cots(i) = m
          dents(i) = m
          doughs(i) = m
          drs(i) = m
          ears(i) = m 
          ems(i) = m
          endlgs(i) = m
+         epods(i) = m
+         eseeds(i) = m
          fps(i) = m
          fullbs(i) = m
          germs(i) = m
@@ -160,11 +185,17 @@
          ies2(i) = m
          infls(i) = m
          joints(i) = m
+         lf1s(i) = m
          lf12s(i) = m
+         lf2s(i) = m
+         lf3s(i) = m
          lf4s(i) = m
          lf8s(i) = m
          mats(i) = m
+         mffls(i) = m
          milks(i) = m
+         mpods(i) = m
+         mseeds(i) = m
          opens(i) = m
          silks(i) = m
          srs(i) = m
@@ -179,12 +210,15 @@
          blstrs(i) = d
          browns(i) = d
          boots(i) = d 
+         cots(i) = d
          dents(i) = d
          doughs(i) = d
          drs(i) = d
          ears(i) = d 
          ems(i) = d
          endlgs(i) = d
+         epods(i) = d
+         eseeds(i) = d
          fps(i) = d
          fullbs(i) = d
          germs(i) = d
@@ -196,11 +230,17 @@
          ies2(i) = d
          infls(i) = d 
          joints(i) = d
+         lf1s(i) = d
          lf12s(i) = d
+         lf2s(i) = d
+         lf3s(i) = d
          lf4s(i) = d
          lf8s(i) = d
          mats(i) = d
+         mffls(i) = d
          milks(i) = d
+         mpods(i) = d
+         mseeds(i) = d
          opens(i) = d
          silks(i) = d
          srs(i) = d

@@ -39,12 +39,15 @@
 		<File RelativePath="canopywb.for"/>
 		<File RelativePath="canopyww.for"/>
 		<File RelativePath="date1.for"/>
+		<File RelativePath=".\daylen.f90"/>
 		<File RelativePath="daylenth.for"/>
 		<File RelativePath="daylth.for">
 			<FileConfiguration Name="Release|Win32" ExcludedFromBuild="true"/></File>
+		<File RelativePath=".\declination.f90"/>
 		<File RelativePath="echo.for"/>
 		<File RelativePath="emerge.for"/>
 		<File RelativePath="gddcalc.for"/>
+		<File RelativePath=".\hourangle.f90"/>
 		<File RelativePath="initcepv.for"/>
 		<File RelativePath="initday.for"/>
 		<File RelativePath="initgs.for"/>

@@ -98,6 +98,7 @@
 	rowcntr = 0
 	todayln = 0.0
 	yestln = 0.0
+
 	
       return
       end
