@@ -32,14 +32,14 @@
       integer  pday, gmethod, pmo, noseeds, pdate, pmethod,
      c seedsw, pyear, tempsw
           
-      real  devern, dummy2(15), ecanht, elrate, ergdd(4), gdds1, gdds2, 
+      real  devern, dummy2(16), ecanht, elrate, ergdd(4), gdds1, gdds2, 
      c germd, germgdd(4), latitude, maxht, p1v, pchron, pdepth, tbase, 
      c toptlo, toptup, tupper, vtbase, vtoptlo, vtoptup, 
      c vtupper, wfpslo(4), wfpsup(4), wlow, wup
 !debe 020309 moved pdepth to real instead of integer   
 !debe added tempsw so that it can be set to the value read in for seedsw and thereby initialized.
    
-      character *22  cname, dummy1(15), pequation, soilwat(4), swtype, 
+      character *22  cname, dummy1(16), pequation, soilwat(4), swtype, 
      c vname
       
 ! 9/4/14 GM, debe and Mike Herder set the weather variable to a string length of 110 to allow reading
@@ -78,7 +78,8 @@
 ! Change when working right in program, where month and day converted to
 !   daynum and pdate = this daynum:
 	read (1,*) pmo, pday, pyear, pdate
-
+!      print *, 'after reading tinputs in setup.for: pdate = ', pdate
+      
 ! Read in planting depth (cm) and convert to mm:
 	read (1,*) pdepth
 !	    pdepth = pdepth * 10.
@@ -178,7 +179,7 @@
 
 ! Read in phenology parameters:
 ! This will need to be done differently when phyllochron equations are used:
-      do 100 i = 1, 15
+      do 100 i = 1, 16
          read (1,*) dummy1(i), dummy2(i)
          if (dummy1(i) .eq. 'LN' .or. dummy1(i) .eq. 'LS')then
              dummy2(i) = dummy2(i) * pchron
@@ -200,9 +201,11 @@
           gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))  
       ELSEIF (cname.EQ.'Sorghum') THEN
           gdds1 = dummy2(3)
+      ELSEIF (cname.EQ.'Soybean') THEN
+          gdds1 = dummy2(2)    
       ELSEIF (cname.EQ.'Spring Barley') THEN
           gdds1 = (dummy2(3)+dummy2(4)+dummy2(5)) 
-      ELSEIF (cname.EQ.'spring wheat') THEN
+      ELSEIF (cname.EQ.'Spring Wheat') THEN
           gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))  
       ELSEIF (cname.EQ.'Sunflower') THEN
           gdds1 = dummy2(2)
@@ -229,6 +232,9 @@
           gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
       ELSEIF (cname.EQ.'Sorghum') THEN
           gdds2 = (dummy2(5)+dummy2(6)+dummy2(7)-dummy2(3)) ! equals 215
+      ELSEIF (cname.EQ.'Soybean') THEN
+          gdds2 = (dummy2(3)+dummy2(4)+dummy2(5)+dummy2(6)+dummy2(7)+
+     c    dummy2(8)+dummy2(9)+dummy2(10)+dummy2(11)+dummy2(12)) 
       ELSEIF (cname.EQ.'Spring Barley') THEN
           gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
       ELSEIF (cname.EQ.'Spring Wheat') THEN

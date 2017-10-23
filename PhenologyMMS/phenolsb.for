@@ -33,7 +33,7 @@
      c heads(4), hrs(4), ies(4), joints(4), mats(4), srs(4), tis(4), 
      c year  
 
-      real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, 
+      real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, 
      c gdds, nolvs, pchron    
 
       if (first7 .eq. 0) then

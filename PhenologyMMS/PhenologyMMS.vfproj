@@ -14,7 +14,7 @@
 				<Tool Name="VFPostBuildEventTool"/>
 				<Tool Name="VFManifestTool" SuppressStartupBanner="true"/></Configuration>
 		<Configuration Name="Release|Win32">
-				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" RuntimeLibrary="rtMultiThreadedDLL"/>
+				<Tool Name="VFFortranCompilerTool" SuppressStartupBanner="true" WarnInterfaces="true" RuntimeLibrary="rtMultiThreadedDLL"/>
 				<Tool Name="VFLinkerTool" LinkIncremental="linkIncrementalNo" SuppressStartupBanner="true" SubSystem="subSystemConsole"/>
 				<Tool Name="VFResourceCompilerTool"/>
 				<Tool Name="VFMidlTool" SuppressStartupBanner="true"/>
@@ -54,6 +54,7 @@
 		<File RelativePath=".\phenolsf.for"/>
 		<File RelativePath=".\phenolsg.for"/>
 		<File RelativePath=".\phenolsw.for"/>
+		<File RelativePath=".\phenolsy.for"/>
 		<File RelativePath=".\phenolwb.for"/>
 		<File RelativePath=".\phenolww.for"/>
 		<File RelativePath=".\photoper.for"/>

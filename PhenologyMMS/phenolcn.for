@@ -34,7 +34,7 @@
      c lf12s(4), lf4s(4), mats(4), milks(4), silks(4), 
      c tsints(4), year  
     
-      real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, gdds
+      real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, gdds
 
 ! Check what aepa should be set to for corn.  
 !   aepa = anthesis end parameter     

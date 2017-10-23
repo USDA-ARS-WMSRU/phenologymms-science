@@ -29,18 +29,19 @@
 
 	implicit none
 
-      integer  aifs(4), antes(4), antss(4), blstrs(4), boots(4), 
-     c browns(4), cots(4), daa, dae, dap, dav, day, daynum, ddae(20), 
-     c ddap(20), ddav(20), dents(4), doughs(4), drs(4), ears(4), ems(4),
-     c endlgs(4), epods(4), eseeds(4), first1, first2, first7, fps(4), 
-     c fullbs(4), germs(4), gmethod, gpds(4), halfbs(4), heads(4), 
-     c hrs(4), idx, ies(4), ies2(4), infls(4), joints(4), lf1s(4), 
-     c lf12s(4), lf2s(4), lf3s(4), lf4s(4), lf8s(4), lncntr, mats(4), 
-     c mffls(4), milks(4), mo, mpods(4), mseeds(4), pmo, mon, nai, 
-     c noseeds, opens(4), pdate, pday, pmethod, rai, rowcntr, seedsw, 
-     c silks(4), srs(4), tis(4), tsints(4), tss(4), uuday,
-     c uumonth, uuyear, verns, wai, pyear,year, yelows(4) !tempsw,  
-!debe added variables for dry beans. 
+      integer  aifs(4), antes(4), antss(4), blstrs(4), bmats(4), 
+     c boots(4), browns(4), cots(4), daa, dae, dap, dav, day, daynum, 
+     c ddae(20), ddap(20), ddav(20), dents(4), doughs(4), drs(4), 
+     c ears(4), ems(4), endlgs(4), epods(4), eseeds(4), first1, first2, 
+     c first7, fps(4), fullbs(4), germs(4), gmethod, gpds(4), halfbs(4),
+     c heads(4), hrs(4), idx, ies(4), ies2(4), infls(4), joints(4), 
+     c lf1s(4), lf12s(4), lf2s(4), lf3s(4), lf4s(4), lf5s(4), lf8s(4), 
+     c lncntr, mats(4), mffls(4), milks(4), mo, mpods(4), mseeds(4),  
+     c pmo, mon, nai, noseeds, opens(4), pdate, pday, pmethod, rai,  
+     c rowcntr, seedsw, silks(4), srs(4), tis(4), tsints(4), tss(4), 
+     c uuday, uumonth, uuyear, verns, wai, pyear,year, yelows(4) !tempsw,  
+!debe added variables for dry beans. Oct, 2017 - added 2 new variables for 
+!soybeans, used dry bean variables for the other soybean stages.
 !debe added uuday, uumonth, uuyear for the day, month and year variables 
 ! that are read in from the climate file (needed in the UPGM model) but not
 ! used in PhenologyMMS. The variable idx is added to enable reading the 
@@ -52,7 +53,7 @@
 ! for seedsw in Setup.         
       real  aepa,  aveprecip(12), avetmax(12), avetmin(12), canht, 
      c civilrise, cumvd, daylen, daylth, degtorad, devern, df, 
-     c dgdde(20), dgdds(20), dgddv(20), dummy2(15), ecanht, elong, 
+     c dgdde(20), dgdds(20), dgddv(20), dummy2(16), ecanht, elong, 
      c elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, gddtbg,
      c gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),  
      c lnpout(100,2), maxht, nolvs, pchron, p1d, pdepth, precip, p1v, 
@@ -74,7 +75,7 @@
         
 !debe added cliname to enable using the same climate file format as that used for UPGM.
 ! The header rows will be read in and not used. Cliname is the first header row.         
-      character *22  cname, cliname, dummy1(15), hemisp,  
+      character *22  cname, cliname, dummy1(16), hemisp,  
      c pequation, soilwat(4), swtype, vname
        character *256 outf !trying to get the phenol.out to always be overwritten when a new run is made. Perhaps, the file path is too long?
        
@@ -96,14 +97,17 @@
      c gmethod, hemisp, latitude, maxht, mo, noseeds, pdate, pdepth,  
      c pequation, planted, pmethod, seedsw, swtype, tbase, toptlo, 
      c toptup, tupper, vname, weather, wlow, wup, year)
-     
-      !debe added dry bean variables to initgs.     
-      call initgs(aifs, antes, antss, blstrs, boots, browns, cots,
-     c dents, doughs, drs, dummy1, dummy2, ears, ems, endlgs, epods, 
-     c eseeds, first7, fps, fullbs, germs, gpds, halfbs, heads, hrs, 
-     c ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, lf8s, 
-     c mats, mffls, milks, mpods, mseeds, nolvs, opens, silks, srs,
-     c tis, tsints, tss, verns, yelows)
+ 
+!What is year set to?      
+!      print *, 'year = ', year
+      
+      !debe added dry bean variables to initgs. Added 2 new soybean variables    
+      call initgs(aifs, antes, antss, blstrs, bmats, boots, browns, 
+     c cots, dents, doughs, drs, dummy1, dummy2, ears, ems, endlgs, 
+     c epods, eseeds, first7, fps, fullbs, germs, gpds, halfbs, heads, 
+     c hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, 
+     c lf5s, lf8s, mats, mffls, milks, mpods, mseeds, nolvs, opens, 
+     c silks, srs, tis, tsints, tss, verns, yelows)
      
       call initday(daa, dae, dap, dav, daynum, ddae, ddap, ddav, 
      c dgdde, dgdds, dgddv, first1, first2, gdda, gddday, gdde, gdds, 
@@ -149,6 +153,8 @@
      c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
      c weather, wfpslo, wfpsup, wlow, wup)
        
+!      print *, 'after call to setup.for, pdate =', pdate
+      
 ! Read from weather file here.  Will need to read in comment lines.
  95   continue 
             
@@ -167,6 +173,7 @@
           
             read(14,*,end=640,err=101) uuday,uumonth,uuyear, 
      c                        precip,tmax,tmin, ri,year,daynum,soil3t
+    
           
 ! debe uuday, uumonth, uuyear are the 'unused' day, month, and year variables that are read in
 ! from the climate file that now has the merged format enabling use of the same climate files 
@@ -176,6 +183,7 @@
       if (ri .ne. 999.9) then
         ri = ri / 23.895
       endif
+      
       
 ! Do error checking on input weather variables
 !DE made changes below to allow the use of 999.9 for missing data
@@ -266,10 +274,12 @@
 ! Call vernaliz to calculate the vernalization factor. 
 ! When vd is equal to or greater than 40.0 for winter wheat, don't call 
 ! vernaliz any more.
-        if(vd .LT. p1v) then  
+! debe added (pdate .GE. 244) to avoid calling vernaliz for spring crops        
+        if(vd .LT. p1v .and. pdate .GE. 244) then  
           call vernaliz(cumvd, daynum, devern, hemisp, tmax, tmin, vd, 
      c    vtbase, vtoptlo, vtoptup, vtupper) !vernal, verns, 
           vd = vd + cumvd  
+!          print *, 'called vernaliz'
           !calculate the vernalization factor vf
 !          vf = vf0 + (cumvd/p1v)
 !          if (vd .ge. 10.0) then
@@ -302,10 +312,11 @@
         if ((vd .ge. p1v) .and. (verns .ne. daynum)) then 
 	      gddv = gddv + gddday !this is happening too early for single ridge in winter wheat
 		    dav = dav + 1
+!        print *, 'in PhenologyMMS.for and dav = ', dav      
 	  endif
 
 !Sum gdd and days after planting:      
-!debe don't allow planting day to count as one day after planting	
+!debe - don't allow planting day to count as one day after planting	
 	  if ((daynum .GT. pdate) .OR. (year .GT. pyear)) then
 	      gdds = gdds + gddday !moved gdds code inside the if statment
 	      dap = dap + 1        !to match the way it is done for gdde below
@@ -348,14 +359,15 @@
 	  endif
 
 ! moved the call to phenol after other items above are updated to pass into
-! phenol. debe added dry bean variables.
-        call phenol(aepa, aifs, antes, antss, blstrs, boots, browns, 
-     c   cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, dents, 
-     c   dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, epods, 
-     c   eseeds, first7, fps, fullbs, gdde, gdds, gddv, gpds, halfbs, 
-     c   heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, 
-     c   lf4s, lf8s, mats, mffls, milks, mpods, mseeds, nolvs, opens, 
-     c   pchron, silks, srs, tis, tsints, tss, year, yelows)
+! phenol. debe added dry bean variables. Added 2 new soybean variables.
+        call phenol(aepa, aifs, antes, antss, blstrs, bmats, boots, 
+     c   browns, cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, 
+     c   dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, 
+     c   epods, eseeds, first7, fps, fullbs, gdde, gdds, gddv, gpds, 
+     c   halfbs, heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, 
+     c   lf2s, lf3s, lf4s, lf5s, lf8s, mats, mffls, milks, mpods, 
+     c   mseeds, nolvs, opens, pchron, silks, srs, tis, tsints, tss, 
+     c   year, yelows)
      
 ! moved canopy height below updating of antss so that the current days value
 ! is input to canopy height.	
@@ -371,7 +383,7 @@
         IF ((cname.EQ.'Corn') .OR. (cname.EQ.'Sorghum')) THEN
             CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1,
      c                    gdds2,ies,maxht)
-        ELSE IF (cname.EQ.'Dry Beans') THEN
+        ELSE IF ((cname.EQ.'Dry Beans') .OR. (cname.EQ.'Soybean')) THEN
             CALL canopyht(antss,canht,ecanht,ems,gddday,gdde,gdds1,
      c                    gdds2,cots,maxht)
         ELSE IF ((cname.EQ.'Spring Barley').OR.
@@ -405,18 +417,21 @@
         !print *, 'error in weather file daynum = ', daynum, year       
 
         !  Call the output file when simulation is done:
-!debe added dry bean variables.      
+!debe added dry bean variables. Added 2 new soybean variables.      
 !      print*, 'planted = ', planted, 'before the call to output'
       
-      call output(aifs, antes, antss, blstrs, boots, browns, 
+! year value just before call to output      
+!      print *, 'year just before call to output = ', year 
+      
+      call output(aifs, antes, antss, blstrs, bmats, boots, browns, 
      c canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav, dents, 
      c dgdde, dgdds, dgddv, doughs, drs, ears, ems, endlgs, epods, 
      c eseeds, fps, fullbs, gdda, gdde, gdds, gddv, gpds, halfbs, heads,
      c hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, 
-     c lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, nolvs, 
-     c opens, outf, pchron, pdate, planted, pyear, silks, soilwat,  
+     c lf5s, lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, 
+     c nolvs, opens, outf, pchron, pdate, planted, pyear, silks, 
      c srs, tis, tsints, tss, weather, year, yelows)  
-      
+!      soilwat, 
 !DE added weather to be passed to output.for for sorghum probability runs. 
       
       end program PhenologyMMS

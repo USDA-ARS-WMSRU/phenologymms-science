@@ -23,33 +23,33 @@
 !           gpds(R), halfbs(R), heads(R), hrs(R), ies(R), joints(R), 
 !           mats(R), outf(C), pdate(R), srs(R), tis(R), tss(R) 
 
-      subroutine output(aifs, antes, antss, blstrs, boots, browns, 
-     c canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav, dents, 
-     c dgdde, dgdds, dgddv, doughs, drs, ears, ems, endlgs, epods, 
-     c eseeds, fps, fullbs, gdda, gdde, gdds, gddv, gpds, halfbs, heads,
-     c hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, lf4s, 
-     c lf8s, lnarray, lnpout, mats, milks, mffls, mpods, mseeds, nolvs, 
-     c opens, outf, pchron, pdate, planted, pyear, silks, srs, tis, 
-     c tsints, tss, weather, year, yelows) 
+      subroutine output(aifs, antes, antss, blstrs, bmats, boots,   
+     c browns, canht, cname, cots, daa, dae, dap, dav, ddae, ddap, ddav,
+     c dents, dgdde, dgdds, dgddv, doughs, drs, ears, ems, endlgs, 
+     c epods, eseeds, fps, fullbs, gdda, gdde, gdds, gddv, gpds, halfbs,
+     c heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, lf3s, 
+     c lf4s, lf5s, lf8s, lnarray, lnpout, mats, milks, mffls, mpods, 
+     c mseeds, nolvs, opens, outf, pchron, pdate, planted, pyear, silks,
+     c srs, tis, tsints, tss, weather, year, yelows) 
 
 !debe added logical variable 'planted' to be able to write an error
 !message in phenol.out alerting the user that the planting date
 !was not reached.
       
       
-!debe added dry bean variables     
+!debe added dry bean variables and two new soybean variables    
  
       implicit none
 	 
-      integer  aifs(4), antes(4), antss(4), blstrs(4), boots(4), 
-     c browns(4), cots(4), daa, dae, dap, dav, ddae(20), ddap(20), 
-     c ddav(20), dents(4), doughs(4), drs(4), ears(4), ems(4), 
-     c endlgs(4), epods(4), eseeds(4), fps(4), fullbs(4), gpds(4), 
-     c halfbs(4), heads(4), hrs(4), i, ies(4), icanht, ies2(4), 
-     c infls(4), j, joints(4), lf1s(4), lf12s(4), lf2s(4), lf3s(4), 
-     c lf4s(4), lf8s(4), mats(4), mffls(4), milks(4), mpods(4), 
-     c mseeds(4), opens(4), pdate, pdatearr(4), pyear, silks(4), 
-     c srs(4), tis(4), tsints(4), tss(4), year, yelows(4)
+      integer  aifs(4), antes(4), antss(4), blstrs(4), bmats(4), 
+     c boots(4), browns(4), cots(4), daa, dae, dap, dav, ddae(20), 
+     c ddap(20), ddav(20), dents(4), doughs(4), drs(4), ears(4), 
+     c ems(4), endlgs(4), epods(4), eseeds(4), fps(4), fullbs(4), 
+     c gpds(4), halfbs(4), heads(4), hrs(4), i, ies(4), icanht, 
+     c ies2(4), infls(4), j, joints(4), lf1s(4), lf12s(4), lf2s(4), 
+     c lf3s(4), lf4s(4), lf5s(4), lf8s(4), mats(4), mffls(4), milks(4), 
+     c mpods(4), mseeds(4), opens(4), pdate, pdatearr(4), pyear, 
+     c silks(4), srs(4), tis(4), tsints(4), tss(4), year, yelows(4)
      
 !9/2/14 DE and GM decided to use one variable name for the integer zero  
 !and one for the real zero when printing zeros in the output table.
@@ -71,7 +71,7 @@
 
       dumint = 0
   !    dumreal = 0.0
-           
+            
       do 10 i = 1,4
              pdatearr(i) = 0
  10   continue 
@@ -80,7 +80,10 @@
       j = 1
 
 !  Print out some stuff to the screen:
-
+!year after coming into output.for from PhenologyMMS.for
+!        print *, 'year coming into output.for = ', year 
+!        print *, 'pyear = ', pyear
+        
         print *, 'Subroutine output was called'
 	  print *, 'Crop is: ', cname  ! de added
 	  print *, 'Canopy height is: ', canht  ! de added
@@ -141,6 +144,11 @@
 99    format (/1x, 42x, a14, /1x, 42x,'Leaf Number', /1x, 39x, 'DOY', 2x, 
      . 'Leaf Number', /1x, 38x, '------------------')
 
+! write out year
+!      write (14,20)year
+!20    format(/1x, 'Year = ', i21)
+      
+      
 ! Write out winter wheat phenology results:
 
       if (cname .eq. 'Winter Wheat') then
@@ -908,7 +916,7 @@
       
 !  Write out a table with leaf numbers by DOY
 ! Dry beans are determinate if bush type and indeterminate if any of the
-! other growth types. Currently, set the leaf number calcualtion to be indeterminate 
+! other growth types. Currently, set the leaf number calculation to be indeterminate 
 ! and therefore produce leaves up to growth stage R3 - early pod set. 
       do while (lnpout(j,2) .lt. dgdde(9)/pchron)
         write (14,59) lnpout(j,1), lnpout(j,2)
@@ -985,6 +993,103 @@
      . 'Physiological maturity (R7)',  4x, i4, 2x, i2, '/', i2, 1x, i4, 
      .    4x, i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Harvest Ready (R8)', 13x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Canopy Height (cm)', 11x, i6)
+
+            endif
+
+            !debe added soybean variables
+            if (cname .eq. 'Soybean') then
+
+                
+!  Write out a table with leaf numbers by DOY
+! Soybeans are indeterminate or determinateMost of the varieties grown in 
+! the northern US and in the Midwest are indeterminate and that is what is used here.
+! Set the leaf number calculation to be indeterminate and therefore produce 
+! leaves up to growth stage R5.5. Use R5 - Beginning Seed. 
+      do while (lnpout(j,2) .lt. dgdde(12)/pchron)
+        write (14,59) lnpout(j,1), lnpout(j,2)
+        j = j + 1
+      end do      
+
+! convert integer eseeds(1) to a real number because this stage (actaully R5.5) is the end of vegetative growth.
+      write(14,60) real (eseeds(1)), dgdde(12)/pchron
+60    format (40x, f5.1, 6x, f4.1) 
+
+      write (14, 80)
+80    format (/1x) ! write a blank line after outputting the 
+!      leaf number table
+      
+      write (14, 215) pdatearr(1), pdatearr(3), pdatearr(4), dumint, 
+     .       dumint, dumint, dumint, dumint,     
+     .  ems(1), ems(3), ems(4), ddap(1), dumint, dgdds(1), dumint,
+     .       dumint,
+     .  cots(1), cots(3), cots(4), ddap(2), ddae(2), dgdds(2), 
+     .       dgdde(2), dgdde(2)/pchron,
+     .  lf1s(1), lf1s(3), lf1s(4), ddap(3), ddae(3), dgdds(3), 
+     .       dgdde(3), dgdde(3)/pchron,
+     .  lf2s(1), lf2s(3), lf2s(4), ddap(4), ddae(4), dgdds(4), 
+     .       dgdde(4), dgdde(4)/pchron,
+     .  lf3s(1), lf3s(3), lf3s(4), ddap(5), ddae(5), dgdds(5), 
+     .       dgdde(5), dgdde(5)/pchron,     
+     .  lf4s(1), lf4s(3), lf4s(4), ddap(6), ddae(6), dgdds(6), 
+     .       dgdde(6), dgdde(6)/pchron,
+     .  lf5s(1), lf5s(3), lf5s(4), ddap(7), ddae(7), dgdds(7),
+     .       dgdde(7), dgdde(7)/pchron, 
+     .  antss(1), antss(3), antss(4), ddap(8), ddae(8), dgdds(8), 
+     .       dgdde(8), dgdde(8)/pchron,
+     .  mffls(1), mffls(3), mffls(4), ddap(9), ddae(9), dgdds(9), 
+     .       dgdde(9), dgdde(9)/pchron,
+     .  epods(1), epods(3), epods(4), ddap(10), ddae(10), dgdds(10), 
+     .       dgdde(10), dgdde(10)/pchron,
+     .  mpods(1), mpods(3), mpods(4), ddap(11), ddae(11), dgdds(11), 
+     .       dgdde(11), dgdde(11)/pchron,
+     .  eseeds(1), eseeds(3), eseeds(4), ddap(12), ddae(12), dgdds(12), 
+     .       dgdde(12), dgdde(12)/pchron,
+     .  mseeds(1), mseeds(3), mseeds(4), ddap(13), ddae(13), dgdds(13), 
+     .       dgdde(13), dgdde(12)/pchron,
+     .  bmats(1), bmats(3), bmats(4), ddap(14), ddae(14), dgdds(14), 
+     .       dgdde(14), dgdde(12)/pchron,    
+     .  mats(1), mats(3), mats(4), ddap(15), ddae(15), dgdds(15), 
+     .       dgdde(15), dgdde(12)/pchron,
+     .  hrs(1), hrs(3), hrs(4), ddap(16), ddae(16), dgdds(16), 
+     .       dgdde(16), dgdde(12)/pchron,
+     .  icanht
+ 215  format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
+     . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
+     . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
+     .    i4, 7x, i4, 6x, i4, /1x,
+     . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
+     .    7x, i4, 6x, i4, /1x,
+     . 'Cotyledonary lvs (VC)', 10x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '1st trifoliolate lf (V1)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x,f6.1, 4x, f6.1, /1x,
+     . '2nd trifoliolate lf (V2)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '3rd trifoliolate lf (V3)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . '4th trifoliolate lf (V4)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,     
+     . '5th trifoliolate lf (V5)', 7x, i4, 2x, i2, '/', i2, 1x, i4, 4x,
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Beginning Bloom (R1)', 11x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Full Bloom (R2)', 16x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Beginning Pod (R3)', 13x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Full Pod (R4)', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x,
+     .    f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Beginning Seed (R5)', 12x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4,
+     .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Full Seed (R6)', 17x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Beginning Maturity (R7)', 8x, i4, 2x, i2, '/', i2, 1x, i4, 4x, 
+     .    i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,  
+     . 'Full Maturity (R8)',  13x, i4, 2x, i2, '/', i2, 1x, i4, 
+     .    4x, i4, 5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
+     . 'Harvest Ready', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 
      .    5x, f6.1, 5x, f6.1, 4x, f6.1, /1x,
      . 'Canopy Height (cm)', 11x, i6)
 

@@ -31,7 +31,7 @@
      c ddap(20), endlgs(4), first7, fullbs(4), gpds(4), 
      c halfbs(4), hrs(4), ies(4), joints(4), mats(4), tis(4), year 
 
-      real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, 
+      real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, 
      c gdds, nolvs, pchron    
 
       if (first7 .eq. 0) then

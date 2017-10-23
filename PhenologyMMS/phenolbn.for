@@ -33,7 +33,7 @@
      c lf1s(4), lf2s(4), lf3s(4), lf4s(4), mats(4), mffls(4), mpods(4), 
      c mseeds(4), year 
          
-      real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, gdds
+      real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, gdds
 
 ! Is aepa needed for bean and if so what should be the value?     
       if (first7 .eq. 0) then

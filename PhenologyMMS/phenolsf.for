@@ -32,7 +32,7 @@
      c ddae(20), ddap(20), first7, hrs(4), ies(4), ies2(4), infls(4), 
      c lf12s(4), lf4s(4), lf8s(4), mats(4), opens(4), year, yelows(4)  
          
-      real  aepa, dgdde(20), dgdds(20), dummy2(15), gdde, gdds
+      real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, gdds
 
 ! Is aepa needed for sunflower and if so what should be the value?     
       if (first7 .eq. 0) then
