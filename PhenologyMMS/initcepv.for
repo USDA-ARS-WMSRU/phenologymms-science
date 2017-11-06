@@ -19,7 +19,7 @@
 	
       subroutine initcepv(canht, civilrise, cumvd, degtorad, devern, df,
      c egdd, elong, ergdd, germgdd, ggdd,  hrlt, nai, pchron, pd, p1v, 
-     c radtodeg,   rai, soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
+     c radtodeg, rai, soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
      c vtupper, wai, wfpslo, wfpsup) 	!vf, vf0, 
     
 

@@ -36,8 +36,7 @@
 !     Perhaps, photoperiod and vernalization coefficients could 
 !     be in a text file with values for each crop/cultivar and read in
 !     like emerge.txt. These values, based on the crop/cultivar, could 
-!     then be written to tinputs. But are the cultivars known before 
-!     tinputs is written to? The coefficients file will have to be 
+!     then be written to tinputs. The coefficients file will have to be 
 !     searched with the crop/cultivar names in order to get the values 
 !     specific to that crop/cultivar and then be written to the 
 !     tinputs file. This will be done via the interface code. For now, 

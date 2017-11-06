@@ -1056,7 +1056,7 @@
      .       dgdde(16), dgdde(12)/pchron,
      .  icanht
  215  format (' Phenological Event', 7x, 'Day of Year', 2x, 'Date', 2x, 
-     . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x
+     . 'DAP', 5x, 'DAE', 5x, 'GDD AP', 5x, 'GDD AE', 5x, 'NOLVS', /1x,
      . 'Planting Date', 18x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 7x, 
      .    i4, 7x, i4, 6x, i4, /1x,
      . 'Emergence', 22x, i4, 2x, i2, '/', i2, 1x, i4, 4x, i4, 5x, f6.1,
