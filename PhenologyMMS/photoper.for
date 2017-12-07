@@ -20,14 +20,14 @@
       implicit none
 
       integer  daynum !, verns
-      
+
+      ! df = daylength factor 
       real  df, p1d !, vernal   
       
     !  character *22  hemisp
       
 !     Local Variables
       real pp
-      ! df = daylength factor 
       
 ! Calculate the day length factor 
 !     p1d is the photoperiod coefficient and is the sensitivity 

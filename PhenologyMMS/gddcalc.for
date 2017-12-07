@@ -14,20 +14,21 @@
 
 !  OUTPUTS: gddday(C,R)
 
-      subroutine gddcalc(daynum, df, gddday, gmethod, tbase, tmax, tmin,
-     c toptlo, toptup, tupper) !, vf) 
+      subroutine gddcalc(cname, daynum, df, gddday, gmethod, pf, tbase, 
+     c tmax, tmin, toptlo, toptup, tupper) !, vf) 
 !         
       implicit none
       
       integer daynum, gmethod
      
-      real  df, gddday, tbase, tmax, tmin, toptlo, toptup, tupper !, vf
+      real  df, gddday, pf, tbase, tmax, tmin, toptlo, toptup, tupper !, vf
       
+      character *22 cname
       character *256 outfgdd
       
 ! Local variables
       real m, tavg, tavgtemp, tf, tmaxtemp, tmintemp, topt, x, x1, x2,
-     c x3, x4, y, y1, y2, y3, y4 
+     c   x3, x4, y, y1, y2, y3, y4 
      
 ! Initialize local variables   
       tavg = 0.0
@@ -35,7 +36,6 @@
       tmaxtemp = tmax
       tmintemp = tmin
       topt = (toptlo + toptup) / 2
- !     print *, 'topt average method = ', topt      
 
       !tbase point coordinates
       x1 = tbase
@@ -77,6 +77,7 @@
          
          if (gddday .lt. 0.) gddday = 0.
          if (gddday .gt. toptup) gddday = toptup
+         print *, 'gddday Method2 = ', gddday
 
 ! Calculate using Method 3: 
 ! This is a two-segmented linear model
@@ -141,7 +142,7 @@
            gddday = 0.0
         endif
       endif 
-
+      
 ! Adjust thermal development units with photoperiod and vernalization
          !dtdu = gddday*(min(df, vf)) is this correct?         
 
@@ -152,6 +153,14 @@
 !        print *, 'tavg = ',tavg, 'method # ', gmethod, 'gddday = ', 
 !     cgddday 
 !      endif  
-
+      
+      ! use the photoperiod factor from the new photoperiod subroutine
+      ! applied to soybeans. Adjust the thermal development units with
+      ! the photoperiod factor (pf).
+      
+      !if (cname .eq. 'Soybean') then
+      !    gddday = gddday*pf
+      !endif
+      
       return
       end

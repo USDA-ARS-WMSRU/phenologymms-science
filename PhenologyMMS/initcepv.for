@@ -17,21 +17,23 @@
 !           rai(C), soilwat(C), vernal(C), wai(C), wfpslo(C), wfpsup(C)  
  
 	
-      subroutine initcepv(canht, civilrise, cumvd, degtorad, devern, df,
-     c egdd, elong, ergdd, germgdd, ggdd,  hrlt, nai, pchron, pd, p1v, 
-     c radtodeg, rai, soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
-     c vtupper, wai, wfpslo, wfpsup) 	!vf, vf0, 
-    
-
+      subroutine initcepv(canht, civilrise, cumvd, dayhrs, degtorad, 
+     c devern, df, egdd, elong, ergdd, germgdd, ggdd, hrlt, mg, nai,    
+     c p1d, p1v, pchron, pf, photocrit, photosen, ppsen, radtodeg, rai,
+     c soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, vtupper, wai, 
+     c wfpslo, wfpsup) 	!vf, vf0, 
+     
       implicit none
       
       integer  nai, rai, wai
           
-      real  canht, civilrise, cumvd, degtorad, devern, df, elong, 
-     c ergdd(4), germgdd(4), hrlt, pchron, pd, p1v, radtodeg, vd, 
-     c vernal, vtbase, vtoptlo, vtoptup, vtupper, wfpslo(4), 
-     c wfpsup(4) !vf, vf0, 
+      real  canht, civilrise, cumvd, dayhrs, degtorad, devern, df,  
+     c elong, ergdd(4), germgdd(4), hrlt, mg, p1d, p1v, pchron, pd, pf, 
+     c photocrit, photosen, ppsen, radtodeg, vd, vernal, vtbase,  
+     c vtoptlo, vtoptup, vtupper, wfpslo(4), wfpsup(4) !vf, vf0, 
 
+! debe added variables for photoperiod subroutine, Nov 2017
+      
 !debe added the arrays egdd and ggdd to be initialized, passed back to 
 ! PhenologyMMS and then to Emerge.
       REAL,DIMENSION(6) :: egdd, ggdd
@@ -98,6 +100,13 @@
       pd = 0.0
       radtodeg = 57.2957795
       
+! debe added new photoperiod variables      
+      dayhrs = 0.0
+      mg = 0.0
+      pf = 0.0
+      photocrit = 0.0
+      photosen = 0.0
+      ppsen = 0.0    
 
       return
       end

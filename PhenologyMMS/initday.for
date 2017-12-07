@@ -23,7 +23,7 @@
 	
       subroutine initday(daa, dae, dap, dav, daynum, ddae, ddap, ddav, 
      c dgdde, dgdds, dgddv, first1, first2, gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, outf, rowcntr, 
+     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, month, outf, rowcntr,
      c todayln, yestln)
      
 
@@ -33,7 +33,8 @@
      c first1, first2, lncntr, mon, rowcntr
           
       real  dgdde(20), dgdds(20), dgddv(20), gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray(400, 2), lnpout(100,2), todayln, yestln
+     c gddtbg, gddv, lnarray(400, 2), lnpout(100,2), month, todayln, 
+     c yestln
       
 !      character *22 outf
       character *256 outf
@@ -93,6 +94,7 @@
 	first2 = 0
 
       mon = 1
+      month = 1.0
 	daynum = 0
 	
 	lncntr = 0

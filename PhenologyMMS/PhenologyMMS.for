@@ -39,28 +39,32 @@
      c lncntr, mats(4), mffls(4), milks(4), mo, mpods(4), mseeds(4),  
      c pmo, mon, nai, noseeds, opens(4), pdate, pday, pmethod, rai,  
      c rowcntr, seedsw, silks(4), srs(4), tis(4), tsints(4), tss(4), 
-     c uuday, uumonth, uuyear, verns, wai, pyear,year, yelows(4) !tempsw,  
-!debe added variables for dry beans. Oct, 2017 - added 2 new variables for 
-!soybeans, used dry bean variables for the other soybean stages.
-!debe added uuday, uumonth, uuyear for the day, month and year variables 
+     c uuyear, verns, wai, pyear, year, yelows(4) !tempsw,  
+! debe added variables for dry beans. 
+! Oct, 2017 - added 2 new variables for soybeans, used dry bean 
+! variables for the other soybean stages.
+! debe added uuday, uumonth, uuyear for the day, month and year variables 
 ! that are read in from the climate file (needed in the UPGM model) but not
 ! used in PhenologyMMS. The variable idx is added to enable reading the 
 ! header information from the climate file. idx is the counter for the three 
 ! arrays that will hold the tmax, tmin and precip averages.
-!debe added gdds1 and gdds2 to be initialized in initparm and passed on to 
-!canopyht rather than calculating the same values each day of the run. 6/9/11
-!debe added tempsw for emerge subroutine. It is initialized to the value read in 
-! for seedsw in Setup.         
+! debe added gdds1 and gdds2 to be initialized in initparm and passed on to 
+! canopyht rather than calculating the same values each day of the run. 6/9/11
+! debe added tempsw for emerge subroutine. It is initialized to the value read in 
+! for seedsw in Setup. 
+! debe added variables for photoperiod subroutine; declare new function dayhours Nov. 2017
       real  aepa,  aveprecip(12), avetmax(12), avetmin(12), canht, 
-     c civilrise, cumvd, daylen, daylth, degtorad, devern, df, 
-     c dgdde(20), dgdds(20), dgddv(20), dummy2(16), ecanht, elong, 
-     c elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, gddtbg,
-     c gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),  
-     c lnpout(100,2), maxht, nolvs, pchron, p1d, pdepth, precip, p1v, 
-     c radtodeg, ri, soil3t, tavg, tbase, tmax, tmin, todayln, 
-     c toptlo, toptup, tupper, vernal,vd, vtbase, vtoptlo, vtoptup, 
-     c vtupper, wfpslo(4), wfpsup(4), wlow, wup, yestln !vf, vf0,   
-     
+     c civilrise, cumvd, dayhours, dayhrs, daylen, daylth, degtorad,  
+     c devern, df, dgdde(20), dgdds(20), dgddv(20), dummy2(16), ecanht, 
+     c elong, elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, 
+     c gddtbg, gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),
+     c lnpout(100,2), maxht, mg, month, nolvs, p1d, pchron, pdepth, pf, 
+     c photocrit, photosen, ppsen, precip, p1v,radtodeg, ri, soil3t, 
+     c tavg, tbase, tmax, tmin, todayln, toptlo, toptup, tupper,  
+     c vernal, vd, vtbase, vtoptlo, vtoptup,vtupper, uuday, uumonth, 
+     c wfpslo(4), wfpsup(4), wlow, wup, yestln !vf, vf0,   
+ 
+      
 !debe moved pdepth to real from integer.
 !debe added variables for photoperiod: civilrise, hrlt, daylen, df
 !debe added the variables for average tmax, tmin and average precip that will 
@@ -91,6 +95,8 @@
 ! Local variables
       INTEGER,SAVE :: tempsw  
       
+      INTEGER :: stagestart, stageend
+      
 ! Initialize the variables in several init subroutines.
 
       call initparm(cname, day, ecanht, elrate, errorarr, germd,  
@@ -111,16 +117,17 @@
      
       call initday(daa, dae, dap, dav, daynum, ddae, ddap, ddav, 
      c dgdde, dgdds, dgddv, first1, first2, gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, outf, rowcntr,  
+     c gddtbg, gddv, lnarray, lncntr, lnpout, mon, month, outf, rowcntr,
      c todayln, yestln)
            
-      call initcepv(canht, civilrise, cumvd, degtorad, devern, df, egdd,
-     c elong, ergdd, germgdd, ggdd, hrlt, nai, pchron, p1d, p1v, 
-     c radtodeg, rai,soilwat, vd, vernal, vtbase, vtoptlo, vtoptup, 
-     c vtupper, wai, wfpslo, wfpsup) !vf, vf0, 
+      call initcepv(canht, civilrise, cumvd, dayhrs, degtorad, devern, 
+     c df, egdd, elong, ergdd, germgdd, ggdd, hrlt, mg, nai, p1d, p1v,
+     c pchron, pf, photocrit, photosen, ppsen, radtodeg, rai,soilwat, 
+     c vd, vernal, vtbase, vtoptlo, vtoptup, vtupper, wai, wfpslo, 
+     c wfpsup) !vf, vf0, 
      
       call initwthr(aveprecip, avetmax, avetmin, precip, ri, soil3t, 
-     c              tavg, tmax, tmin, uuday, uumonth, uuyear)
+     c tavg, tmax, tmin, uuday, uumonth, uuyear)
       
 !debe added the photoperiod coefficient to be set here:
       p1d = 30.0 
@@ -147,13 +154,12 @@
 !  Call SETUP to read in various input files and set model up for running.
 !   Start with weather in declaring the variables type up above.
       call setup(cname, devern, dummy1, dummy2, elrate, ecanht, 
-     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht, 
-     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, pmethod, 
-     c pmo, pyear, seedsw, soilwat, swtype, tbase, tempsw, toptlo,  
-     c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
-     c weather, wfpslo, wfpsup, wlow, wup)
+     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht,mg,
+     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, photocrit, 
+     c photosen, ppsen, pmethod, pmo, pyear, seedsw, soilwat, swtype,  
+     c tbase, tempsw, toptlo, toptup, tupper, vname, vtbase, vtoptlo,   
+     c vtoptup, vtupper, weather, wfpslo, wfpsup, wlow, wup)
        
-!      print *, 'after call to setup.for, pdate =', pdate
       
 ! Read from weather file here.  Will need to read in comment lines.
  95   continue 
@@ -164,7 +170,6 @@
        !debe added
           IF (daynum.eq.0) THEN !first day the climate file is read.
             READ (14,*) cliname
-!           READ (14,*) latitude !debe added-read in value from the climate file 
             READ (14,*) (avetmax(idx),idx=1,12)
             READ (14,*) (avetmin(idx),idx=1,12)
             READ (14,*) (aveprecip(idx),idx=1,12)
@@ -178,7 +183,8 @@
 ! debe uuday, uumonth, uuyear are the 'unused' day, month, and year variables that are read in
 ! from the climate file that now has the merged format enabling use of the same climate files 
 ! in more than one model, currently, PhenologyMMS and UPGM.
-
+! de later used these values in the function dayhours. 11/9/17
+            
 !convert solar radiation to the units need by PhenologyMMS MJ/m^2/day
       if (ri .ne. 999.9) then
         ri = ri / 23.895
@@ -253,8 +259,7 @@
 !   amalat - latitude of simulation site
 !   hrlt - day length on day i. hr.
 !   pdate - day of year planting can occur
-!   civilrise - parameter. solar altitude angle defined as civil 
-!               twilight.
+!   civilrise - parameter. solar altitude angle defined as civil twilight.
 
         ! Should it be pdate or day of year? It is initialized with planting date.
 ! Other dates are used in UPGM as appropriate. It seems daynum would be
@@ -262,13 +267,25 @@
         hrlt = daylen(latitude, daynum, civilrise, degtorad, radtodeg)
 !        hrlty = daylen(amalat,pdate-1,civilrise)
         
-        ! call photoper to calculate the daylength factor.
+        ! call photoper to calculate the daylength factor.(wheat)
         call photoper(daynum, df, hrlt, p1d) !hemisp, , vernal, verns)
-!         print *, 'daylength factor = ', df
 
 !       Get the change in daylength first to pass to phyllo
         call daylenth(daylth, daynum, latitude)!is this still needed?   
         call phyllo(daylth)!is this still needed?		  
+        
+! debe added daylength and photoperiod calculation functions from Simon van Donk,
+! which are based on DSSAT.
+        ! use the function dayhours to set the daylength value in dayhrs
+        ! use the day and month read in from the climate file and previously not used
+        ! in PhenologyMMS. Year is read in from the climate file and is the calendar year
+        dayhrs = dayhours(latitude, uuday, uumonth, year)
+        print *, 'dayhrs = ', dayhrs
+        
+        ! call new photoperiod subroutine (soybeans)
+        !call photoperiod(dayhrs, pf, photocrit, photosen, ppsen)
+        print *, 'before call to photoperiod and photocrit = ',photocrit
+        call photoperiod(dayhrs, pf, photocrit, photosen, ppsen)
 
 !debe added the vernaliz call and changes     
 ! Call vernaliz to calculate the vernalization factor. 
@@ -292,8 +309,10 @@
 !   GDDCALC must know which method of calculation is to be used, and
 !   what the base, optimal range and upper temperature thresholds are.
 ! Need to calculate the day's gddday value before calling emerge.
-        call gddcalc(daynum, df, gddday, gmethod, tbase, tmax, tmin, 
-     c               toptlo, toptup, tupper) !, vf)
+! debe added canme to call to gddcalc so that photoperiod factor
+! can be applied to the gddday value if the crop is soybean.
+        call gddcalc(cname, daynum, df, gddday, gmethod, pf, tbase,
+     c               tmax, tmin, toptlo, toptup, tupper) !, vf)
         
 !!  Call vernalization subroutine if vernalization requirement has not
 !!  been satisfied:
@@ -337,10 +356,20 @@
 !  Accumulate GDD from emergence (GDDE) and days after emergence (DAE)
 !  once it has occurred, but don't include the day of emergence in the
 !  dae emergence count:
-	if ((ems(1) .ne. 999) .and. (ems(1) .ne. daynum)) then
-	   gdde = gdde + gddday
-	   dae = dae + 1
-	endif
+        if ((ems(1) .ne. 999) .and. (ems(1) .ne. daynum)) then
+            if (trim(cname) .eq. 'Soybean') then
+                stagestart = sum(dummy2(2:8))
+                stageend = sum(dummy2(2:14)) !go the stage (R7) after the stopping stage (R6) and then subtract 1
+                 print *,'daynum = ', daynum, 'gddday = ', gddday
+                if (gdde >= stagestart .and. gdde <= stageend-1) then
+                    gddday = gddday*pf
+                endif
+                 print *,'daynum = ', daynum, 'gddday = ', gddday
+            endif
+                gdde = gdde + gddday
+                dae = dae + 1
+
+        endif
 	  
 ! Once seedling emergence has occurred, call the rest of the subroutines
 ! and increment dap, dav, and daa:

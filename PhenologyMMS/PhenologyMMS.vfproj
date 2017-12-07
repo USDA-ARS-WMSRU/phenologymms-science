@@ -29,6 +29,7 @@
 		<Filter Name="Source Files" Filter="f90;for;f;fpp;ftn;def;odl;idl">
 		<File RelativePath=".\canopyht.for"/>
 		<File RelativePath=".\date1.for"/>
+		<File RelativePath=".\dayhours.for"/>
 		<File RelativePath=".\daylen.f90"/>
 		<File RelativePath=".\daylenth.for"/>
 		<File RelativePath=".\daylth.for"/>
@@ -58,6 +59,7 @@
 		<File RelativePath=".\phenolwb.for"/>
 		<File RelativePath=".\phenolww.for"/>
 		<File RelativePath=".\photoper.for"/>
+		<File RelativePath=".\photoperiod.for"/>
 		<File RelativePath=".\phyllo.for"/>
 		<File RelativePath=".\raicalc.for"/>
 		<File RelativePath=".\setup.for"/>

@@ -74,12 +74,11 @@ REAL :: declination,hourangle
  
 !     declination angle (dec)
 dec = declination(daynum, degtorad)
- 
+
 !     sunrise or sunset hour angle
 h = hourangle(latitude, dec, riseangle, degtorad, radtodeg)
- 
+
 !     calculate the length of the day
 daylen = 2.0*h/15.0
-!print *, 'daynum = ', daynum, 'daylen =', daylen, 'latitude = ', latitude
  
 END FUNCTION daylen

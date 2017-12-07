@@ -21,12 +21,13 @@
       implicit none
 
 !debe added uuday, uumonth, uuyear. these are variables that are read in from
-! the climate file but not used.
+! the climate file but not used. Later used uuday and uumonth for dayhours calculation.
+! Made uuday and uumonth real.
       
-      integer uuday, uumonth, uuyear, i
+      integer  uuyear, i 
 
       real  aveprecip(12), avetmax(12), avetmin(12), precip, ri, soil3t,
-     c      tavg, tmax, tmin
+     c      tavg, tmax, tmin, uuday, uumonth
 
 ! Initialize variables
 !  Weather Variables
@@ -41,8 +42,8 @@
       tavg = 999.9
       tmax = 999.9
       tmin = 999.9
-      uuday = 0
-      uumonth = 0
+      uuday = 0.0
+      uumonth = 0.0
       uuyear = 0
 
 

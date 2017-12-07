@@ -20,12 +20,12 @@
 !          pdepth(C,R), seedsw(C), soilwat(4)(C), wfpslo(4)(C), 
 !          wfpsup(4)(C) 
 
-      subroutine setup(cname, devern, dummy1, dummy2, ecanht, elrate, 
-     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht, 
-     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, pmethod, 
-     c pmo, pyear, seedsw, soilwat, swtype, tbase, tempsw, toptlo, 
-     c toptup, tupper, vname, vtbase, vtoptlo, vtoptup, vtupper, 
-     c weather,  wfpslo, wfpsup, wlow, wup)
+      subroutine setup(cname, devern, dummy1, dummy2, elrate, ecanht, 
+     c ergdd, gdds1, gdds2, germd, germgdd, gmethod, latitude, maxht,mg, 
+     c noseeds, p1v, pchron, pdate, pday, pdepth, pequation, photocrit, 
+     c photosen, ppsen, pmethod, pmo, pyear, seedsw, soilwat, swtype,  
+     c tbase, tempsw, toptlo, toptup, tupper, vname, vtbase, vtoptlo,   
+     c vtoptup, vtupper, weather, wfpslo, wfpsup, wlow, wup)
   
       implicit none
       
@@ -33,12 +33,14 @@
      c seedsw, pyear, tempsw
           
       real  devern, dummy2(16), ecanht, elrate, ergdd(4), gdds1, gdds2, 
-     c germd, germgdd(4), latitude, maxht, p1v, pchron, pdepth, tbase, 
-     c toptlo, toptup, tupper, vtbase, vtoptlo, vtoptup, 
-     c vtupper, wfpslo(4), wfpsup(4), wlow, wup
+     c germd, germgdd(4), latitude, maxht, mg, p1v, pchron, pdepth,  
+     c photocrit, photosen, ppsen, tbase, toptlo, toptup, tupper, 
+     c vtbase, vtoptlo, vtoptup, vtupper, wfpslo(4), wfpsup(4), 
+     c wlow, wup
+
 !debe 020309 moved pdepth to real instead of integer   
 !debe added tempsw so that it can be set to the value read in for seedsw and thereby initialized.
-   
+! debe added variables for new photoperiod subroutine read in from tinputs   
       character *22  cname, dummy1(16), pequation, soilwat(4), swtype, 
      c vname
       
@@ -129,7 +131,6 @@
  10   continue  
 
 ! Read in latitude:
-! Check whether degrees or radians:
 	read (1,*) latitude
 
 ! Read in method of calculating GDD.  Method 1 = "wheat" method, Method 2 =
@@ -173,10 +174,26 @@
       
 !   read in temperature above which de-vernalization can occur (C):      
       read (1,*) devern
+ !      print *, 'in setup and cname = ', cname
+      if  (cname .eq. "Soybean") then
+!   read in maturity group for soybean variety
+      read (1,*) mg
+!      print *, 'mg = ', mg
+!   read in critical photoperiod for soybean variety
+      read (1,*) photocrit
+!      print *, 'photocrit = ', photocrit
+!   read in sensitivity to photoperiod for soybean variety
+      read (1,*) ppsen
+!      print *, 'ppsen = ', ppsen
+!   read in photoperiod sensitivity factor to adjust 
+!    critical daylength for soybean variety
+      read (1,*) photosen
+!      print *, 'photosen = ', photosen
 
+      endif
 ! read in ecanht the maximum canopy height for phase 1 canopy height growth
       read (1,*) ecanht
-
+      
 ! Read in phenology parameters:
 ! This will need to be done differently when phyllochron equations are used:
       do 100 i = 1, 16

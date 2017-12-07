@@ -37,7 +37,7 @@ REAL :: b
 !     + + + argument definitions + + +
 !     daynum   - day of year
  
-!     + + + local varaibles + + +
+!     + + + local variables + + +
  
 !     + + + local definitions + + +
 !     b      - sub calculation (time of year, radians)
@@ -47,7 +47,7 @@ REAL :: b
 !     + + + end specifications + + +
  
 !     calculate declination angle (dec)
-b = (360.0/365.0)*(daynum-81.25)*degtorad                                 !h-55
-declination = 23.45*sin(b)                                                              !h-58
+b = (360.0/365.0)*(daynum-81.25)*degtorad          !h-55
+declination = 23.45*sin(b)                         !h-58
  
 END FUNCTION declination
