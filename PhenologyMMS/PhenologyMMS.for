@@ -86,7 +86,7 @@
 ! 9/4/14 GM, debe and Mike Herder set the weather variable to a string length of 110 to allow reading
 !   of the path name to include the state/region and the weather filename. The weather files are now located
 !   in a more detailed folder structure to work with the new interface programmed by Mike H.
-      character *110 weather
+      character *110 weather, line
       
 !  Logical variable to determine if the planting date was reached. 
 !      It is set to FALSE and will change to TRUE when the date is reached.      
@@ -170,9 +170,9 @@
        !debe added
           IF (daynum.eq.0) THEN !first day the climate file is read.
             READ (14,*) cliname
-            READ (14,*) (avetmax(idx),idx=1,12)
-            READ (14,*) (avetmin(idx),idx=1,12)
-            READ (14,*) (aveprecip(idx),idx=1,12)
+            READ (14,'(A)') line !(avetmax(idx),idx=1,12)
+            READ (14,'(A)') line !(avetmin(idx),idx=1,12)
+            READ (14,'(A)') line !(aveprecip(idx),idx=1,12)
 
           ENDIF
           
