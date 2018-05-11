@@ -52,11 +52,11 @@
 	     dgdde(2) = gdde
 	     print *, 'lf4s = ', lf4s
          go to 150
-      endif
+!      endif
 
 ! 8th leaf stage - V8
-      if ((lf8s(1) .eq. 999) .and. (gdde .ge. dummy2(2) + dummy2(3))) 
-     c  then
+      elseif ((lf8s(1) .eq. 999) .and. (gdde .ge. dummy2(2)  
+     c  + dummy2(3))) then
           lf8s(1) = daynum
           lf8s(2) = year
           call date1(lf8s)
@@ -67,12 +67,12 @@
 		 print *, 'lf8s = ', lf8s
          go to 150
 
-      endif
+!      endif
 
 ! 12th leaf stage - V12
 
-      if ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     c dummy2(4))))  then
+      elseif ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c + dummy2(3) + dummy2(4))))  then
           lf12s(1) = daynum
           lf12s(2) = year
           call date1(lf12s)
@@ -83,12 +83,12 @@
 	     print *, 'lf12s = ', lf12s
          go to 150
 
-      endif
+!      endif
 
 !  Inflorescence becomes visible - R1
 
-      if ((infls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     1  dummy2(4) + dummy2(5)) )) then
+      elseif ((infls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     1  + dummy2(3) + dummy2(4) + dummy2(5)) )) then
           infls(1) = daynum
           infls(2) = year
           call date1(infls)
@@ -97,13 +97,13 @@
 	     dgdds(5) = gdds
 	     dgdde(5) = gdde
 	     print *, 'infls = ', infls
-      endif
+!      endif
 
 !  Start of internode elongation directly below the base of the 
 !  inflorescence - R2
 
-      if ((ies(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     c dummy2(4) + dummy2(5) + dummy2(6)) )) then
+      elseif ((ies(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     c + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6)) )) then
           ies(1) = daynum
           ies(2) = year
           call date1(ies)
@@ -112,14 +112,15 @@
 	       dgdds(6) = gdds
 	       dgdde(6) = gdde
 	       print *, 'ies = ', ies
-      endif
+!      endif
 
 !  Internode elongation continues.  The internode below the 
 !  reproductive bud continues to elongate and the inflorescence is lifted 
 !  more than 2 cm above the surrounding leaves. - R3
 
-         if ((ies2(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) 
-     c     + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)) )) then
+         elseif ((ies2(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     c     + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) 
+     c     + dummy2(7)) )) then
               ies2(1) = daynum
               ies2(2) = year
               call date1(ies2)
@@ -129,13 +130,13 @@
 	         dgdde(7) = gdde
 	         print *, 'ies2 = ', ies2
  
-      endif
+!      endif
 
 !  The inflorescence begins to open and small ray flowers are visible - R4
 
-      if ((opens(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8)))) 
-     c     then
+      elseif ((opens(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8))))  then
               opens(1) = daynum
               opens(2) = year
               call date1(opens)
@@ -144,16 +145,16 @@
 	         dgdds(8) = gdds
 	         dgdde(8) = gdde
 		     print *, 'opens = ', opens
-      endif
+!      endif
       
 150   continue
 
 !  Anthesis begins.  The mature ray flowers are fully extended
 !  and the disk flowers are visible - R5.
 
-      if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9)))) then
+      elseif ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+     c   + dummy2(8) + dummy2(9)))) then
               antss(1) = daynum
               antss(2) = year
               call date1(antss)
@@ -163,13 +164,13 @@
 	         dgdde(9) = gdde
 	         print *, 'antss = ', antss
 
-      endif
+!      endif
 
 !  Anthesis is complete.  The ray flowers are wilting. - R6
 
-      if ((antes(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10)))) then
+      elseif ((antes(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9) + dummy2(10)))) then
               antes(1) = daynum
               antes(2) = year
               call date1(antes)
@@ -178,14 +179,14 @@
 	         dgdds(10) = gdds
 	         dgdde(10) = gdde
 	         print *, 'antes = ', antes
-      endif
+!      endif
 
 !  The back of the inflorescence is turning to a light yellow color. - R7
 
-      if ((yelows(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11)))) 
-     c then
+      elseif ((yelows(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11)))) 
+     c   then
               yelows(1) = daynum
               yelows(2) = year
               call date1(yelows)
@@ -194,14 +195,15 @@
 	         dgdds(11) = gdds
 	         dgdde(11) = gdde
 	         print *, 'yelows = ', yelows
-      endif
+!      endif
 
 !  The back of the inflorescence is yellow but the bracts are still green.  
 !  There may be some brown spotting on the back of the head. - R8
 
-      if ((browns(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12)))) then
+      elseif ((browns(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) 
+     c   + dummy2(12)))) then
               browns(1) = daynum
               browns(2) = year
               call date1(browns)
@@ -211,15 +213,15 @@
 	         dgdde(12) = gdde
 	         print *, 'browns = ', browns
 
-      endif
+!      endif
 
 !  Physiological maturity.  The bracts are yellow and brown and much of the back of 
 !  the head may be brown. - R9
 
-      if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13))
-     c   )) then
+      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) 
+     c   + dummy2(13)))) then
               mats(1) = daynum
               mats(2) = year
               call date1(mats)
@@ -229,14 +231,14 @@
 	         dgdde(13) = gdde
 	         print *, 'mats = ', mats
 
-      endif
+!      endif
       
 !  Harvest Ready.  
 
-      if ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13)
-     c   + dummy2(14)))) then
+      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3)
+     c   + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) 
+     c   + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) 
+     c   + dummy2(13) + dummy2(14)))) then
               hrs(1) = daynum
               hrs(2) = year
               call date1(hrs)

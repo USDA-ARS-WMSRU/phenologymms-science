@@ -45,7 +45,7 @@
       x4 = vtupper
       y4 = 0.0
 
-      print *, 'in vernaliz and vd = ', vd
+!      print *, 'in vernaliz and vd = ', vd
       !calculate tavg
       tavg = (tmin + tmax)/2
    !   print *, 'in vernaliz daynum =', daynum, 'tavg =', tavg

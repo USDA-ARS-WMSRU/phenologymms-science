@@ -21,14 +21,14 @@
 !          nolvs(C), tis(C,R)
              
       subroutine phenolsg(aepa, antes, antss, dae, dap, daynum, 
-     c ddae, ddap, dgdde, dgdds, dummy2, endlgs, first7,
+     c ddae, ddap, dgdde, dgdds, dummy2, ems, endlgs, first7,
      c fullbs, gdde, gdds, gpds, halfbs, hrs, ies, joints, mats, 
      c nolvs, pchron, tis, year)
 
       implicit none
 
       integer  antes(4), antss(4), dae, dap, daynum, ddae(20), 
-     c ddap(20), endlgs(4), first7, fullbs(4), gpds(4), 
+     c ddap(20), ems(4), endlgs(4), first7, fullbs(4), gpds(4), 
      c halfbs(4), hrs(4), ies(4), joints(4), mats(4), tis(4), year 
 
       real  aepa, dgdde(20), dgdds(20), dummy2(16), gdde, 
@@ -39,48 +39,6 @@
                      ! antse occur after fullbs.
          first7 = 1
       endif
-
-!  Start of tillering:
-
-      if ((tis(1) .eq. 999) .and. (gdde .ge. dummy2(2)) ) then
-          tis(1) = daynum
-          tis(2) = year
-          call date1(tis)
-	     ddap(2) = dap
-	     ddae(2) = dae
-	     dgdds(2) = gdds
-	     dgdde(2) = gdde
-	     print *, 'tis = ', tis
-         go to 150
-      endif
-
-!  Start of internode elongation:
-!  Internode elongation begins dummy2(3) GDD after start of tillering
-
-      if ((ies(1) .eq. 999) .and. (gdde .ge. (dummy2(3)) )) then
-          ies(1) = daynum
-          ies(2) = year
-          call date1(ies)
-	       ddap(3) = dap
-	       ddae(3) = dae
-	       dgdds(3) = gdds
-	       dgdde(3) = gdde
-	       print *, 'ies = ', ies
-      endif
-      
-  !  Jointing growth stage prediction:
-
-      if ((joints(1) .eq. 999) .and. 
-     c (gdde .ge. (dummy2(3) + dummy2(4)))) then
-          joints(1) = daynum
-          joints(2) = year
-          call date1(joints)
-	         ddap(4) = dap
-	         ddae(4) = dae
-	         dgdds(4) = gdds
-	         dgdde(4) = gdde
-		     print *, 'joints = ', joints
-      endif    
       
 !  Growing point differentiation:
 
@@ -95,11 +53,11 @@
 		 print *, 'gpds = ', gpds
          go to 150
 
-      endif
+!      endif
 
 !  End of leaf growth:
 
-      if ((endlgs(1) .eq. 999) .and. 
+      elseif ((endlgs(1) .eq. 999) .and. 
      c (gdde .ge. (dummy2(5) + dummy2(6)))) then
           endlgs(1) = daynum
           endlgs(2) = year
@@ -111,14 +69,14 @@
 	     print *, 'endlgs = ', endlgs
          go to 150
 
-      endif
+!      endif
       
 !  Beginnning of anthesis:
 !  Allow end of anthesis to occur on same day if enough degree-days have
 !  accumulated today.
 
-      if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6) +
-     .   dummy2(7)))) then
+      elseif ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(5) 
+     c   + dummy2(6) + dummy2(7)))) then
               antss(1) = daynum
               antss(2) = year
               call date1(antss)
@@ -127,30 +85,14 @@
 	         dgdds(7) = gdds
 	         dgdde(7) = gdde
 	         print *, 'antss = ', antss
-      endif
+!      endif
       
-!  End of anthesis:
-
-      if ((antes(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6) +
-     .   dummy2(7) + aepa) )) then
-!      if ((antes(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6) +
-!     .   dummy2(7) + dummy2(8) + dummy2(9) + aepa) )) then
-
-              antes(1) = daynum
-              antes(2) = year
-              call date1(antes)
-	         ddap(12) = dap
-	         ddae(12) = dae
-	         dgdds(12) = gdds
-	         dgdde(12) = gdde
-	         print *, 'antes = ', antes
-
-      endif      
+     
       
 !  Half bloom growth stage:
 
-      if ((halfbs(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6) +
-     .   dummy2(7) + dummy2(8))) ) then
+      elseif ((halfbs(1) .eq. 999) .and. (gdde .ge. (dummy2(5) 
+     c   + dummy2(6) + dummy2(7) + dummy2(8))) ) then
           halfbs(1) = daynum
           halfbs(2) = year
           call date1(halfbs)
@@ -159,13 +101,13 @@
 	     dgdds(8) = gdds
 	     dgdde(8) = gdde
 	     print *, 'halfbs = ', halfbs
-      endif
+!      endif
 
 !  Full bloom growth stage:
 
-         if ((fullbs(1) .eq. 999) .and. 
-     c    (gdde .ge. (dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) 
-     c      + dummy2(9)) )) then
+         elseif ((fullbs(1) .eq. 999) .and. 
+     c    (gdde .ge. (dummy2(5) + dummy2(6) + dummy2(7)  
+     c     + dummy2(8) + dummy2(9)) )) then
               fullbs(1) = daynum
               fullbs(2) = year
               call date1(fullbs)
@@ -175,13 +117,12 @@
 	         dgdde(9) = gdde
 	         print *, 'fullbs = ', fullbs
  
-      endif
+!      endif
 
 !  Physiological maturity:
 
-!      if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(10)) )) then
-      if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6) + 
-     c   dummy2(7) + dummy2(10)) )) then
+      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(5)  
+     c   + dummy2(6) + dummy2(7) + dummy2(10)) )) then
               mats(1) = daynum
               mats(2) = year
               call date1(mats)
@@ -190,13 +131,12 @@
 	         dgdds(10) = gdds
 	         dgdde(10) = gdde
 	         print *, 'mats = ', mats
-      endif
+!      endif
       
 ! Time to harvest ready:
 
-      if ((hrs(1) .eq. 999) .and. (
-     c gdde .ge. (dummy2(5) + dummy2(6) + dummy2(7) + dummy2(10) + 
-     c            dummy2(11) ))) then
+      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(5) + dummy2(6)
+     c   + dummy2(7) + dummy2(10) +  dummy2(11) ))) then
               hrs(1) = daynum
               hrs(2) = year
               call date1(hrs)
@@ -206,7 +146,66 @@
 	         dgdde(11) = gdde
 	         print *, 'hrs = ', hrs
       endif
+
+!  Start of tillering:
+
+      if ((ems(1) .ne. 999) .and. (tis(1) .eq. 999) .and. 
+     c (gdde .ge. dummy2(2)) ) then
+          tis(1) = daynum
+          tis(2) = year
+          call date1(tis)
+	     ddap(2) = dap
+	     ddae(2) = dae
+	     dgdds(2) = gdds
+	     dgdde(2) = gdde
+	     print *, 'tis = ', tis
+         go to 150
+      endif
+
+!  Start of internode elongation:
+!  Internode elongation begins dummy2(3) GDD after start of tillering
+
+      if ((ems(1) .ne. 999) .and. (ies(1) .eq. 999) .and. 
+     c    (gdde .ge. (dummy2(3)) )) then
+          ies(1) = daynum
+          ies(2) = year
+          call date1(ies)
+	       ddap(3) = dap
+	       ddae(3) = dae
+	       dgdds(3) = gdds
+	       dgdde(3) = gdde
+	       print *, 'ies = ', ies
+      endif
       
+  !  Jointing growth stage prediction:
+
+      if ((ems(1) .ne. 999) .and. (joints(1) .eq. 999) .and. 
+     c (gdde .ge. (dummy2(3) + dummy2(4)))) then
+          joints(1) = daynum
+          joints(2) = year
+          call date1(joints)
+	         ddap(4) = dap
+	         ddae(4) = dae
+	         dgdds(4) = gdds
+	         dgdde(4) = gdde
+		     print *, 'joints = ', joints
+      endif 
+
+!  End of anthesis:
+
+      if ((antss(1) .ne. 999) .and. (antes(1) .eq. 999) .and. (gdde .ge. 
+     c   (dummy2(5) + dummy2(6) + dummy2(7) + aepa) )) then
+              antes(1) = daynum
+              antes(2) = year
+              call date1(antes)
+	         ddap(12) = dap
+	         ddae(12) = dae
+	         dgdds(12) = gdds
+	         dgdde(12) = gdde
+	         print *, 'antes = ', antes
+
+      endif 
+
 150   continue
   
 !  Calculate number of leaves

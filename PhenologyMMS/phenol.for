@@ -34,18 +34,18 @@
 
       subroutine phenol(aepa, aifs, antes, antss, blstrs, bmats, boots, 
      c browns, cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, 
-     c dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, 
-     c epods, eseeds, first7, fps, fullbs, gdde, gdds, gddv, gpds, 
-     c halfbs, heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, lf2s, 
-     c lf3s, lf4s, lf5s, lf8s, mats, mffls, milks, mpods, mseeds, nolvs,
-     c opens, pchron, silks, srs, tis, tsints, tss, year, yelows)
+     c dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, ems,  
+     c endlgs, epods, eseeds, first7, fps, fullbs, gdde, gdds, gddv,  
+     c gpds, halfbs, heads, hrs, ies, ies2, infls, joints, lf1s, lf12s,  
+     c lf2s, lf3s, lf4s, lf5s, lf8s, mats, mffls, milks, mpods, mseeds, 
+     c nolvs, opens, pchron, silks, srs, tis, tsints, tss, year, yelows)
 !debe added dry bean variables
 
       implicit none
       
       integer  aifs(4), antes(4), antss(4), blstrs(4), bmats(4), 
      c boots(4), browns(4), cots(4), dae, dap, dav, daynum, ddae(20), 
-     c ddap(20), ddav(20), dents(4), doughs(4), drs(4), ears(4), 
+     c ddap(20), ddav(20), dents(4), doughs(4), drs(4), ears(4), ems(4), 
      c endlgs(4), epods(4), eseeds(4), first7, fps(4), fullbs(4), 
      c gpds(4), halfbs(4), heads(4), hrs(4), ies(4), ies2(4), infls(4), 
      c joints(4), lf1s(4), lf12s(4), lf2s(4), lf3s(4), lf4s(4), 
@@ -91,7 +91,7 @@
 ! If sorghum:
       elseif (cname .eq. 'Sorghum') then
 	    call phenolsg(aepa, antes, antss, dae, dap, daynum, 
-     c ddae, ddap, dgdde, dgdds, dummy2, endlgs, first7,
+     c ddae, ddap, dgdde, dgdds, dummy2, ems, endlgs, first7,
      c fullbs, gdde, gdds, gpds, halfbs, hrs, ies, joints, mats, 
      c nolvs, pchron, tis, year)
 

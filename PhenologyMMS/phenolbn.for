@@ -52,11 +52,11 @@
 	     dgdde(2) = gdde
 	     print *, 'cots = ', cots
          go to 150
-      endif
+!      endif
 
 ! 1st trifoliolate leaf stage - V1
-      if ((lf1s(1) .eq. 999) .and. (gdde .ge. dummy2(2) + dummy2(3))) 
-     c  then
+      elseif ((lf1s(1) .eq. 999) .and. (gdde .ge. dummy2(2)  
+     c  + dummy2(3))) then
           lf1s(1) = daynum
           lf1s(2) = year
           call date1(lf1s)
@@ -67,11 +67,11 @@
 		 print *, 'lf1s = ', lf1s
          go to 150
 
-      endif
+!      endif
 
 ! 2nd trifoliolate leaf stage - V2
-      if ((lf2s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     c dummy2(4))))  then
+      elseif ((lf2s(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     c + dummy2(3) + dummy2(4))))  then
           lf2s(1) = daynum
           lf2s(2) = year
           call date1(lf2s)
@@ -82,11 +82,11 @@
 	     print *, 'lf2s = ', lf2s
          go to 150
 
-      endif
+!      endif
 
 !  3rd trifoliolate leaf stage - V3
-      if ((lf3s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     1  dummy2(4) + dummy2(5)) )) then
+      elseif ((lf3s(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     1  + dummy2(3) + dummy2(4) + dummy2(5)) )) then
           lf3s(1) = daynum
           lf3s(2) = year
           call date1(lf3s)
@@ -95,11 +95,11 @@
 	     dgdds(5) = gdds
 	     dgdde(5) = gdde
 	     print *, 'lf3s = ', lf3s
-      endif
+!      endif
 
 !  4th trifoliolate leaf stage - V4
-      if ((lf4s(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) + 
-     c dummy2(4) + dummy2(5) + dummy2(6)) )) then
+      elseif ((lf4s(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     c + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6)) )) then
           lf4s(1) = daynum
           lf4s(2) = year
           call date1(lf4s)
@@ -108,11 +108,12 @@
 	       dgdds(6) = gdds
 	       dgdde(6) = gdde
 	       print *, 'lf4s = ', lf4s
-      endif
+!      endif
 
 !  One open flower per plant - 100% bloom. Anthesis begins. - R1
-         if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3)
-     c     + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)) )) then
+         elseif ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c     + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) 
+     c     + dummy2(7)) )) then
               antss(1) = daynum
               antss(2) = year
               call date1(antss)
@@ -122,12 +123,12 @@
 	         dgdde(7) = gdde
 	         print *, 'antss = ', antss
  
-      endif
+!      endif
 
 !  Mid - full flower period - R2
-      if ((mffls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8)))) 
-     c     then
+      elseif ((mffls(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+     c   + dummy2(8))))  then
               mffls(1) = daynum
               mffls(2) = year
               call date1(mffls)
@@ -136,14 +137,14 @@
 	         dgdds(8) = gdds
 	         dgdde(8) = gdde
 		     print *, 'mffls = ', mffls
-      endif
+!      endif
       
 150   continue
 
 !  One pod is at the maximum length (early pod set) - R3
-      if ((epods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9)))) then
+      elseif ((epods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9)))) then
               epods(1) = daynum
               epods(2) = year
               call date1(epods)
@@ -153,12 +154,12 @@
 	         dgdde(9) = gdde
 	         print *, 'epods = ', epods
 
-      endif
+!      endif
 
 !  50% of the pods are at maximum length (mid pod set) R4
-      if ((mpods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10)))) then
+      elseif ((mpods(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+     c   + dummy2(8) + dummy2(9) + dummy2(10)))) then
               mpods(1) = daynum
               mpods(2) = year
               call date1(mpods)
@@ -167,13 +168,13 @@
 	         dgdds(10) = gdds
 	         dgdde(10) = gdde
 	         print *, 'mpods = ', mpods
-      endif
+!      endif
 
 !  One pod has fully developed seeds (early seed fill) - R5
-      if ((eseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11)))) 
-     c then
+      elseif ((eseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)  
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11)))) 
+     c   then
               eseeds(1) = daynum
               eseeds(2) = year
               call date1(eseeds)
@@ -182,13 +183,14 @@
 	         dgdds(11) = gdds
 	         dgdde(11) = gdde
 	         print *, 'eseeds = ', eseeds
-      endif
+!      endif
 
 !  50% of pods have fully developed seeds (mid seed fill) - R6
 
-      if ((mseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12)))) then
+      elseif ((mseeds(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) 
+     c   + dummy2(12)))) then
               mseeds(1) = daynum
               mseeds(2) = year
               call date1(mseeds)
@@ -198,13 +200,13 @@
 	         dgdde(12) = gdde
 	         print *, 'mseeds = ', mseeds
 
-      endif
+!      endif
 
 !  One pod has changed color/striped (physiological maturity) - R7
-      if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13))
-     c   )) then
+      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) 
+     c   + dummy2(13)))) then
               mats(1) = daynum
               mats(2) = year
               call date1(mats)
@@ -214,12 +216,12 @@
 	         dgdde(13) = gdde
 	         print *, 'mats = ', mats
 
-      endif
+!      endif
       
 !  80% of the pods are at the mature color (harvest ready) - R8  
-      if ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) +
-     c   dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) + 
-     c   dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13)
+      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3) 
+     c   + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8)  
+     c   + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + dummy2(13)
      c   + dummy2(14)))) then
               hrs(1) = daynum
               hrs(2) = year

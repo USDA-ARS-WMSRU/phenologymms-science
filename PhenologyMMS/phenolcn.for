@@ -54,12 +54,131 @@
 	     dgdds(2) = gdds
 	     dgdde(2) = gdde
 	     print *, 'lf4s = ', lf4s
-      endif
+!      endif     
       
+!  12th Leaf stage V12
+
+      elseif ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2))  
+     c    + dummy2(6)  )) then
+          lf12s(1) = daynum
+          lf12s(2) = year
+          call date1(lf12s)
+	     ddap(6) = dap
+	     ddae(6) = dae
+	     dgdds(6) = gdds
+	     dgdde(6) = gdde
+	     print *, 'lf12s = ', lf12s
+!      endif
+
+!  Silking growth stage.  This is the first reproductive stage R1.
+
+      elseif ((silks(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c  + dummy2(6) + dummy2(8)) )) then
+              silks(1) = daynum
+              silks(2) = year
+              call date1(silks)
+	         ddap(8) = dap
+	         ddae(8) = dae
+	         dgdds(8) = gdds
+	         dgdde(8) = gdde
+	         print *, 'silks = ', silks
+!      endif
+
+!  Blister growth stage - R2
+
+      elseif ((blstrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     1   + dummy2(6) + dummy2(8) + dummy2(9)) )) then
+              blstrs(1) = daynum
+              blstrs(2) = year
+              call date1(blstrs)
+	         ddap(9) = dap
+	         ddae(9) = dae
+	         dgdds(9) = gdds
+	         dgdde(9) = gdde
+	         print *, 'blstrs = ', blstrs
+!      endif
+
+!  Milk growth stage - R3
+
+      elseif ((milks(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c  + dummy2(6) + dummy2(8) + dummy2(9)+ dummy2(10)))) 
+     c  then
+              milks(1) = daynum
+              milks(2) = year
+              call date1(milks)
+	         ddap(10) = dap
+	         ddae(10) = dae
+	         dgdds(10) = gdds
+	         dgdde(10) = gdde
+	         print *, 'milks = ', milks
+!      endif
+
+!  Dough growth stage - R4
+
+      elseif ((doughs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c  + dummy2(6) + dummy2(8) + dummy2(9) + dummy2(10) 
+     c  + dummy2(11)) )) then
+              doughs(1) = daynum
+              doughs(2) = year
+              call date1(doughs)
+	         ddap(11) = dap
+	         ddae(11) = dae
+	         dgdds(11) = gdds
+	         dgdde(11) = gdde
+	         print *, 'doughs = ', doughs
+
+!      endif
+
+!  Dent growth stage - R5
+
+      elseif ((dents(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c  + dummy2(6) + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) 
+     c  + dummy2(12)) )) then
+              dents(1) = daynum
+              dents(2) = year
+              call date1(dents)
+	         ddap(12) = dap
+	         ddae(12) = dae
+	         dgdds(12) = gdds
+	         dgdde(12) = gdde
+	         print *, 'dents = ', dents
+
+!      endif
+
+! Physiological Maturity growth stage - R6
+
+      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6) 
+     c  + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + 
+     c  dummy2(13)) )) then
+              mats(1) = daynum
+              mats(2) = year
+              call date1(mats)
+	         ddap(13) = dap
+	         ddae(13) = dae
+	         dgdds(13) = gdds
+	         dgdde(13) = gdde
+	         print *, 'mats = ', mats
+
+ !     endif
+      
+! Harvest Ready growth stage       
+      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2)  
+     c + dummy2(6) + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11)  
+     c + dummy2(12) + dummy2(13) + dummy2(14)))) then
+              hrs(1) = daynum
+              hrs(2) = year
+              call date1(hrs)
+	         ddap(14) = dap
+	         ddae(14) = dae
+	         dgdds(14) = gdds
+	         dgdde(14) = gdde
+	         print *, 'hrs = ', hrs
+      endif
+
 !  Tassel initiation growth stage:
 
-      if ((tsints(1) .eq. 999) .and. (gdde .ge. 
-     c     (dummy2(2) + dummy2(3)))) then
+      if ((lf4s(1) .ne. 999) .and. (tsints(1) .eq. 999) .and.  
+     c     (gdde .ge. (dummy2(2) + dummy2(3)))) then
           tsints(1) = daynum
           tsints(2) = year
           call date1(tsints)
@@ -71,8 +190,8 @@
       endif      
 
 ! Ear formation stage
-      if ((ears(1) .eq. 999) .and. (gdde .ge. (dummy2(2)+ dummy2(4)))) 
-     c  then
+      if ((lf4s(1) .ne. 999) .and. (ears(1) .eq. 999) .and.  
+     c  (gdde .ge. (dummy2(2)+ dummy2(4)))) then
           ears(1) = daynum
           ears(2) = year
           call date1(ears)
@@ -85,8 +204,8 @@
       
 !  Start of internode elongation:
 
-      if ((ies(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(5)))) 
-     c then
+      if ((lf4s(1) .ne. 999) .and. (ies(1) .eq. 999) .and.  
+     c (gdde .ge. (dummy2(2) + dummy2(5)))) then
             ies(1) = daynum
             ies(2) = year
             call date1(ies)
@@ -96,24 +215,10 @@
 	       dgdde(5) = gdde
 	       print *, 'ies = ', ies
       endif
-      
-!  12th Leaf stage V12
-
-      if ((lf12s(1) .eq. 999) .and. (gdde .ge. (dummy2(2)) + dummy2(6) 
-     c      )) then
-          lf12s(1) = daynum
-          lf12s(2) = year
-          call date1(lf12s)
-	     ddap(6) = dap
-	     ddae(6) = dae
-	     dgdds(6) = gdds
-	     dgdde(6) = gdde
-	     print *, 'lf12s = ', lf12s
-      endif
 
 !  Tasseling stage
-         if ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + 
-     c     dummy2(6) + dummy2(7)) )) then 
+         if ((lf12s(1) .ne. 999) .and. (antss(1) .eq. 999) .and.  
+     c     (gdde .ge. (dummy2(2) + dummy2(6) + dummy2(7)) )) then 
               antss(1) = daynum
               antss(2) = year
               call date1(antss)
@@ -124,109 +229,5 @@
 	         print *, 'antss = ', antss
       endif
 
-!  Silking growth stage.  This is the first reproductive stage R1.
-
-      if ((silks(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6)
-     c   + dummy2(8)) )) then
-              silks(1) = daynum
-              silks(2) = year
-              call date1(silks)
-	         ddap(8) = dap
-	         ddae(8) = dae
-	         dgdds(8) = gdds
-	         dgdde(8) = gdde
-	         print *, 'silks = ', silks
-      endif
-
-!  Blister growth stage - R2
-
-      if ((blstrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6)
-     1   + dummy2(8) + dummy2(9)) )) then
-              blstrs(1) = daynum
-              blstrs(2) = year
-              call date1(blstrs)
-	         ddap(9) = dap
-	         ddae(9) = dae
-	         dgdds(9) = gdds
-	         dgdde(9) = gdde
-	         print *, 'blstrs = ', blstrs
-      endif
-
-!  Milk growth stage - R3
-
-      if ((milks(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6) +
-     c   dummy2(8) + dummy2(9)+ dummy2(10)))) 
-     c then
-              milks(1) = daynum
-              milks(2) = year
-              call date1(milks)
-	         ddap(10) = dap
-	         ddae(10) = dae
-	         dgdds(10) = gdds
-	         dgdde(10) = gdde
-	         print *, 'milks = ', milks
-      endif
-
-!  Dough growth stage - R4
-
-      if ((doughs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6)
-     c   + dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11)) )) then
-              doughs(1) = daynum
-              doughs(2) = year
-              call date1(doughs)
-	         ddap(11) = dap
-	         ddae(11) = dae
-	         dgdds(11) = gdds
-	         dgdde(11) = gdde
-	         print *, 'doughs = ', doughs
-
-      endif
-
-!  Dent growth stage - R5
-
-      if ((dents(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6) + 
-     c dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12)) ))
-     c   then
-              dents(1) = daynum
-              dents(2) = year
-              call date1(dents)
-	         ddap(12) = dap
-	         ddae(12) = dae
-	         dgdds(12) = gdds
-	         dgdde(12) = gdde
-	         print *, 'dents = ', dents
-
-      endif
-
-! Physiological Maturity growth stage - R6
-
-      if ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6) + 
-     c dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + 
-     c dummy2(13)) )) then
-              mats(1) = daynum
-              mats(2) = year
-              call date1(mats)
-	         ddap(13) = dap
-	         ddae(13) = dae
-	         dgdds(13) = gdds
-	         dgdde(13) = gdde
-	         print *, 'mats = ', mats
-
-      endif
-      
-! Harvest Ready growth stage       
-      if ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(6) + 
-     c dummy2(8) + dummy2(9) + dummy2(10) + dummy2(11) + dummy2(12) + 
-     c dummy2(13) + dummy2(14)))) then
-              hrs(1) = daynum
-              hrs(2) = year
-              call date1(hrs)
-	         ddap(14) = dap
-	         ddae(14) = dae
-	         dgdds(14) = gdds
-	         dgdde(14) = gdde
-	         print *, 'hrs = ', hrs
-      endif
-            
       return
       end

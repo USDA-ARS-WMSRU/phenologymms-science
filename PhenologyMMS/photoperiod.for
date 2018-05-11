@@ -65,7 +65,7 @@ c  Documentation. University of Hawaii, Honolulu, HI.
       if (pf .lt. 0.0) then
           pf = 0.0
       endif
-      print *, 'in photoperiod and pf = ', pf
+!      print *, 'in photoperiod and pf = ', pf
       return
       end !photoperiod
 

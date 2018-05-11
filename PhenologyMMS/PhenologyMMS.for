@@ -280,11 +280,11 @@
         ! use the day and month read in from the climate file and previously not used
         ! in PhenologyMMS. Year is read in from the climate file and is the calendar year
         dayhrs = dayhours(latitude, uuday, uumonth, year)
-        print *, 'dayhrs = ', dayhrs
+        ! print *, 'dayhrs = ', dayhrs
         
         ! call new photoperiod subroutine (soybeans)
         !call photoperiod(dayhrs, pf, photocrit, photosen, ppsen)
-        print *, 'before call to photoperiod and photocrit = ',photocrit
+        ! print *, 'before call to photoperiod and photocrit = ',photocrit
         call photoperiod(dayhrs, pf, photocrit, photosen, ppsen)
 
 !debe added the vernaliz call and changes     
@@ -389,14 +389,15 @@
 
 ! moved the call to phenol after other items above are updated to pass into
 ! phenol. debe added dry bean variables. Added 2 new soybean variables.
+! DE added 'ems' to pass to phenol to psdd yo phrnoldg.for
         call phenol(aepa, aifs, antes, antss, blstrs, bmats, boots, 
      c   browns, cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, 
-     c   dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, endlgs, 
-     c   epods, eseeds, first7, fps, fullbs, gdde, gdds, gddv, gpds, 
-     c   halfbs, heads, hrs, ies, ies2, infls, joints, lf1s, lf12s, 
-     c   lf2s, lf3s, lf4s, lf5s, lf8s, mats, mffls, milks, mpods, 
-     c   mseeds, nolvs, opens, pchron, silks, srs, tis, tsints, tss, 
-     c   year, yelows)
+     c   dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, ems,  
+     c   endlgs, epods, eseeds, first7, fps, fullbs, gdde, gdds, gddv,  
+     c   gpds, halfbs, heads, hrs, ies, ies2, infls, joints, lf1s,  
+     c   lf12s, lf2s, lf3s, lf4s, lf5s, lf8s, mats, mffls, milks,  
+     c   mpods, mseeds, nolvs, opens, pchron, silks, srs, tis, tsints,  
+     c   tss, year, yelows)
      
 ! moved canopy height below updating of antss so that the current days value
 ! is input to canopy height.	
