@@ -389,7 +389,7 @@
 
 ! moved the call to phenol after other items above are updated to pass into
 ! phenol. debe added dry bean variables. Added 2 new soybean variables.
-! DE added 'ems' to pass to phenol to psdd yo phrnoldg.for
+! DE added 'ems' to pass to phenol to pass to phenolsg.for
         call phenol(aepa, aifs, antes, antss, blstrs, bmats, boots, 
      c   browns, cname, cots, dae, dap, dav, daynum, ddae, ddap, ddav, 
      c   dents, dgdde, dgdds, dgddv, doughs, drs, dummy2, ears, ems,  

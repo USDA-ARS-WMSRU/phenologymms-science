@@ -88,6 +88,7 @@
      c first7, fps, gdde, gdds, heads, hrs, ies, joints, mats, 
      c nolvs, pchron, srs, tis, tss, year)
 
+DE added 'ems' to be passed into sorghum below.
 ! If sorghum:
       elseif (cname .eq. 'Sorghum') then
 	    call phenolsg(aepa, antes, antss, dae, dap, daynum, 
