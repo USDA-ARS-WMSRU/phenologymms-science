@@ -77,7 +77,7 @@
          
          if (gddday .lt. 0.) gddday = 0.
          if (gddday .gt. toptup) gddday = toptup
-         print *, 'gddday Method2 = ', gddday
+         !print *, 'gddday Method2 = ', gddday
 
 ! Calculate using Method 3: 
 ! This is a two-segmented linear model

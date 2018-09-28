@@ -145,13 +145,18 @@
         ! reset tempsw to 1 if it becomes less than 1
         IF (tempsw.LT.1) tempsw = 1
  
-        ! seeds planted in dust cannot germinate as though they were planted in
-        ! one of the other soil moisture levels just because a significant
-        ! rainfall event occurs.  the seeds planted in one of the other soil
-        ! moisture levels have already begun the germination process.
-        ! therefore, seeds planted in dust receiving a significant rainfall
-        ! event should be moved up only to the level of planted in dry conditions
-        ! and then begin to accumulate enough growing degree days to emerge.
+        ! Seeds Planted in Dust will not begin accumulating GDD's for emergence 
+        ! until the soil moisture level moves up to at least Dry. When a precip  
+        ! event or an irrigation event occurs, the soil moisture condition may 
+        ! be adjusted depending on the amount of the water received/applied. 
+        ! If moisture is received greater than or equal to 7mm but less than  
+        ! 12 mm, the soil moisture condition will move up to Dry. 
+        ! If the amount of moisture received is 12 mm but less than 20 mm, 
+        ! the soil moisture condition will move up to Medium  and if more 
+        ! than 20 mm are received the soil moisture condition will move up 
+        ! to Optimum. Once, the soil moisture condition improves beyond
+        ! Planted in Dust, the process of emergence can begin by 
+        ! accumulating GDD's.
 ! 
         IF (tempsw.LT.6) THEN
           gddtbg = gddtbg + gddday
