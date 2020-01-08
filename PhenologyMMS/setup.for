@@ -213,11 +213,15 @@
       ELSEIF (cname.EQ.'Dry Beans') THEN
           gdds1 = dummy2(2)
       ELSEIF (cname.EQ.'Hay Millet') THEN
-          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5)) 
+      !    gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))
+          gdds1 = (dummy2(2)+dummy2(3)+dummy2(4)+dummy2(5)) !DE changed to add E+TI+SR+DR+IES
       ELSEIF (cname.EQ.'Proso Millet') THEN
-          gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))  
-      ELSEIF (cname.EQ.'Sorghum') THEN
-          gdds1 = dummy2(3)
+      !    gdds1 = (dummy2(3)+dummy2(4)+dummy2(5))
+          gdds1 = (dummy2(2)+dummy2(3)+dummy2(4)+dummy2(5)) !DE changed to add E+TI+SR+DR+IES
+      !ELSEIF (cname.EQ.'Sorghum') THEN
+      !    gdds1 = dummy2(3) 
+      ELSEIF (cname.EQ.'Sorghum') THEN  !de changed to add E + TI + GPD + IES
+          gdds1 = (dummy2(1) + dummy2(2) + dummy2(3)  +dummy2(4))
       ELSEIF (cname.EQ.'Soybean') THEN
           gdds1 = dummy2(2)    
       ELSEIF (cname.EQ.'Spring Barley') THEN
@@ -247,8 +251,10 @@
           gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
       ELSEIF (cname.EQ.'Proso Millet') THEN
           gdds2 = (dummy2(6)+dummy2(7)+dummy2(8))+(dummy2(9)) 
-      ELSEIF (cname.EQ.'Sorghum') THEN
-          gdds2 = (dummy2(5)+dummy2(6)+dummy2(7)-dummy2(3)) ! equals 215
+      !ELSEIF (cname.EQ.'Sorghum') THEN
+      !    gdds2 = (dummy2(5)+dummy2(6)+dummy2(7)-dummy2(3)) ! equals 215
+      ELSEIF (cname.EQ.'Sorghum') THEN !de changed to adding GPD + J + ELG + ANTSS. Because the design is now linear there was no need to subtract IES.
+          gdds2 = (dummy2(3)+dummy2(5)+dummy2(6) + dummy2(7)) ! 
       ELSEIF (cname.EQ.'Soybean') THEN
           gdds2 = (dummy2(3)+dummy2(4)+dummy2(5)+dummy2(6)+dummy2(7)+
      c    dummy2(8)+dummy2(9)+dummy2(10)+dummy2(11)+dummy2(12)) 

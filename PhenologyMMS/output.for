@@ -57,7 +57,7 @@
  !     real dumreal
 !         
       real  canht, dgdde(20), dgdds(20), dgddv(20), gdda, gdde, gdds, 
-     c gddv, lnarray (400,2), lnpout(100,2), nolvs, pchron, rboots
+     c gddv, lnarray (600,2), lnpout(100,2), nolvs, pchron, rboots
       
       character *22  cname
       character *256 outf !de added not enough characters for the full path
@@ -80,7 +80,7 @@
       j = 1
 
 !  Print out some stuff to the screen:
-!year after coming into output.for from PhenologyMMS.for
+!  year after coming into output.for from PhenologyMMS.for
 !        print *, 'year coming into output.for = ', year 
 !        print *, 'pyear = ', pyear
         
@@ -123,7 +123,7 @@
       
 ! Warn user that if planting date is outside the weather years or 
 ! results in a harvest date outside of the weather years in the 
-! selected location '999' will display in the output.
+! selected location, '999' will display in the output.
       write (14, 145)     
  145  format ('NOTE: If 999 is displayed in the output, the planting', 
      . /1x,'date may be outside of the weather years in the selected',
@@ -690,12 +690,12 @@
      .       dumint,
      .  tis(1), tis(3), tis(4), ddap(2), ddae(2), dgdds(2), dgdde(2), 
      .       dgdde(2)/pchron, 
-     .  gpds(1), gpds(3), gpds(4), ddap(5), ddae(5), dgdds(5), dgdde(5),
-     .       dgdde(5)/pchron, 
-     .  ies(1), ies(3), ies(4), ddap(3), ddae(3), dgdds(3), dgdde(3), 
-     .       dgdde(3)/pchron,
-     .  joints(1), joints(3), joints(4), ddap(4), ddae(4), dgdds(4), 
-     .       dgdde(4), dgdde(4)/pchron,     
+     .  gpds(1), gpds(3), gpds(4), ddap(3), ddae(3), dgdds(3), dgdde(3),
+     .       dgdde(3)/pchron, 
+     .  ies(1), ies(3), ies(4), ddap(4), ddae(4), dgdds(4), dgdde(4), 
+     .       dgdde(4)/pchron,
+     .  joints(1), joints(3), joints(4), ddap(5), ddae(5), dgdds(5), 
+     .       dgdde(5), dgdde(5)/pchron,     
      .  endlgs(1), endlgs(3), endlgs(4), ddap(6), ddae(6), dgdds(6), 
      .       dgdde(6), dgdde(6)/pchron,  
      .  antss(1), antss(3), antss(4), ddap(7), ddae(7), dgdds(7), 
@@ -923,7 +923,7 @@
         j = j + 1
       end do      
 
-! convert integer antss(1) to a real number
+! convert integer epods(1) to a real number
       write(14,59) real (epods(1)), dgdde(9)/pchron
 59    format (40x, f5.1, 6x, f4.1) 
 
@@ -1003,15 +1003,16 @@
 
                 
 !  Write out a table with leaf numbers by DOY
-! Soybeans are indeterminate or determinateMost of the varieties grown in 
+! Soybeans are indeterminate or determinate. Most of the varieties grown in 
 ! the northern US and in the Midwest are indeterminate and that is what is used here.
 ! Set the leaf number calculation to be indeterminate and therefore produce 
 ! leaves up to growth stage R5.5. Use R5 - Beginning Seed. 
       do while (lnpout(j,2) .lt. dgdde(12)/pchron)
-        write (14,59) lnpout(j,1), lnpout(j,2)
-        j = j + 1
-      end do      
-
+ !       write (14,59) lnpout(j,1), lnpout(j,2)
+        write (14,60) lnpout(j,1), lnpout(j,2)
+        j = j + 1 
+      end do    
+        
 ! convert integer eseeds(1) to a real number because this stage (actaully R5.5) is the end of vegetative growth.
       write(14,60) real (eseeds(1)), dgdde(12)/pchron
 60    format (40x, f5.1, 6x, f4.1) 

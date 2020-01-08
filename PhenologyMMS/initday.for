@@ -33,7 +33,7 @@
      c first1, first2, lncntr, mon, rowcntr
           
       real  dgdde(20), dgdds(20), dgddv(20), gdda, gddday, gdde, gdds, 
-     c gddtbg, gddv, lnarray(400, 2), lnpout(100,2), month, todayln, 
+     c gddtbg, gddv, lnarray(600, 2), lnpout(100,2), month, todayln, 
      c yestln
       
 !      character *22 outf

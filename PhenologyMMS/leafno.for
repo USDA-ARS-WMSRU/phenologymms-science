@@ -25,7 +25,7 @@
       
       integer daynum, lncntr, rowcntr
       
-      real gdde, lnarray(400,2), lnpout(100,2), pchron, todayln, 
+      real gdde, lnarray(600,2), lnpout(100,2), pchron, todayln, 
      c yestln  
       
 ! Local variables

@@ -55,11 +55,11 @@
 !      endif
 
 !  Single ridge growth stage:
-!  Single ridge occurs dummy2(3) GDD after vernalization, which is
-!  assumed to have occurred by midwinter (Jan. 1 or July 1) for winter
-!  wheat, or after emergence for spring wheat and spring barley.
 
-      elseif ((srs(1) .eq. 999) .and. (gdde .ge. dummy2(3))) then
+!DE previously, this stage was E-SR so only dummy2(3) was needed. Now it is TI-SR so two stages are needed to add: E-TI and TI-SR, i.e., dummy2 (2) and (3).
+! All the succeeding stages needed dummy2(2) added to the addition of array positions being added.           
+      elseif ((srs(1) .eq. 999) .and. (gdde .ge. dummy2(2) + dummy2(3)))
+     c     then
           srs(1) = daynum
           srs(2) = year
           call date1(srs)
@@ -76,7 +76,7 @@
 !  is reached.
 
       elseif ((drs(1) .eq. 999) .and. 
-     c     (gdde .ge. (dummy2(3) + dummy2(4)))) then
+     c     (gdde .ge. (dummy2(2) + dummy2(3) + dummy2(4)))) then
           drs(1) = daynum
           drs(2) = year
           call date1(drs)
@@ -91,7 +91,8 @@
 !  Terminal spikelet stage:
 
       elseif ((tss(1) .eq. 999) .and. (ies(1) .eq. 999) .and.  
-     1  (gdde .ge. (dummy2(3) + dummy2(4) + dummy2(5)) )) then
+     1  (gdde .ge. (dummy2(2) + dummy2(3) + dummy2(4) + dummy2(5)) )) 
+     c then
           tss(1) = daynum
           tss(2) = year
           call date1(tss)
@@ -120,8 +121,8 @@
 
 !  Jointing growth stage prediction:
 
-      elseif ((joints(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
-     1   + dummy2(4) + dummy2(5) + dummy2(6)) )) then
+      elseif ((joints(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     1   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6)) )) then
               joints(1) = daynum
               joints(2) = year
               call date1(joints)
@@ -135,8 +136,9 @@
 !  Booting growth stage: This is defined as flag leaf has
 !  completed its growth.  
 
-      elseif ((boots(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
-     1   + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)) )) then
+      elseif ((boots(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     1   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)) )) 
+     c   then
               boots(1) = daynum
               boots(2) = year
               call date1(boots)
@@ -152,8 +154,8 @@
 !  code for next stage since anthesis is allowed to occur on same day
 !  as heading if enough degree-days accumulated today.
 
-      elseif ((heads(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
-     c  + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
+      elseif ((heads(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c  + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
      c  + dummy2(8)) )) then
               heads(1) = daynum
               heads(2) = year
@@ -169,8 +171,8 @@
 !  Allow end of anthesis to occur on same day if enough degree-days have
 !  accumulated today.
 
-      elseif ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
-     c   + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)
+      elseif ((antss(1) .eq. 999) .and. (gdde .ge. (dummy2(2) 
+     c   + dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7)
      c   + dummy2(8) + dummy2(9)))) then
               antss(1) = daynum
               antss(2) = year
@@ -184,7 +186,7 @@
 
 !  Physiological maturity:
 
-      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
+      elseif ((mats(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3)
      c  + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) 
      c  + dummy2(8) + dummy2(9) + dummy2(10)) )) then
               mats(1) = daynum
@@ -199,7 +201,7 @@
 
 ! Time to harvest ripe:
 
-      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(3)
+      elseif ((hrs(1) .eq. 999) .and. (gdde .ge. (dummy2(2) + dummy2(3)
      c  + dummy2(4) + dummy2(5) + dummy2(6) + dummy2(7) + dummy2(8) 
      c  + dummy2(9) + dummy2(10) + dummy2(11)) )) then
               hrs(1) = daynum
@@ -217,7 +219,8 @@
 !  double ridge.
 
       if ((drs(1) .ne. 999) .and. (fps(1) .eq. 999) .and. 
-     .     (gdde .ge. (dummy2(3) + dummy2(4) + (0.3*pchron)) )) then
+     .     (gdde .ge. (dummy2(2) + dummy2(3) + dummy2(4) 
+     c     + (0.3*pchron)) )) then
               fps(1) = daynum
               fps(2) = year
               call date1(fps)
@@ -231,8 +234,8 @@
 !  End of anthesis:
 
       if ((antss(1) .ne. 999) .and. (antes(1) .eq. 999) .and. 
-     c   (gdde .ge. (dummy2(3) + dummy2(4) + dummy2(5) + dummy2(6) 
-     c   + dummy2(7) + dummy2(8) + dummy2(9) + aepa) )) then
+     c   (gdde .ge. (dummy2(2) + dummy2(3) + dummy2(4) + dummy2(5) 
+     c   + dummy2(6) + dummy2(7) + dummy2(8) + dummy2(9) + aepa) )) then
               antes(1) = daynum
               antes(2) = year
               call date1(antes)

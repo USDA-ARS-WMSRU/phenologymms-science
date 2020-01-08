@@ -57,7 +57,7 @@
      c civilrise, cumvd, dayhours, dayhrs, daylen, daylth, degtorad,  
      c devern, df, dgdde(20), dgdds(20), dgddv(20), dummy2(16), ecanht, 
      c elong, elrate, ergdd(4), gdda, gddday, gdde, gdds, gdds1, gdds2, 
-     c gddtbg, gddv, germd, germgdd(4), hrlt, latitude, lnarray(400,2),
+     c gddtbg, gddv, germd, germgdd(4), hrlt, latitude, lnarray(600,2),
      c lnpout(100,2), maxht, mg, month, nolvs, p1d, pchron, pdepth, pf, 
      c photocrit, photosen, ppsen, precip, p1v,radtodeg, ri, soil3t, 
      c tavg, tbase, tmax, tmin, todayln, toptlo, toptup, tupper,  
@@ -360,11 +360,11 @@
             if (trim(cname) .eq. 'Soybean') then
                 stagestart = sum(dummy2(2:8))
                 stageend = sum(dummy2(2:14)) !go the stage (R7) after the stopping stage (R6) and then subtract 1
-                 print *,'daynum = ', daynum, 'gddday = ', gddday
+                ! print *,'daynum = ', daynum, 'gddday = ', gddday
                 if (gdde >= stagestart .and. gdde <= stageend-1) then
                     gddday = gddday*pf
                 endif
-                 print *,'daynum = ', daynum, 'gddday = ', gddday
+                ! print *,'daynum = ', daynum, 'gddday = ', gddday
             endif
                 gdde = gdde + gddday
                 dae = dae + 1
